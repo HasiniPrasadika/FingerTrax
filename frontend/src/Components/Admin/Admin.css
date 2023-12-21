@@ -10,6 +10,7 @@
 main{
     width: 100%;
     background-color: #E7E7E9;
+    padding: 8px;
 }
 .sidebar{
     background: #003566;
@@ -50,10 +51,26 @@ main{
     font-size: 20px;
 }
 .header{
-    width: 200px;
-    height: 50px;
+    width: 1084px;
+    height: 25px;
     background-color: white;
-    padding: 5px
+    padding: 5px;
+    border-radius:5px;
+    
+}
+.header-content {
+    display: flex; /* Arrange children in a row */
+    align-items: center; /* Center vertically */
+}
+.admin-image{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; /* Creates a circular effect */
+    object-fit: cover; 
+    padding: 5px/* Maintain aspect ratio */
+}
+.admin-name {
+    margin-left: 900px; /* Adjust spacing between name and image */
 }
 
 /* Dashboard */
