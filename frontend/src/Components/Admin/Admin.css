@@ -50,6 +50,8 @@ main{
 .icon, .link_text{
     font-size: 20px;
 }
+
+/*Header */
 .header{
     width: 1084px;
     height: 25px;
@@ -62,12 +64,15 @@ main{
     display: flex; /* Arrange children in a row */
     align-items: center; /* Center vertically */
 }
+.header-icon{
+    align-items: center;  
+}
 .admin-image{
     width: 25px;
     height: 25px;
     border-radius: 50%; /* Creates a circular effect */
     object-fit: cover; 
-    padding: 5px/* Maintain aspect ratio */
+    padding: 0px 5px 0px 5px/* Maintain aspect ratio */
 }
 .admin-name {
     margin-left: 900px; /* Adjust spacing between name and image */
@@ -79,31 +84,31 @@ main{
     display: grid;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr;
-
-    /* Adjust grid gap and padding as needed */
     gap: 10px;
     padding: 20px;
 }
 
 .row {
-    border: 1px solid #ccc; 
+    
     
     min-height: 100px;
 }
 
 .column {
-    border: 1px solid #ccc; /* Just for visualization */
-    /* You can adjust column widths here */
     min-width: 100px;
 }
 
 .ruhuna-details {
     display: flex;
     flex-direction: row;
-   
+    background-color: white;
+    height: 100px;
+    padding: 5px;
+    border-radius:10px;
 }
 
 .ruhuna-details img {
     max-width: 80px; /* Adjust the image size as needed */
-    height: auto;
+    height: 80px;
+    padding:10px 10px 5px 30px;
 }

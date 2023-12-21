@@ -15,7 +15,7 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Dashboard/>}/>
-            <Route path='/sidebar' element={<Dashboard/>}/>
+            <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/lecture' element={<Lecture/>}/>
             <Route path='/student' element={<Student/>}/>
           </Routes>
