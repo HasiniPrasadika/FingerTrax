@@ -6,9 +6,14 @@ const Dashboard = () => {
         <div className="dashboard">
             <div className="row">
                 <div className="ruhuna-details">
-                    <h6>Dashboard</h6>
-                    <img src='/Images/ruhuna.jpeg' />
-                    <p>University of Ruhuna</p>
+                <div className='row'>
+
+                </div> 
+
+                <div className='row'>
+
+                </div>
+
                 </div>
                 </div>
 
@@ -26,3 +31,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+/*<h6>Dashboard</h6>
+                    <img src='/Images/ruhuna.jpeg' />
+                    <p>University of Ruhuna</p>*/
