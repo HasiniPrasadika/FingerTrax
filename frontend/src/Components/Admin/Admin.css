@@ -1,0 +1,92 @@
+*{
+    margin:0;
+    padding:0;
+    text-decoration: none;
+}
+.container{
+    display:flex;
+    background-color: #E7E7E9;
+}
+main{
+    width: 100%;
+    background-color: #E7E7E9;
+}
+.sidebar{
+    background: #003566;
+    height: 100vh;
+    width: 200px;
+    transition: all 0.5s;
+    border-radius: 0px 15px 15px 0px ;
+    
+
+}
+.top_section{
+    display: flex;
+    align-items:center;
+    padding: '10px 5px 5px 5px'
+}
+.bars{
+    display: flex;
+    font-size: 25px;
+    margin-left: 20px;
+}
+.link{
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+}
+.link:hover{
+    background:lightskyblue;
+    color: #000;
+    transition: all 0.5s;
+}
+.active{
+    background: lightskyblue;
+    color: #000;
+}
+.icon, .link_text{
+    font-size: 20px;
+}
+.header{
+    width: 200px;
+    height: 50px;
+    background-color: white;
+    padding: 5px
+}
+
+/* Dashboard */
+
+.dashboard {
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr;
+
+    /* Adjust grid gap and padding as needed */
+    gap: 10px;
+    padding: 20px;
+}
+
+.row {
+    border: 1px solid #ccc; 
+    
+    min-height: 100px;
+}
+
+.column {
+    border: 1px solid #ccc; /* Just for visualization */
+    /* You can adjust column widths here */
+    min-width: 100px;
+}
+
+.ruhuna-details {
+    display: flex;
+    flex-direction: row;
+   
+}
+
+.ruhuna-details img {
+    max-width: 80px; /* Adjust the image size as needed */
+    height: auto;
+}
