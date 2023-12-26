@@ -88,21 +88,11 @@ main{
     padding: 20px;
 }
 
-.row {
-    
-    
-    min-height: 100px;
-}
-
-.column {
-    min-width: 100px;
-}
 
 .ruhuna-details {
     display: flex;
-    flex-direction: row;
     background-color: white;
-    height: 100px;
+    height: 150px;
     padding: 5px;
     border-radius:10px;
 }
