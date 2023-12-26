@@ -32,7 +32,7 @@ const Sidebar = ({children}) => {
 ]
 return (
   <div className="container">
-     <div style={{width: "200px"}} className="sidebar">
+     <div className="sidebar" style={{width: "200px"}} >
          <div className="top_section">
              <div style={{marginLeft:"5px" }} className="bars">
                  <img src='/Images/logo2.png' style={{ width: '100px', height: '40px' }}/>
