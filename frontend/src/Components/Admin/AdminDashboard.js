@@ -9,7 +9,7 @@ const Dashboard = () => {
                 <div >
                  <h6>Dashboard</h6> </div>
                  <div><img src='/Images/ruhuna.jpeg' /> </div>
-                 <div>
+                 <div className='ruhuna-details-font'>
                     <p>Faculty of Engineering </p>
                     <p>University of Ruhuna</p>
                     </div>

@@ -92,13 +92,19 @@ main{
 .ruhuna-details {
     display: flex;
     background-color: white;
-    height: 150px;
+    height: 120px;
     padding: 5px;
     border-radius:10px;
 }
 
 .ruhuna-details img {
-    max-width: 80px; /* Adjust the image size as needed */
-    height: 80px;
-    padding:10px 10px 5px 30px;
+    max-width: 100px; /* Adjust the image size as needed */
+    height: 100px;
+    padding:10px 10px 5px 120px;
+}
+.ruhuna-details-font{
+    font-size: 34px; 
+    color: #012970;
+    margin: 20px; 
+    font-family: 'Poppins', sans-serif;
 }
