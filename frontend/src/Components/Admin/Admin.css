@@ -131,12 +131,17 @@ main {
     font-family: 'Poppins', sans-serif;
 }
 
-.square-box {
-    width: 400px;
-    height: 250px;
-    background-color: white;
-    margin: 30px;
-    border: 1px solid #ccc;
-    flex-direction: column;
-    display: inline-block;
+.second-row-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(300px auto);
+    grid-gap:25px;
+    justify-content: end;
+}
+.item{
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    height: 300px;
+    width: 450px;
 }
