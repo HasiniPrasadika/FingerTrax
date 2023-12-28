@@ -41,9 +41,8 @@ const Login = () => {
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        navigate("/");
+        
       } else {
         handleError(message);
       }
@@ -62,20 +61,22 @@ const Login = () => {
       <h2>Login Account</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label for="email">Email</label>
           <input
             type="email"
             name="email"
+            id="email"
             value={email}
             placeholder="Enter your email"
             onChange={handleOnChange}
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label for="password">Password</label>
           <input
             type="password"
             name="password"
+            id="password"
             value={password}
             placeholder="Enter your password"
             onChange={handleOnChange}

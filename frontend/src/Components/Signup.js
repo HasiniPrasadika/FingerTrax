@@ -41,9 +41,8 @@ const Signup = () => {
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        navigate("/");
+        
       } else {
         handleError(message);
       }
@@ -63,7 +62,7 @@ const Signup = () => {
       <h2>Signup Account</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label for="email">Email</label>
           <input
             type="email"
             name="email"
@@ -73,20 +72,22 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label htmlFor="email">Username</label>
+          <label for="username">Username</label>
           <input
             type="text"
             name="username"
+            id="username"
             value={username}
             placeholder="Enter your username"
             onChange={handleOnChange}
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label for="password">Password</label>
           <input
             type="password"
             name="password"
+            id="password"
             value={password}
             placeholder="Enter your password"
             onChange={handleOnChange}
