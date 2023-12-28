@@ -66,6 +66,7 @@ const Signup = () => {
           <input
             type="email"
             name="email"
+            id="email"
             value={email}
             placeholder="Enter your email"
             onChange={handleOnChange}
