@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.container {
+    display: flex;
+    background-color: #E7E7E9;
+}
+
+main {
+    width: calc(100% - 200px); /* Adjust for the width of the sidebar */
+    background-color: #E7E7E9;
+    padding: 8px;
+    margin-left: 200px; /* Set margin to account for the sidebar */
+    transition: all 0.5s;
+}
+
+.sidebar {
+    background: #003566;
+    height: 600px;
+    transition: all 0.5s;
+    border-radius: 15px 15px 15px 15px;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    margin: 7px;
+}
+
+.top_section {
+    display: flex;
+    align-items: center;
+    padding: 10px 5px 5px 5px;
+}
+
+.bars {
+    display: flex;
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+.link {
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+}
+
+.link:hover {
+    background: lightskyblue;
+    color: #000;
+    transition: all 0.5s;
+}
+
+.active {
+    background: lightskyblue;
+    color: #000;
+}
+
+.icon,
+.link_text {
+    font-size: 20px;
+}
+
+/* Header */
+.header {
+    width: 1020px;
+    height: 25px;
+    background-color: red;
+    padding: 5px;
+    margin: 10px 0px 0px 220px;
+    border-radius: 5px;
+   
+}
+
+.header-content {
+    display: flex;
+    /* Arrange children in a row */
+    align-items: center;
+    /* Center vertically */
+}
+
+.header-icon {
+    align-items: center;
+}
+
+.admin-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    /* Creates a circular effect */
+    object-fit: cover;
+    padding: 0px 5px 0px 5px;
+    /* Maintain aspect ratio */
+}
+
+.admin-name {
+    margin-left: 850px;
+    /* Adjust spacing between name and image */
+}
+
+/* Dashboard */
+.dashboard {
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 20px;
+}
+
+.ruhuna-details {
+    display: flex;
+    
+    height: 150px;
+    padding: 0px;
+    border-radius: 10px;
+    margin: 5px 0px 0px 220px;
+    background-color: yellow;
+}
+
+.ruhuna-details img {
+    max-width: 120px;
+    /* Adjust the image size as needed */
+    height: 120px;
+    padding: 15px 10px 5px 120px;
+    vertical-align: middle;
+}
+
+.ruhuna-details-font {
+    font-size: 34px;
+    color: #012970;
+    padding: 35px 10px 5px 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.second-row-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(300px auto);
+    grid-gap:10px;
+    justify-content: end;
+}
+.item{
+    background:pink;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 10px 0px 0px 220px;
+    height: 300px;
+    width: 450px;
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 10px;
+   
+    
+    
+
+}
+/*Dashboard Count*/
+.count-container{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+   
+    
+
+}
+.count{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    width: 200px;
+    height: 200px;
+    
+    
+}
+.lecture{
+    width: 130px;
+    height: 130px;
+    padding: 20px;
+    margin: 10px 10px 20px 25px;
+    background-color: #E8F4FF;
+    align-items: center;
+    text-align: center;
+
+}
+.student{
+    width: 130px;
+    height: 130px;
+    margin: 10px 10px 20px 25px;
+    background-color:#E8F4FF;
+    padding: 20px;
+    text-align: center;
+
+}
+
+
+/* Lecture*/
+.lecture-container{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+    background-color: white;
+    min-height: 450px;
+    width: 970px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+.lecture-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    background-color: #E8F4FF;
+    width: 925px;
+    height: 300px;
+    margin: 0px 5px 5px 5px;
+    border-radius: 15px;
+    padding: 20px;
+
+}
+.lecture-photo-area{
+
+}
+.lecture-form{
+
+}
