@@ -7,10 +7,13 @@ import './Login.css';
 
 const Login = () => {
   const backgroundStyle = {
-    backgroundImage: `url(${process.env.PUBLIC_URL}/Images/2.jpg)`,
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url(${process.env.PUBLIC_URL}/Images/login.jpeg)`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-};
+     // Set the height of the container if needed
+  };
+  
+  
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: "",
@@ -99,7 +102,7 @@ const Login = () => {
                 </div>
                 <button type="submit">Submit</button>
                 <span>
-                Already have an account?
+                Forgot password?
                 </span>
             </form>
         </div>
@@ -109,3 +112,4 @@ const Login = () => {
 };
 
 export default Login;
+
