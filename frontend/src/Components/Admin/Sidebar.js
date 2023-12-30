@@ -34,7 +34,7 @@ return (
     <div className="container">
         <div className="sidebar" style={{width: "250px"}} >
             <div className="top_section">
-                <div style={{marginLeft:"10px" ,marginTop:'20px', marginBottom:'20px'}} className="bars">
+                <div style={{marginLeft:"10px" ,marginTop:'20px'}} className="bars">
                     <img src='/Images/logo2.png' style={{ width: '200px', height: '70px' }}/>
                 </div>
             </div>

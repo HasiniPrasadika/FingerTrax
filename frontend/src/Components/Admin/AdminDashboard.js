@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
+import { GoTriangleRight } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import './Admin.css';
 import DashboardCount from './DashboardCount';
+
 
 const Dashboard = () => {
 const navigate = useNavigate();
@@ -35,42 +37,43 @@ const navigate = useNavigate();
     navigate("/signup");
   };
 
-    return (
-      <div className="dashboard">
-      <div className="row">
-          <div className="ruhuna-details" >
-          <div>
-              <h6 style={{opacity:'0.8', padding:'5px'}}>Dashboard</h6> 
-          </div>
-          <div><img src='/Images/ruhuna.jpeg' /> </div>
-          <div className='ruhuna-details-font'>
-              <p>Faculty of Engineering </p>
-              <p>University of Ruhuna</p>
-          </div>
-          </div>
-          </div>
+  return (
+    <div className="dashboard">
+    <div className="row">
+        <div className="ruhuna-details" >
+        <div>
+            <span style={{opacity:'0.8', padding:'10px' , fontSize:'12px'}}><GoTriangleRight />Dashboard </span>
+        </div>
+        <div>
+          <img src='/Images/1.jpeg' className="ruhuna-details-img" />
+        </div>
+        <div className='ruhuna-details-font'>
+            <p>Faculty of Engineering </p>
+            <p>University of Ruhuna</p>
+        </div>
+        </div>
+        </div>
 
-      <div className="second-row-container">
-          <div className="item">
-               <DashboardCount></DashboardCount>
-               
-          </div>
-          <div className="item">
+    <div className="second-row-container">
+        <div className="item">
           <DashboardCount></DashboardCount>
-          </div>
-          <div className="item">
-          <DashboardCount></DashboardCount>
-          </div>
-          <div className="item">
-          <DashboardCount></DashboardCount>
-          </div>
+        </div>
+        <div className="item">
+        <DashboardCount></DashboardCount>
+        </div>
+        <div className="item">
+        <DashboardCount></DashboardCount>
+        </div>
+        <div className="item">
+        <DashboardCount></DashboardCount>
+        </div>
 
-      </div>
-      
+    </div>
+    
 
-      
-  </div>
-    );
+    
+</div>
+  );
 };
 
 export default Dashboard;
