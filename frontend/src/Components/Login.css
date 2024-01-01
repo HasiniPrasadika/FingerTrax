@@ -57,7 +57,7 @@
     width: 100%;
     margin: 75px;
     max-width: 350px;
-    height: 450px;
+    height: 350px;
     box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   }
   
@@ -93,7 +93,7 @@
   }
   
   .form_container button {
-    background-color: rgba(0, 212, 255, 1);
+    background-color:rgba(3, 4, 94);
     color: #fff;
     border: none;
     padding: 0.6rem;
