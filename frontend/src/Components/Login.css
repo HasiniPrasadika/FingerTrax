@@ -12,7 +12,7 @@
   }
   .top-bar {
     display: flex;
-    background-color: blue;
+    background-color: rgb(0, 53, 102);
     height: 50px;
     width: 100%;
     padding: 0px;
@@ -23,7 +23,7 @@
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    height: 100%;
+    
   }
   .text-content{
     margin: 100px 0px 0px 50px;
@@ -33,24 +33,25 @@
     background-color: transparent;
     font-size: 64px;
     font-family: 'Roboto', sans-serif;
+    color: rgba(3, 4, 94);
   }
   .login-form{
-    height: 350px;
+    height: 200px;
     width: 500px;
-    margin: 100px 0px 0px 0px;
+    margin: 150px 0px 0px 0px;
     padding: 20px;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 30px;
   
   }
   .form_container {
     background-color: #fff;
     padding: 2rem 3rem;
-    border-radius: 0.5rem;
+    border-radius: 1.3rem;
     width: 100%;
     margin: 75px;
     max-width: 350px;
-    height: 400px;
+    height: 300px;
     box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   }
   
