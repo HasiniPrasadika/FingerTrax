@@ -1,11 +1,13 @@
-import {React} from 'react';
+import { React } from 'react';
 import { useCookies } from "react-cookie";
 
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { FaTh } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+import { MdPeopleAlt } from "react-icons/md";
+import { PiStudentBold } from "react-icons/pi";
 import './Admin.css';
-
-// ... (imports remain unchanged)
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
@@ -16,26 +18,31 @@ const Sidebar = ({ children }) => {
     navigate("/login");
   };
 
-  const menuItem = [
+  const menuItem=[
     {
-      path: '/',
-      name: 'Dashboard',
+        path:"/",
+        name:"Dashboard",
+        icon:<FaTh/>
     },
     {
-      path: '/lecture',
-      name: 'Lecture',
+        path:"/lecture",
+        name:"Lecture",
+        icon:<MdPeopleAlt/>
     },
     {
-      path: '/student',
-      name: 'Student',
+        path:"/student",
+        name:"Student",
+        icon:<PiStudentBold/>
     },
     {
-      path: '/login',
-      name: 'Logout',
-      onClick: handleLogout,
+        path:"/logout",
+        name:"Logout",
+        icon:<FiLogOut/>,
+        onClick: handleLogout,
     },
-  ];
-
+    
+]
+  
   return (
     <div className="container">
       <div className="sidebar" style={{ width: '250px' }}>

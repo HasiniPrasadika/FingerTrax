@@ -10,7 +10,7 @@ const Login = () => {
     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url(${process.env.PUBLIC_URL}/Images/login.jpeg)`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-     // Set the height of the container if needed
+    
   };
   
   
@@ -70,7 +70,7 @@ const Login = () => {
   return (
     <div className='login-container'>
     <div className='top-bar'>
-    <img src="/Images/logo2.png" style={{ width: '105px', height: '40px', alignItems: 'center', marginLeft: '10px'}} alt="Logo" />
+    <img src="/Images/logo2.png" style={{ width: '137px', height: '55px', alignItems: 'center', marginLeft: '20px'}} alt="Logo" />
     </div>
     <div className='content-bar' style={backgroundStyle}>
         <div className='text-content'>
@@ -85,14 +85,13 @@ const Login = () => {
         <div className='login-form form_container'>
         <form onSubmit={handleSubmit} >
                 <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Username</label>
                 <input
                     type="email"
                     name="email"
                     value={email}
-                    placeholder="Enter your email"
+                    placeholder="Enter your username"
                     onChange={handleOnChange}
-                   
                 />
                 </div>
                 <div>
@@ -105,7 +104,7 @@ const Login = () => {
                     onChange={handleOnChange}
                 />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit">Login</button>
                 <span>
                 Forgot password?
                 </span>

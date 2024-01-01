@@ -13,7 +13,7 @@
   .top-bar {
     display: flex;
     background-color: rgb(0, 53, 102);
-    height: 55px;
+    height: 82px;
     width: 100%;
     padding: 0px;
     align-items: center;
@@ -24,7 +24,7 @@
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    
+    height: auto;
   }
   .text-content{
     margin: 100px 0px 0px 50px;
@@ -37,8 +37,12 @@
     font-family: 'Roboto', sans-serif;
     color: rgba(3, 4, 94);
   }
+
+  .text-content p{
+    margin-bottom: -0.2em;
+  }
   .login-form{
-    height: 400px;
+    height: 450px;
     width: 500px;
     margin: 150px 0px 0px 0px;
     padding: 20px;
@@ -53,7 +57,7 @@
     width: 100%;
     margin: 75px;
     max-width: 350px;
-    height: 300px;
+    height: 450px;
     box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   }
   

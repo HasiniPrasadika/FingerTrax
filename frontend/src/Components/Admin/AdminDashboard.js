@@ -39,17 +39,19 @@ const navigate = useNavigate();
 
   return (
     <div className="dashboard">
-    <div className="row">
+    
         <div className="ruhuna-details" >
         <div>
-            <span style={{opacity:'0.8', padding:'10px' , fontSize:'12px'}}><GoTriangleRight />Dashboard </span>
+            <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Dashboard </span>
         </div>
-        <div>
-          <img src='/Images/1.jpeg' className="ruhuna-details-img" />
-        </div>
+        <div className="row">
+          <img src='/Images/logo_ruhuna.jpg'/>
+        
         <div className='ruhuna-details-font'>
-            <p>Faculty of Engineering </p>
-            <p>University of Ruhuna</p>
+        <p>
+          <span style={{fontSize:'50px'}}>Faculty of Engineering</span><br/>
+          <span>University of Ruhuna</span>
+        </p>
         </div>
         </div>
         </div>
