@@ -69,12 +69,17 @@ const Login = () => {
 
   return (
     <div className='login-container'>
-    <div className='top-bar'></div>
+    <div className='top-bar'>
+    <img src="/Images/logo2.png" style={{ width: '105px', height: '40px', alignItems: 'center', marginLeft: '10px'}} alt="Logo" />
+    </div>
     <div className='content-bar' style={backgroundStyle}>
         <div className='text-content'>
             <p>Touch for </p>
             <p>Effortless </p>
             <p>Attendance Tracking</p>
+            <p style={{fontSize: '14px', color: 'black'}}>Experience a new era in attendance management with our cutting-edge fingerprint technology. 
+              Our system eliminates the hassle of traditional methods, allowing users to effortlessly mark their 
+              presence with a simple touch. </p>
         </div>
 
         <div className='login-form form_container'>

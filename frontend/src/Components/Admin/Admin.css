@@ -72,11 +72,11 @@ main {
 
 /* Header */
 .header {
-    width: 1020px;
+    width: auto;
     height: 35px;
     background-color: white;
     padding: 5px;
-    margin: 10px 0px 0px 270px;
+    margin: 10px 15px 0px 270px;
     border-radius: 5px;
     align-items: center;
 }
