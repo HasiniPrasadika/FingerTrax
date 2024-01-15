@@ -50,7 +50,7 @@ const Login = () => {
         handleSuccess(message);
         switch (role) {
           case "admin":
-            navigate("/admindashboard");
+            navigate("/");
             break;
           case "lecturer":
             navigate("/lecturerdashboard");

@@ -48,7 +48,7 @@ const Signup = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         switch (role) {
           case "admin":
-            navigate("/admindashboard");
+            navigate("/");
             break;
           case "lecturer":
             navigate("/lecturerdashboard");

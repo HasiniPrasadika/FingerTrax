@@ -29,7 +29,7 @@ const App = () => {
       {hasSidebar && <Sidebar />}
 
       <Routes>
-        <Route path="/admindashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/studentdashboard" element={<DashboardS />} />
         <Route path="/lecturerdashboard" element={<DashboardL />} />
         <Route path="/login" element={<Login />} />
