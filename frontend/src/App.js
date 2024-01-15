@@ -7,6 +7,8 @@ import Header from './Components/Admin/Header';
 import Lecture from './Components/Admin/Lecture';
 import Sidebar from './Components/Admin/Sidebar';
 import Student from './Components/Admin/Students';
+import DashboardS from './Components/Student/StudentDashboard';
+import DashboardL from './Components/Lecturer/LecturerDashboard';
 
 const App = () => {
   const location = useLocation();
@@ -27,7 +29,9 @@ const App = () => {
       {hasSidebar && <Sidebar />}
 
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/admindashboard" element={<Dashboard />} />
+        <Route path="/studentdashboard" element={<DashboardS />} />
+        <Route path="/lecturerdashboard" element={<DashboardL />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/lecture" element={<Lecture />} />

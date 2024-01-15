@@ -6,11 +6,13 @@ import { ToastContainer, toast } from "react-toastify";
 const Signup = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    email: "",
     password: "",
     username: "",
+    role: "student", // Default role is set to "student"
   });
-  const { email, password, username } = inputValue;
+
+  const { password, username, role } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -23,6 +25,7 @@ const Signup = () => {
     toast.error(err, {
       position: "bottom-left",
     });
+  
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "bottom-right",
@@ -38,23 +41,35 @@ const Signup = () => {
         },
         { withCredentials: true }
       );
+
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        switch (role) {
+          case "admin":
+            navigate("/admindashboard");
+            break;
+          case "lecturer":
+            navigate("/lecturerdashboard");
+            break;
+          case "student":
+            navigate("/studentdashboard");
+            break;
+          default:
+            break;
+        }
       } else {
         handleError(message);
       }
     } catch (error) {
       console.log(error);
     }
+
     setInputValue({
-      ...inputValue,
-      email: "",
       password: "",
       username: "",
+      role: "student", // Reset the role to default after signup
     });
   };
 
@@ -63,17 +78,7 @@ const Signup = () => {
       <h2>Signup Account</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             name="username"
@@ -91,6 +96,18 @@ const Signup = () => {
             placeholder="Enter your password"
             onChange={handleOnChange}
           />
+        </div>
+        <div>
+          <label htmlFor="role">Role</label>
+          <select
+            name="role"
+            value={role}
+            onChange={handleOnChange}
+          >
+            <option value="admin">Admin</option>
+            <option value="lecturer">Lecturer</option>
+            <option value="student">Student</option>
+          </select>
         </div>
         <button type="submit">Submit</button>
         <span>

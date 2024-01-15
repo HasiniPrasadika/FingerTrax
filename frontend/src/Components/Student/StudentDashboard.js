@@ -4,11 +4,11 @@ import { useCookies } from "react-cookie";
 import { GoTriangleRight } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import './Admin.css';
-import DashboardCount from './DashboardCount';
+import '../Admin/Admin.css';
+import DashboardSCount from '../Admin/DashboardCount';
 
 
-const Dashboard = () => {
+const DashboardS = () => {
 const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
@@ -42,7 +42,7 @@ const navigate = useNavigate();
     
         <div className="ruhuna-details" >
         <div>
-            <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Admin Dashboard </span>
+            <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Student Dashboard </span>
         </div>
         <div className="row">
           <img src='/Images/logo_ruhuna.jpg'/>
@@ -58,16 +58,16 @@ const navigate = useNavigate();
 
     <div className="second-row-container">
         <div className="item">
-          <DashboardCount></DashboardCount>
+          <DashboardSCount></DashboardSCount>
         </div>
         <div className="item">
-        <DashboardCount></DashboardCount>
+        <DashboardSCount></DashboardSCount>
         </div>
         <div className="item">
-        <DashboardCount></DashboardCount>
+        <DashboardSCount></DashboardSCount>
         </div>
         <div className="item">
-        <DashboardCount></DashboardCount>
+        <DashboardSCount></DashboardSCount>
         </div>
 
     </div>
@@ -78,4 +78,4 @@ const navigate = useNavigate();
   );
 };
 
-export default Dashboard;
+export default DashboardS;

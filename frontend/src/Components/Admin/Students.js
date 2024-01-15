@@ -6,7 +6,7 @@ import { GoTriangleRight } from "react-icons/go";
 import './Admin.css';
 
     const originData = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 5; i++) {
     originData.push({
         key: i.toString(),
         Fullname: `Edward ${i}`,
@@ -171,6 +171,21 @@ import './Admin.css';
                                     <FontAwesomeIcon icon={faCamera} style={{ background: 'white', borderRadius: '50%', padding: '5px' }} />
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <form>
+                                <div>
+                                <div className="form-group" style={{marginBottom:10}}>
+                                    <label>Fingerprint ID</label>
+                                    <input type="text" className="form-control" placeholder="Name"/>
+                                </div>
+                                <div className="form-row">
+                                    <button type="submit" className="btn btn-primary" style={{marginRight:'25px', marginLeft:'5px'}}>Enter</button>
+                                    
+                                </div>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                     <div>
