@@ -8,8 +8,6 @@ body {
     background-color: #E7E7E9;
     
 }
-
-
 .container {
     display: flex;
     background-color: #E7E7E9;
@@ -22,8 +20,9 @@ main {
     transition: all 0.5s;
 }
 
+/* Sidebar */
 .sidebar {
-    width: 200px; /* Set the width of the sidebar */
+    width: 200px; 
     background: #003566;
     height: 600px;
     transition: all 0.5s;
@@ -94,15 +93,12 @@ main {
     width: 32px;
     height: 22px;
     border-radius: 50%;
-    /* Creates a circular effect */
     object-fit: cover;
     padding: 0px 5px 0px 5px;
-    /* Maintain aspect ratio */
 }
 
 .admin-name {
     margin-left: 850px;
-    /* Adjust spacing between name and image */
 }
 
 /* Dashboard */
@@ -111,7 +107,6 @@ main {
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr;
     background-color: #E7E7E9;
-
 }
 
 .ruhuna-details {
@@ -160,6 +155,7 @@ main {
     grid-template-columns: 1fr ;
     grid-gap: 0px;
 }
+
 /*Dashboard Count*/
 .count-container{
     display: grid;
@@ -177,6 +173,7 @@ main {
     
     
 }
+
 .lecture{
     width: 150px;
     height: 150px;
@@ -283,16 +280,12 @@ main {
         background-color: #fff;
         border-radius: 50%;
         padding: 5px;
-      }
-      
-      .camera-icon i {
+    }
+    .camera-icon i {
         color: #333;
-      }
-
-
-
+    }
 .editable-row .ant-form-item-explain {
     position: absolute;
     top: 100%;
     font-size: 12px;
-  }
+    }
