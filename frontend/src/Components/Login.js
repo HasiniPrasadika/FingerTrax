@@ -5,18 +5,16 @@ import { toast } from "react-toastify";
 import "./Login.css";
 
 const Login = () => {
-  const backgroundStyle = {
-    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url(${process.env.PUBLIC_URL}/Images/login.jpeg)`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  };
-
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     username: "",
     password: "",
   });
+
+  // Destructuring username and password from inputValue
   const { username, password } = inputValue;
+
+  // Function to handle input change
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -25,69 +23,71 @@ const Login = () => {
     });
   };
 
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
-
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
         "http://localhost:8070/login",
-        {
-          ...inputValue,
-        },
+        { ...inputValue },
         { withCredentials: true }
       );
       console.log(data);
+
       const { success, message, role } = data;
       if (success) {
-        handleSuccess(message);
-        switch (role) {
-          case "admin":
-            navigate("/");
-            break;
-          case "lecturer":
-            navigate("/lecturerdashboard");
-            break;
-          case "student":
-            navigate("/studentdashboard");
-            break;
-          default:
-            break;
-        }
+        handleSuccess(message, role);
       } else {
         handleError(message);
       }
     } catch (error) {
+      handleError("An error occurred. Please try again later.");
       console.log(error);
+    } finally {
+      // Reset input values after form submission
+      setInputValue({
+        username: "",
+        password: "",
+      });
     }
-    setInputValue({
-      ...inputValue,
-      username: "",
-      password: "",
+  };
+
+  // Function to handle success toast and redirection based on user role
+  const handleSuccess = (message, role) => {
+    handleToast(message, "success");
+    switch (role) {
+      case "admin":
+        navigate("/");
+        break;
+      case "lecturer":
+        navigate("/lecturerdashboard");
+        break;
+      case "student":
+        navigate("/studentdashboard");
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Function to handle error toast
+  const handleError = (errMessage) => {
+    handleToast(errMessage, "error");
+  };
+
+  // Function to display toast messages
+  const handleToast = (message, type) => {
+    toast[type](message, {
+      position: "bottom-left",
     });
   };
+
   return (
     <div className="login-container">
       <div className="top-bar">
-        <img
-          src="/Images/logo2.png"
-          style={{
-            width: "137px",
-            height: "55px",
-            alignItems: "center",
-            marginLeft: "20px",
-          }}
-          alt="Logo"
-        />
+        <img src="/Images/logo2.png" alt="Logo" className="img" />
       </div>
-      <div className="content-bar" style={backgroundStyle}>
+      <div className="content-bar">
         <div className="text-content">
           <p>Touch for </p>
           <p>Effortless </p>
@@ -96,11 +96,11 @@ const Login = () => {
             Experience a new era in attendance management with our cutting-edge
             fingerprint technology. Our system eliminates the hassle of
             traditional methods, allowing users to effortlessly mark their
-            presence with a simple touch.{" "}
+            presence with a simple touch.
           </p>
         </div>
 
-        <div className="login-form form_container">
+        <div className="form_container">
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="username">Username</label>
@@ -110,6 +110,7 @@ const Login = () => {
                 value={username}
                 placeholder="Enter your username"
                 onChange={handleOnChange}
+                required // Adding required attribute
               />
             </div>
             <div>
@@ -120,6 +121,7 @@ const Login = () => {
                 value={password}
                 placeholder="Enter your password"
                 onChange={handleOnChange}
+                required // Adding required attribute
               />
             </div>
             <button type="submit">Login</button>
