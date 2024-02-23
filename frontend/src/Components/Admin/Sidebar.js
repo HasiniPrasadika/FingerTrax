@@ -11,7 +11,7 @@ import './Admin.css';
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+  const [ removeCookie] = useCookies([]);
 
   const handleLogout = () => {
     removeCookie("token");

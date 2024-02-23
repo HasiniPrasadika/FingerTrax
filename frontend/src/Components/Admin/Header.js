@@ -8,7 +8,7 @@ const Header = () => {
             <RiMenuLine className='icon' />
             <span className='admin-name'>Admin Name</span>
             <img
-            src='/Images/1.jpeg' className='admin-image'/>
+            src='/Images/1.jpeg' alt='Admin' className='admin-image'/>
         </div>
         </div>
     );
