@@ -29,6 +29,8 @@
     margin-left: 20px;
 }
 .content-bar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(207, 208, 230) transparent;
   display: flex;
   flex-wrap: wrap;
   background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url('../../public/Images/login.jpeg');
@@ -39,6 +41,7 @@
   overflow-y: auto;
   height: 88vh;
 }
+
 .text-content {
  
   margin: 60px 0px 0px 50px;
@@ -141,8 +144,8 @@
   
     .login-form {
       width: 100%;
-    order: 1; /* Change the order to 1, making it appear after text-content */
-    margin: 10px auto; /* Center the form horizontally */
+    order: 1; 
+    margin: 10px auto; 
     padding: 20px; 
     box-sizing: border-box;
     }
