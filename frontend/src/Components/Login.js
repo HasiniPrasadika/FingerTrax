@@ -29,23 +29,37 @@ const Login = () => {
     try {
       const { data } = await axios.post(
         "http://localhost:8070/login",
-        { ...inputValue },
+        { ...inputValue, },
         { withCredentials: true }
       );
       console.log(data);
 
       const { success, message, role } = data;
       if (success) {
-        handleSuccess(message, role);
+        handleSuccess(message);
+        
+        switch (role) {
+          case "admin":
+            navigate("/");
+            break;
+          case "lecturer":
+            navigate("/lecturerdashboard");
+            break;
+          case "student":
+            navigate("/studentdashboard");
+            break;
+          default:
+            break;
+        }
       } else {
         handleError(message);
       }
     } catch (error) {
-      handleError("An error occurred. Please try again later.");
-      console.log(error);
+        console.log(error);
     } finally {
       // Reset input values after form submission
       setInputValue({
+        ...inputValue,
         username: "",
         password: "",
       });
@@ -53,34 +67,19 @@ const Login = () => {
   };
 
   // Function to handle success toast and redirection based on user role
-  const handleSuccess = (message, role) => {
-    handleToast(message, "success");
-    switch (role) {
-      case "admin":
-        navigate("/");
-        break;
-      case "lecturer":
-        navigate("/lecturerdashboard");
-        break;
-      case "student":
-        navigate("/studentdashboard");
-        break;
-      default:
-        break;
-    }
-  };
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-right",
+    });
 
   // Function to handle error toast
-  const handleError = (errMessage) => {
-    handleToast(errMessage, "error");
-  };
+  const handleError = (err) =>
+  toast.error(err, {
+    position: "bottom-left",
+  });
 
   // Function to display toast messages
-  const handleToast = (message, type) => {
-    toast[type](message, {
-      position: "bottom-left",
-    });
-  };
+ 
 
   return (
     <div className="login-container">

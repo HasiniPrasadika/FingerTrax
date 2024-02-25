@@ -8,13 +8,13 @@ const Signup = () => {
   const [inputValue, setInputValue] = useState({
     password: "",
     username: "",
-    role: "student", // Default role is set to "student"
+    role: "", // Default role is set to "student"
   });
 
   const { password, username, role } = inputValue;
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value} = e.target;
     setInputValue({
       ...inputValue,
       [name]: value,
@@ -45,7 +45,7 @@ const Signup = () => {
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        
         switch (role) {
           case "admin":
             navigate("/");
@@ -67,9 +67,10 @@ const Signup = () => {
     }
 
     setInputValue({
+      ...inputValue,
       password: "",
       username: "",
-      role: "student", // Reset the role to default after signup
+      role: "", // Reset the role to default after signup
     });
   };
 
@@ -99,7 +100,7 @@ const Signup = () => {
         </div>
         <div>
           <label htmlFor="role">Role</label>
-          <select
+          {/* <select
             name="role"
             value={role}
             onChange={handleOnChange}
@@ -107,7 +108,14 @@ const Signup = () => {
             <option value="admin">Admin</option>
             <option value="lecturer">Lecturer</option>
             <option value="student">Student</option>
-          </select>
+  </select> */}
+  <input
+            type="text"
+            name="role"
+            value={role}
+            placeholder="Enter your role"
+            onChange={handleOnChange}
+          />
         </div>
         <button type="submit">Submit</button>
         <span>

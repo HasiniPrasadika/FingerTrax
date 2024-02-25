@@ -5,13 +5,20 @@ import { FaTh } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { MdPeopleAlt } from 'react-icons/md';
 import { PiStudentBold } from 'react-icons/pi';
+import React from 'react';
+
+
+
 import { useNavigate } from 'react-router-dom';
 import './Admin.css';
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+
   const sidebarRef = useRef(null); // Ref for the sidebar container
+
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
+
 
   const handleLogout = () => {
     removeCookie('token');
@@ -20,27 +27,28 @@ const Sidebar = ({ children }) => {
 
   const menuItem = [
     {
-      path: '/',
-      name: 'Dashboard',
-      icon: <FaTh />,
+      path: "/",
+      name: "Dashboard",
+      icon: <FaTh />
     },
     {
-      path: '/lecture',
-      name: 'Lecture',
-      icon: <MdPeopleAlt />,
+      path: "/lecture",
+      name: "Lecture",
+      icon: <MdPeopleAlt />
     },
     {
-      path: '/student',
-      name: 'Student',
-      icon: <PiStudentBold />,
+      path: "/student",
+      name: "Student",
+      icon: <PiStudentBold />
     },
     {
-      path: '/logout',
-      name: 'Logout',
+      path: "/logout",
+      name: "Logout",
       icon: <FiLogOut />,
       onClick: handleLogout,
     },
   ];
+
 
   useEffect(() => {
     $(document).ready(function(){
@@ -53,6 +61,7 @@ const Sidebar = ({ children }) => {
   return (
     <div className="sidebar-container">
       <div className="sidebar">
+
         <div className="top_section">
           <div style={{ marginLeft: '10px', marginTop: '20px', marginBottom: '20px' }} className="bars">
             <img src="/Images/logo2.png" style={{ width: '100%', height: '100%' }} alt="Logo" />
