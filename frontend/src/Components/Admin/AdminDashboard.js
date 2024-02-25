@@ -38,7 +38,7 @@ const navigate = useNavigate();
   };
 
   return (
-    <div className="dashboard">
+    <div className="dashboard-container">
     
         <div className="ruhuna-details" >
         <div>
@@ -59,6 +59,12 @@ const navigate = useNavigate();
     <div className="second-row-container">
         <div className="item">
           <DashboardCount></DashboardCount>
+        </div>
+        <div className="item">
+        <DashboardCount></DashboardCount>
+        </div>
+        <div className="item">
+        <DashboardCount></DashboardCount>
         </div>
         <div className="item">
         <DashboardCount></DashboardCount>
