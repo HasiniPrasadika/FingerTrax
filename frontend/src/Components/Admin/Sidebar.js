@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { useCookies } from "react-cookie";
 
 import { useNavigate } from 'react-router-dom';
@@ -11,42 +11,41 @@ import './Admin.css';
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [ removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
 
   const handleLogout = () => {
     removeCookie("token");
     navigate("/login");
   };
 
-  const menuItem=[
+  const menuItem = [
     {
-        path:"/",
-        name:"Dashboard",
-        icon:<FaTh/>
+      path: "/",
+      name: "Dashboard",
+      icon: <FaTh />
     },
     {
-        path:"/lecture",
-        name:"Lecture",
-        icon:<MdPeopleAlt/>
+      path: "/lecture",
+      name: "Lecture",
+      icon: <MdPeopleAlt />
     },
     {
-        path:"/student",
-        name:"Student",
-        icon:<PiStudentBold/>
+      path: "/student",
+      name: "Student",
+      icon: <PiStudentBold />
     },
     {
-        path:"/logout",
-        name:"Logout",
-        icon:<FiLogOut/>,
-        onClick: handleLogout,
+      path: "/logout",
+      name: "Logout",
+      icon: <FiLogOut />,
+      onClick: handleLogout,
     },
-    
-]
-  
+  ];
+
   return (
     <div className="container">
       <div className="sidebar" style={{ width: '250px' }}>
-      <div className="top_section">
+        <div className="top_section">
           <div style={{ marginLeft: '10px', marginTop: '20px', marginBottom: '20px' }} className="bars">
             <img src="/Images/logo2.png" style={{ width: '200px', height: '70px' }} alt="Logo" />
           </div>
@@ -73,5 +72,3 @@ const Sidebar = ({ children }) => {
 };
 
 export default Sidebar;
-
-
