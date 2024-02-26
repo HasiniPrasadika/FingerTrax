@@ -8,7 +8,7 @@ import './Admin.css';
 import DashboardCount from './DashboardCount';
 
 
-const Dashboard = () => {
+const AdminDashboard = () => {
 const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
@@ -78,4 +78,4 @@ const navigate = useNavigate();
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

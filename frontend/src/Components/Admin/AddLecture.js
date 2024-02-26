@@ -45,7 +45,7 @@ import './Admin.css';
     );
     };
 
-    const Lecture = () => {
+const AddLecture = () => {
         const [form] = Form.useForm();
     const [data, setData] = useState(originData);
     const [editingKey, setEditingKey] = useState('');
@@ -221,4 +221,4 @@ import './Admin.css';
     );
 };
 
-export default Lecture;
+export default AddLecture;

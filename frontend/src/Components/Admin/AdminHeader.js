@@ -1,7 +1,7 @@
 import React from 'react';
-import { RiMenuLine } from 'react-icons/ri'; 
+import { RiMenuLine } from 'react-icons/ri';
 
-const Header = () => {
+const AdminHeader = () => {
     return (
         <div className='header'>
             <div className='header-content'>
@@ -14,4 +14,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default AdminHeader;

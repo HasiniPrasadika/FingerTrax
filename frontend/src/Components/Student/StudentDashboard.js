@@ -5,7 +5,8 @@ import { GoTriangleRight } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import '../Admin/Admin.css';
-import DashboardSCount from '../Admin/DashboardCount';
+import ModuleBox from "./ModuleBox";
+import './Student.css';
 
 
 const DashboardS = () => {
@@ -56,19 +57,10 @@ const navigate = useNavigate();
         </div>
         </div>
 
-    <div className="second-row-container">
-        <div className="item">
-          <DashboardSCount></DashboardSCount>
-        </div>
-        <div className="item">
-        <DashboardSCount></DashboardSCount>
-        </div>
-        <div className="item">
-        <DashboardSCount></DashboardSCount>
-        </div>
-        <div className="item">
-        <DashboardSCount></DashboardSCount>
-        </div>
+    <div className="student-second-row-container">
+        <ModuleBox></ModuleBox>
+        <ModuleBox></ModuleBox>
+        <ModuleBox></ModuleBox>
 
     </div>
     

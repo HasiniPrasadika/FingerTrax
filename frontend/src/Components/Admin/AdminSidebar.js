@@ -9,7 +9,7 @@ import { MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import './Admin.css';
 
-const Sidebar = ({ children }) => {
+const AdminSidebar = ({ children }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
 
@@ -20,17 +20,17 @@ const Sidebar = ({ children }) => {
 
   const menuItem = [
     {
-      path: "/",
+      path: "/admindashboard",
       name: "Dashboard",
       icon: <FaTh />
     },
     {
-      path: "/lecture",
+      path: "/admin_lecture_details",
       name: "Lecture",
       icon: <MdPeopleAlt />
     },
     {
-      path: "/student",
+      path: "/admin_student_details",
       name: "Student",
       icon: <PiStudentBold />
     },
@@ -71,4 +71,4 @@ const Sidebar = ({ children }) => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;
