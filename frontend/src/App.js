@@ -6,12 +6,20 @@ import AddLecture from './Components/Admin/AddLecture';
 import AddStudent from './Components/Admin/AddStudents';
 
 import Dashboard from './Components/Admin/AdminDashboard';
+<<<<<<< Updated upstream
 import AdminHeader from './Components/Admin/AdminHeader';
 import AdminSidebar from './Components/Admin/AdminSidebar';
 
 import LectureHeader from './Components/Lecturer/LectureHeader';
 import LectureSidebar from './Components/Lecturer/LectureSidebar';
+=======
+import Header from './Components/Admin/AdminHeader';
+import Sidebar from './Components/Admin/AdminSidebar';
+import Lecture from './Components/Admin/LectureDetails';
+import Student from './Components/Admin/StudentsDetails';
+>>>>>>> Stashed changes
 import DashboardL from './Components/Lecturer/LecturerDashboard';
+import DashboardS from './Components/Student/StudentDashboard';
 
 import AbsenceAppicationView from './Components/Lecturer/AbsenceApplicationView';
 import CreateModule from './Components/Lecturer/CreateModule';
