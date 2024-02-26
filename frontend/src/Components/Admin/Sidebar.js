@@ -5,7 +5,7 @@ import { FaTh } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { MdPeopleAlt } from 'react-icons/md';
 import { PiStudentBold } from 'react-icons/pi';
-import React from 'react';
+
 
 
 
