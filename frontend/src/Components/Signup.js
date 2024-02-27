@@ -7,7 +7,7 @@ import ErrorMessage from "../Components/ErrorMessage";
 import { register } from "../Components/userActions";
 import { ToastContainer, toast } from "react-toastify";
 
-function Signup ({history}) {
+const Signup = () => {
   const navigate = useNavigate();
   
   const [userName, setuserName] = useState("");
@@ -25,7 +25,7 @@ function Signup ({history}) {
     if (userInfo) {
       navigate("/admindashboard");
     }
-  }, [history, userInfo]);
+  }, [userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();

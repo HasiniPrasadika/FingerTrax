@@ -8,7 +8,7 @@ import { login } from "../Components/userActions";
 import { toast } from "react-toastify";
 import "./Login.css";
 
-function Login ({history}) {
+const Login = () => {
   const navigate = useNavigate();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
@@ -22,20 +22,20 @@ function Login ({history}) {
     if (userInfo) {
       switch (userInfo.role) {
         case "admin":
-          history.push("/admindashboard");
+          navigate("/admindashboard");
           break;
         case "lecturer":
-          history.push("/lecturerdashboard");
+          navigate("/lecturerdashboard");
           break;
         case "student":
-          history.push("/studentdashboard");
+          navigate("/studentdashboard");
           break;
         default:
           break;
       }
       
     }
-  }, [history, userInfo]);
+  }, [userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
