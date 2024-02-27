@@ -13,6 +13,7 @@ function Signup ({history}) {
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("admin");
+  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -22,7 +23,7 @@ function Signup ({history}) {
 
   useEffect(() => {
     if (userInfo) {
-      history.push("/admindashboard");
+      navigate("/admindashboard");
     }
   }, [history, userInfo]);
 

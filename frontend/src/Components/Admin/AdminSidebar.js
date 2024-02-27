@@ -2,7 +2,7 @@ import React from 'react';
 import { useCookies } from "react-cookie";
 
 import { useNavigate } from 'react-router-dom';
-
+import { logout } from "../userActions";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
@@ -14,7 +14,7 @@ const AdminSidebar = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
 
   const handleLogout = () => {
-    removeCookie("token");
+    logout();
     navigate("/login");
   };
 

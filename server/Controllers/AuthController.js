@@ -1,12 +1,13 @@
-import asyncHandler from "express-async-handler";
-import User from "../Models/UserModel.js";
-import generateToken from "../util/SecretToken.js";
+const asyncHandler = require("express-async-handler");
+const User = require("../Models/UserModel.js");
+const generateToken = require("../util/SecretToken.js");
+
 
 //@description     Auth the user
 //@route           POST /api/users/login
 //@access          Public
 const authUser = asyncHandler(async (req, res) => {
-  const { userName, password, role } = req.body;
+  const { userName, password} = req.body;
 
   const user = await User.findOne({ userName });
 
@@ -28,7 +29,7 @@ const authUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/
 //@access          Public
 const registerAdminUser = asyncHandler(async (req, res) => {
-  const { userName, password, role } = req.body;
+  const { userName, password } = req.body;
 
   const userExists = await User.findOne({ userName });
 
@@ -40,7 +41,7 @@ const registerAdminUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     userName,
     password,
-    role,
+    role : "admin",
   });
 
   if (user) {
@@ -87,7 +88,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, updateUserProfile, registerAdminUser };
+module.exports = { authUser, updateUserProfile, registerAdminUser };
 
 
 

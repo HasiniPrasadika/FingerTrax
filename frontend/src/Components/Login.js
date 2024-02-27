@@ -20,7 +20,7 @@ function Login ({history}) {
 
   useEffect(() => {
     if (userInfo) {
-      switch (role) {
+      switch (userInfo.role) {
         case "admin":
           history.push("/admindashboard");
           break;
@@ -40,6 +40,7 @@ function Login ({history}) {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(userName, password));
+    
   };
 
   // Function to handle input change
@@ -82,7 +83,7 @@ function Login ({history}) {
               <input
                 type="text"
                 name="username"
-                value={username}
+                value={userName}
                 placeholder="Enter your username"
                 onChange={(e) => setuserName(e.target.value)}
                 required // Adding required attribute

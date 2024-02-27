@@ -23,7 +23,7 @@ import {
       };
   
       const { data } = await axios.post(
-        "/login",
+        "http://localhost:8070/api/users/login",
         { userName, password },
         config
       );
@@ -58,7 +58,7 @@ import {
       };
   
       const { data } = await axios.post(
-        "/regadmin",
+        "http://localhost:8070/api/users/regadmin",
         { userName, password, role},
         config
       );
@@ -94,7 +94,7 @@ import {
         },
       };
   
-      const { data } = await axios.post("/profile", user, config);
+      const { data } = await axios.post("/api/users/profile", user, config);
   
       dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
   

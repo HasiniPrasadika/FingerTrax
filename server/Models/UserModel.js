@@ -1,11 +1,11 @@
-
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema(
   {
     userName: {
       type: String,
+      unique: true,
       required: true,
     },
     password: {
@@ -14,39 +14,25 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      required: [true, "Your role is required"],
+      default: "admin"
     },
-    fullName: {
-      type: String,
-    },
-    regNo: {
-      type: String,
-    },
-    depName: {
-      type: String,
-    },
-    batch: {
-      type: String,
-    },
-    fingerprintID: {
-      type: String,
-    },
+    fullName: String,
+    regNo: String,
+    depName: String,
+    batch: String,
+    fingerprintID: String,
     image: {
       type: String,
-      default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-  },
-  {
-    timestamps: true,
   }
+
 );
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// will encrypt password everytime its saved
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
@@ -55,9 +41,8 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-const User = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
 
-export default User;
 
 // const mongoose = require("mongoose");
 // const bcrypt = require("bcrypt");

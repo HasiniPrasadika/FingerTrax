@@ -1,17 +1,13 @@
-
-import {
-  authUser,
-  registerAdminUser,
-  updateUserProfile,
-} from "../Controllers/AuthController.js";
-import { protect } from "../Middlewares/AuthMiddleware.js";
+const express = require("express");
 const router = express.Router();
+const { authUser, registerAdminUser, updateUserProfile } = require("../Controllers/AuthController.js");
+const { protect } = require("../Middlewares/AuthMiddleware.js");
 
-router.route("/regadmin").post(registerAdminUser);
+router.post("/regadmin", registerAdminUser);
 router.post("/login", authUser);
-router.route("/profile").post(protect, updateUserProfile);
+router.post("/profile", protect, updateUserProfile);
 
-export default router;
+module.exports = router;
 
 
 // const { Signup, Login } = require("../Controllers/AuthController");

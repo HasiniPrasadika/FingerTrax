@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useHistory} from 'react-router-dom';
 import './App.css';
 import { Login, Signup } from './Components';
 
@@ -29,6 +29,7 @@ const App = () => {
   const [hasSidebar, setSidebar] = useState(true); // Initially set to true
   const [hasTitle, setTitle] = useState(false);
   const [role, setRole] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     // Update the state based on the current URL path
@@ -63,7 +64,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        <Route path="/admindashboard" element={<Dashboard />} />
+        <Route
+        path="/admindashboard"
+        component={({ history }) => (
+          <Dashboard search={search} history={history} />
+        )}
+        />
+        
         <Route path="/admin_lecture_details" element={<AddLecture />} />
         <Route path="/admin_student_details" element={<AddStudent />} />
         
