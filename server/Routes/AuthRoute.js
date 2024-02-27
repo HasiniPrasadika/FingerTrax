@@ -1,9 +1,35 @@
-const { Signup, Login } = require("../Controllers/AuthController");
-const {userVerification} = require("../Middlewares/AuthMiddleware");
-const router = require("express").Router();
+import express from "express";
+import {
+  authUser,
+  registerAdminUser,
+  updateUserProfile,
+} from "../Controllers/AuthController.js";
+import { protect } from "../Middlewares/AuthMiddleware.js";
+const router = express.Router();
 
-router.post("/signup", Signup);
-router.post("/login", Login);
-router.post('/',userVerification)
+router.route("/regadmin").post(registerUser);
+router.post("/login", authUser);
+router.route("/profile").post(protect, updateUserProfile);
 
-module.exports = router;
+export default router;
+
+
+
+
+
+
+
+
+
+
+
+
+// const { Signup, Login } = require("../Controllers/AuthController");
+// const {userVerification} = require("../Middlewares/AuthMiddleware");
+// const router = require("express").Router();
+
+// router.post("/signup", Signup);
+// router.post("/login", Login);
+// router.post('/',userVerification)
+
+// module.exports = router;
