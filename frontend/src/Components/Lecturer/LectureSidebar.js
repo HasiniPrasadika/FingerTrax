@@ -2,20 +2,22 @@ import React from 'react';
 import { useCookies } from "react-cookie";
 
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from "react-redux";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import '../Admin/Admin.css';
+import { logout } from "../userActions";
 
 const LectureSidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
+  const dispatch = useDispatch();
+   // Destructure removeCookie correctly
 
-  const handleLogout = () => {
-    removeCookie("token");
-    navigate("/login");
+   const handleLogout = () => {
+    dispatch(logout());
+    navigate('/'); // Redirect to login page after logout
   };
 
   const menuItem = [
