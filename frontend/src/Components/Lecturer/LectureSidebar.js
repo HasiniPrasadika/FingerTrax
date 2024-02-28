@@ -2,7 +2,7 @@ import React from 'react';
 import { useCookies } from "react-cookie";
 
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from "react-redux";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
@@ -12,12 +12,12 @@ import { logout } from "../userActions";
 
 const LectureSidebar = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
    // Destructure removeCookie correctly
 
    const handleLogout = () => {
-    logout(); // Dispatch the logout action to clear user data
-    localStorage.removeItem('userInfo'); // Clear user data from local storage
-    navigate('/login'); // Redirect to the login page after logout
+    dispatch(logout());
+    navigate('/login'); // Redirect to login page after logout
   };
 
   const menuItem = [

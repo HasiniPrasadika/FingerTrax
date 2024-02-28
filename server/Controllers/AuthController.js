@@ -17,6 +17,7 @@ const authUser = asyncHandler(async (req, res) => {
       userName: user.userName,
       password: user.password,
       role: user.role,
+      image: user.image,
       token: generateToken(user._id),
     });
   } else {
@@ -58,6 +59,89 @@ const registerAdminUser = asyncHandler(async (req, res) => {
   }
 });
 
+//@description     Register new lecturer user
+//@route           POST /api/users/
+//@access          Public
+const registerLecUser = asyncHandler(async (req, res) => {
+  const { userName, password, fullName, depName, image, regNo } = req.body;
+
+  const userExists = await User.findOne({ userName });
+
+  if (userExists) {
+    res.status(404);
+    throw new Error("User already exists");
+  }
+
+  const user = await User.create({
+    userName,
+    password,
+    fullName,
+    depName,
+    image,
+    regNo,
+    role : "lecturer",
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      userName: user.userName,
+      password: user.password,
+      role: user.role,
+      fullName: user.fullName,
+      depName: user.fullName,
+      image: user.image,
+      regNo: user.regNo,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
+});
+
+const registerStuUser = asyncHandler(async (req, res) => {
+  const { userName, password, fullName, depName, image, regNo, fingerprintID, batch } = req.body;
+
+  const userExists = await User.findOne({ userName });
+
+  if (userExists) {
+    res.status(404);
+    throw new Error("User already exists");
+  }
+
+  const user = await User.create({
+    userName,
+    password,
+    fullName,
+    depName,
+    image,
+    regNo,
+    fingerprintID,
+    batch,
+    role : "student",
+  });
+
+  if (user) {
+    res.status(201).json({
+      _id: user._id,
+      userName: user.userName,
+      password: user.password,
+      role: user.role,
+      fullName: user.fullName,
+      depName: user.fullName,
+      image: user.image,
+      regNo: user.regNo,
+      fingerprintID: user.fingerprintID,
+      batch: user.batch,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
+});
+
 // @desc    GET user profile
 // @route   GET /api/users/profile
 // @access  Private
@@ -88,7 +172,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { authUser, updateUserProfile, registerAdminUser };
+module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser };
 
 
 
