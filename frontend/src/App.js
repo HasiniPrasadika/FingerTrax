@@ -33,9 +33,9 @@ const App = () => {
 
   useEffect(() => {
     // Update the state based on the current URL path
-    setHeader(location.pathname !== '/login' && location.pathname !== '/signup');
-    setSidebar(location.pathname !== '/login' && location.pathname !== '/signup');
-    setTitle(location.pathname === '/login' || location.pathname === '/signup');
+    setHeader(location.pathname !== '/' && location.pathname !== '/signup');
+    setSidebar(location.pathname !== '/' && location.pathname !== '/signup');
+    setTitle(location.pathname === '/' || location.pathname === '/signup');
   }, [location]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const App = () => {
       {hasSidebar && <Sidebar />}
 
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
         

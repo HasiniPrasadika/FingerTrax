@@ -107,7 +107,7 @@ const Student = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/login");
+      alert("student added succesfully");
     }
   }, [userInfo]);
 

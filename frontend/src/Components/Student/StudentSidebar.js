@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCookies } from "react-cookie";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../userActions";
 import { FaTh } from "react-icons/fa";
@@ -11,12 +11,12 @@ import '../Admin/Admin.css';
 
 const StudentSidebar = ({ children }) => {
   const navigate = useNavigate();
-  // Destructure removeCookie correctly
+  const dispatch = useDispatch();
+   // Destructure removeCookie correctly
 
-  const handleLogout = () => {
-    logout(); // Dispatch the logout action to clear user data
-    localStorage.removeItem('userInfo'); // Clear user data from local storage
-    navigate('/login'); // Redirect to the login page after logout
+   const handleLogout = () => {
+    dispatch(logout());
+    navigate('/'); // Redirect to login page after logout
   };
 
   const menuItem = [

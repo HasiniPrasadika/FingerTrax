@@ -17,7 +17,7 @@ const LectureSidebar = ({ children }) => {
 
    const handleLogout = () => {
     dispatch(logout());
-    navigate('/login'); // Redirect to login page after logout
+    navigate('/'); // Redirect to login page after logout
   };
 
   const menuItem = [

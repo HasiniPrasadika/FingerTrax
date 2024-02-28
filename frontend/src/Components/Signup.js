@@ -23,7 +23,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/login");
+      navigate("/");
     }
   }, [userInfo]);
 
@@ -124,7 +124,7 @@ const Signup = () => {
         
         <button type="submit">Submit</button>
         <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
+          Already have an account? <Link to={"/"}>Login</Link>
         </span>
       </form>
       <ToastContainer />
