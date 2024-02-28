@@ -1,83 +1,57 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "../Components/Loading";
+import ErrorMessage from "../Components/ErrorMessage";
+import { login } from "../Components/userActions";
 import { toast } from "react-toastify";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    username: "",
-    password: "",
-  });
+  const [userName, setuserName] = useState("");
+  const [password, setpassword] = useState("");
 
-  // Destructuring username and password from inputValue
-  const { username, password } = inputValue;
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo) {
+      switch (userInfo.role) {
+        case 'admin':
+          navigate('/admindashboard');
+          break;
+        case 'lecturer':
+          navigate('/lecturerdashboard');
+          break;
+        case 'student':
+          navigate('/studentdashboard');
+          break;
+        default:
+          break;
+      }
+    }
+  }, [userInfo, navigate]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(userName, password));
+    
+  };
 
   // Function to handle input change
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
+  
 
   // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "http://localhost:8070/login",
-        { ...inputValue, },
-        { withCredentials: true }
-      );
-      console.log(data);
-
-      const { success, message, role } = data;
-      if (success) {
-        handleSuccess(message);
-        
-        switch (role) {
-          case "admin":
-            navigate("/admindashboard");
-            break;
-          case "lecturer":
-            navigate("/lecturerdashboard");
-            break;
-          case "student":
-            navigate("/studentdashboard");
-            break;
-          default:
-            break;
-        }
-      } else {
-        handleError(message);
-      }
-    } catch (error) {
-        console.log(error);
-    } finally {
-      // Reset input values after form submission
-      setInputValue({
-        ...inputValue,
-        username: "",
-        password: "",
-      });
-    }
-  };
-
+  
   // Function to handle success toast and redirection based on user role
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-right",
-    });
+  
 
   // Function to handle error toast
-  const handleError = (err) =>
-  toast.error(err, {
-    position: "bottom-left",
-  });
-
+  
   // Function to display toast messages
  
 
@@ -100,15 +74,17 @@ const Login = () => {
         </div>
 
         <div className="form_container">
-          <form onSubmit={handleSubmit}>
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+        {loading && <Loading />}
+          <form onSubmit={submitHandler}>
             <div>
               <label htmlFor="username">Username</label>
               <input
                 type="text"
                 name="username"
-                value={username}
+                value={userName}
                 placeholder="Enter your username"
-                onChange={handleOnChange}
+                onChange={(e) => setuserName(e.target.value)}
                 required // Adding required attribute
               />
             </div>
@@ -119,7 +95,7 @@ const Login = () => {
                 name="password"
                 value={password}
                 placeholder="Enter your password"
-                onChange={handleOnChange}
+                onChange={(e) => setpassword(e.target.value)}
                 required // Adding required attribute
               />
             </div>
