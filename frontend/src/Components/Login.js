@@ -21,21 +21,20 @@ const Login = () => {
   useEffect(() => {
     if (userInfo) {
       switch (userInfo.role) {
-        case "admin":
-          navigate("/admindashboard");
+        case 'admin':
+          navigate('/admindashboard');
           break;
-        case "lecturer":
-          navigate("/lecturerdashboard");
+        case 'lecturer':
+          navigate('/lecturerdashboard');
           break;
-        case "student":
-          navigate("/studentdashboard");
+        case 'student':
+          navigate('/studentdashboard');
           break;
         default:
           break;
       }
-      
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

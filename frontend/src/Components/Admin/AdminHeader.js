@@ -1,7 +1,11 @@
 import React from 'react';
 import { RiMenuLine } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+
+    const { userInfo } = useSelector(state => state.userLogin);
+
     return (
         <div className='header'>
             <div className='header-content'>

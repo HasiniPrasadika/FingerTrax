@@ -2,7 +2,7 @@ import React from 'react';
 import { useCookies } from "react-cookie";
 
 import { useNavigate } from 'react-router-dom';
-
+import { logout } from "../userActions";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
@@ -11,11 +11,12 @@ import '../Admin/Admin.css';
 
 const StudentSidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
+  // Destructure removeCookie correctly
 
   const handleLogout = () => {
-    removeCookie("token");
-    navigate("/login");
+    logout(); // Dispatch the logout action to clear user data
+    localStorage.removeItem('userInfo'); // Clear user data from local storage
+    navigate('/login'); // Redirect to the login page after logout
   };
 
   const menuItem = [

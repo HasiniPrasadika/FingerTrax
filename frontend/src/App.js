@@ -76,7 +76,7 @@ const App = () => {
 
         <Route path="/lecturerdashboard" element={<DashboardL />} />
         <Route path='/lecture_create_module' element ={<CreateModule/>}/>
-        <Route path = 'lecture_Absence_applications' element ={<AbsenceAppicationView/>}/>
+        <Route path = '/lecture_Absence_applications' element ={<AbsenceAppicationView/>}/>
         <Route path='/lecture_module_access' element ={<ModuleAccess/>}/>
       </Routes>
     </div>

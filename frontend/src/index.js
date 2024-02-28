@@ -6,7 +6,10 @@ import App from './App';
 import { Provider } from "react-redux";
 import './index.css';
 import store from "./store";
+import { loadUser } from './Components/userActions';
 
+// Dispatch the loadUser action when the application initializes
+store.dispatch(loadUser());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

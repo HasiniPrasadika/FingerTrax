@@ -23,7 +23,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/admindashboard");
+      navigate("/login");
     }
   }, [userInfo]);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCookies } from "react-cookie";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../userActions";
 import { FaTh } from "react-icons/fa";
@@ -11,12 +11,13 @@ import './Admin.css';
 
 const AdminSidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
+  const dispatch = useDispatch();
+   // Destructure removeCookie correctly
+   const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login'); // Redirect to login page after logout
   };
+   
 
   const menuItem = [
     {

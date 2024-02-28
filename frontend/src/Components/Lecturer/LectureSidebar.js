@@ -8,14 +8,16 @@ import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import '../Admin/Admin.css';
+import { logout } from "../userActions";
 
 const LectureSidebar = ({ children }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Destructure removeCookie correctly
+   // Destructure removeCookie correctly
 
-  const handleLogout = () => {
-    removeCookie("token");
-    navigate("/login");
+   const handleLogout = () => {
+    logout(); // Dispatch the logout action to clear user data
+    localStorage.removeItem('userInfo'); // Clear user data from local storage
+    navigate('/login'); // Redirect to the login page after logout
   };
 
   const menuItem = [

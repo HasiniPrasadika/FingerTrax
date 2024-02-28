@@ -12,6 +12,17 @@ import {
   } from "../Components/userConstants";
   import axios from "axios";
   
+// Function to dispatch login action with user data from localStorage if available
+export const loadUser = () => async (dispatch) => {
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
+  if (userInfoFromStorage) {
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: userInfoFromStorage });
+  }
+};
+
   export const login = (userName, password) => async (dispatch) => {
     try {
       dispatch({ type: USER_LOGIN_REQUEST });
