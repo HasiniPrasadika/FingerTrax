@@ -5,6 +5,7 @@ const app = express();
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
+const depRoute = require("./Routes/DepRoute")
 
 const PORT = process.env.PORT || 8070;
 const URL = process.env.MONGODB_URL;
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/users", authRoute);
+app.use("/api/departments", depRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
