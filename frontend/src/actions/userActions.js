@@ -9,7 +9,7 @@ import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
-  } from "../Components/userConstants";
+  } from "../constants/userConstants";
   import axios from "axios";
   
 // Function to dispatch login action with user data from localStorage if available

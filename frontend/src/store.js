@@ -2,12 +2,15 @@ import { combineReducers, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import {thunk} from "redux-thunk"; // Correct import statement
 import { composeWithDevTools } from "@redux-devtools/extension"; // Correct import statement
-
+import {
+  depAddReducer,
+  depListReducer,
+} from "./reducers/depReducer";
 import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
-} from "../src/Components/reducers";
+} from "./reducers/userReducer";
 
 const rootReducer = combineReducers({
   userLogin: userLoginReducer,
@@ -15,6 +18,8 @@ const rootReducer = combineReducers({
   userUpdate: userUpdateReducer,
   lecUserRegister: userRegisterReducer,
   stuUserRegister: userRegisterReducer,
+  depAdd: depAddReducer,
+  depList: depListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

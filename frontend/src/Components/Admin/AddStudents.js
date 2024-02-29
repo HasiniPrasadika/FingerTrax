@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import { registerstu } from "../userActions";
+import { registerstu } from "../../actions/userActions";
 import { GoTriangleRight } from "react-icons/go";
 import "./Admin.css";
 

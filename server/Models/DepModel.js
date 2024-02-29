@@ -4,7 +4,7 @@ const departmentSchema = mongoose.Schema({
   depCode: {
     type: String,
     unique: true,
-    required: true,
+   
   },
   depName: {
     type: String,

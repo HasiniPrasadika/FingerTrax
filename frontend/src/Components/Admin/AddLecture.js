@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-import { registerlec } from "../userActions";
+import { registerlec } from "../../actions/userActions";
 import "./Admin.css";
 
 const originData = [];

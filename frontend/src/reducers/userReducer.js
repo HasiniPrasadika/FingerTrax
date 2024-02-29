@@ -9,7 +9,7 @@ import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
-  } from "../Components/userConstants";
+  } from "../constants/userConstants";
   
   export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {

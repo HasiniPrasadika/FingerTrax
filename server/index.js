@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/users", authRoute);
+app.use("/api/departments", depRoute);
 
 
 app.listen(PORT, () => {
