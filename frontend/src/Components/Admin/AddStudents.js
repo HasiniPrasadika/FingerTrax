@@ -65,7 +65,7 @@ const Student = () => {
   const [batch, setbatch] = useState("");
   const [fingerprintID, setfingerprintID] = useState("");
   const [image, setimage] = useState(
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+    ""
   );
 
   const [message, setMessage] = useState(null);
@@ -76,40 +76,20 @@ const Student = () => {
   const stuUserRegister = useSelector((state) => state.stuUserRegister);
   const { loading, error, userInfo } = stuUserRegister;
 
-  const postDetails = (images) => {
-    if (
-      images ===
-      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-    ) {
-      return setimageMessage("Please Select an Image");
-    }
-    setimageMessage(null);
-    if (images.type === "image/jpeg" || images.type === "image/png") {
-      const data = new FormData();
-      data.append("file", images);
-      data.append("upload_preset", "l6wkf7bk");
-      data.append("cloud_name", "dulot5x51");
-      fetch("https://api.cloudinary.com/v1_1/dulot5x51/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setimage(data.url.toString());
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      return setimageMessage("Please Select an Image");
-    }
-  };
+  const handleImage = (e) =>{
+    const file = e.target.files[0];
+    setFileToBase(file);
+    console.log(file);
+  }
 
-  useEffect(() => {
-    if (userInfo) {
-      alert("student added succesfully");
+  const setFileToBase = (file) =>{
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () =>{
+      setimage(reader.result);
     }
-  }, [userInfo]);
+  }
+  
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -360,7 +340,7 @@ const Student = () => {
                   
                     className="form-control"
                     placeholder="Name"
-                    onChange={(e) => postDetails(e.target.files[0])}
+                    onChange={handleImage}
                   />
                 </div>
                 {/* <div className="form-group">

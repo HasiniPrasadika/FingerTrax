@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserModel.js");
 const generateToken = require("../util/SecretToken.js");
+const cloudinary = require("../util/Cloudinary.js");
 
 
 //@description     Auth the user
@@ -71,13 +72,18 @@ const registerLecUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User already exists");
   }
-
+  const result = await cloudinary.uploader.upload(image, {
+    folder: "users"
+  })
   const user = await User.create({
     userName,
     password,
     fullName,
     depName,
-    image,
+    image: {
+      public_id: result.public_id,
+      url: result.secure_url
+    },
     regNo,
     role : "lecturer",
   });
@@ -95,8 +101,9 @@ const registerLecUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(400);
-    throw new Error("User not found");
+    console.error("Error registering lecturer:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+    
   }
 });
 
@@ -109,13 +116,18 @@ const registerStuUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User already exists");
   }
-
+  const result = await cloudinary.uploader.upload(image, {
+    folder: "users"
+  })
   const user = await User.create({
     userName,
     password,
     fullName,
     depName,
-    image,
+    image: {
+      public_id: result.public_id,
+      url: result.secure_url
+    },
     regNo,
     fingerprintID,
     batch,
@@ -137,8 +149,8 @@ const registerStuUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(400);
-    throw new Error("User not found");
+    console.error("Error registering lecturer:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
