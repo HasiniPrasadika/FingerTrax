@@ -1,12 +1,11 @@
 import React from 'react';
-import { useCookies } from "react-cookie";
 
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import '../Admin/Admin.css';
 import { logout } from "../userActions";
 
@@ -62,8 +61,7 @@ const LectureSidebar = ({ children }) => {
             key={index}
             className="link"
             style={{ marginLeft: '10px', marginTop: '20px', marginBottom: '20px', marginRight: '10px' }}
-            onClick={() => (item.onClick ? item.onClick() : navigate(item.path))}
-          >
+            onClick={() => (item.onClick ? item.onClick() : navigate(item.path))}>
             <div className="icon" style={{ fontSize: '25px' }}>
               {item.icon}
             </div>

@@ -1,13 +1,11 @@
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import Loading from "../Loading";
-import ErrorMessage from "../ErrorMessage";
-import { registerlec } from "../userActions";
+import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
+import { registerlec } from "../userActions";
 import "./Admin.css";
 
 const originData = [];
@@ -238,8 +236,8 @@ const Lecture = () => {
           </div>
           <div>
           {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />}
+          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+          {loading && <Loading />}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>

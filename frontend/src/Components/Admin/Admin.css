@@ -5,20 +5,17 @@
 }
 
 body {
-    height: 100vh;
-    background-color: red;
-    overflow-y: hidden;
+    background-color: #E7E7E9;
     
 }
 
 /* Sidebar */
-
 .sidebar-container{
     width: 5%;
 }
 
 .sidebar {
-    width: 20%; 
+    width: 20%;
     background: #003566;
     height: 100vh;
     transition: all 0.5s;
@@ -29,7 +26,6 @@ body {
     margin: 7px;
     overflow: hidden; /* Prevent zoom effect */
 }
-
 
 .top_section {
     display: flex;
@@ -130,8 +126,10 @@ body {
 }
 
 /* Dashboard */
+
 .dashboard-container {
-    display: grid;
+
+    display: block;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr;
     background-color: blue;
@@ -140,7 +138,7 @@ body {
     overflow-y: scroll;
     overflow-x: scroll;
     scrollbar-width: thin;
-  scrollbar-color: rgb(207, 208, 230) transparent;
+    scrollbar-color: rgb(207, 208, 230) transparent;
 }
 
 .ruhuna-details {
@@ -190,16 +188,18 @@ body {
     height: 70%;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr ;
-  
+    grid-template-columns: 1fr;
 }
+
 /*Dashboard Count*/
+
 .count-container{
     display: grid;
     grid-template-columns: 1fr ;
     grid-gap: 20px;
     margin: 10px 0px 0px 20px;
 }
+
 .count{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -221,6 +221,7 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     grid-template-columns: 1fr;
 }
+
 .student{
     width: 150px;
     height: 150px;
@@ -231,7 +232,6 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
 }
-
 
 /* Lecture*/
 .lecture-container{
@@ -249,7 +249,7 @@ body {
     overflow-y: scroll;
     overflow-x: scroll;
     scrollbar-width: thin;
-  scrollbar-color: rgb(207, 208, 230) transparent;
+    scrollbar-color: rgb(207, 208, 230) transparent;
 }
 
 .lecture-second-container{
@@ -266,7 +266,7 @@ body {
     background-color: #E8F4FF;
     width: auto;
     height: auto;
-    margin: 10px 5px 5px 5px;
+    margin: 10px 5px 5px 15px;
     border-radius: 15px;
     padding: 20px;
 
@@ -326,8 +326,42 @@ body {
     .camera-icon i {
         color: #333;
     }
+
 .editable-row .ant-form-item-explain {
     position: absolute;
     top: 100%;
     font-size: 12px;
+    }
+/*Department*/
+    .dep-container{
+        display: grid;
+        grid-template-columns: 1fr ;
+        grid-gap: 20px;
+        background-color: white;
+        min-height: 550px;
+        width: auto;
+        border-radius: 10px;
+        padding-bottom: 80px;
+        margin-left: 270px;
+        margin-right: 15px;
+        height: 93vh;
+    }
+    
+    
+    .dep-details{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+        background-color: #E8F4FF;
+        width: auto;
+        height: auto;
+        margin: 15px 10px 10px 15px;
+        border-radius: 15px;
+        padding: 20px;
+    
+    }
+    
+    .form-style{
+        display: block;
+        margin:  15px 50px 20px 50px;
     }

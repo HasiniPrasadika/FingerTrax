@@ -1,9 +1,5 @@
-import axios from "axios";
-import React, { useEffect, useState } from 'react';
-import { useCookies } from "react-cookie";
+import React from 'react';
 import { GoTriangleRight } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import './Admin.css';
 import DashboardCount from './DashboardCount';
 
@@ -22,6 +18,7 @@ const Dashboard = () => {
         <div>
             <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Admin Dashboard </span>
         </div>
+
         <div className="row">
           <img src='/Images/logo_ruhuna.jpg'/>
         
