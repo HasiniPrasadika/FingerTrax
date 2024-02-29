@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, useLocation} from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { Login, Signup } from './Components';
 
+import Department from './Components/Admin/AddDepartment';
 import AddLecture from './Components/Admin/AddLecture';
 import AddStudent from './Components/Admin/AddStudents';
 import Dashboard from './Components/Admin/AdminDashboard';
@@ -69,6 +70,7 @@ const App = () => {
 
         
         <Route path="/admindashboard" element={<Dashboard />} />
+        <Route path="/admin_department" element={<Department />}/>
         <Route path="/admin_lecture_details" element={<AddLecture />} />
         <Route path="/admin_student_details" element={<AddStudent />} />
         

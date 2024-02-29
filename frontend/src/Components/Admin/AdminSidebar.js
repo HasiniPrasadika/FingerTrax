@@ -1,12 +1,11 @@
 import React from 'react';
-import { useCookies } from "react-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
-import { logout } from "../userActions";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { MdPeopleAlt } from "react-icons/md";
+import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { logout } from "../userActions";
 import './Admin.css';
 
 const AdminSidebar = ({ children }) => {
@@ -26,8 +25,13 @@ const AdminSidebar = ({ children }) => {
       icon: <FaTh />
     },
     {
+      path:"/admin_department",
+      name: "Department",
+      icon: <MdApartment />
+    },
+    {
       path: "/admin_lecture_details",
-      name: "Lecture",
+      name: "Lecturer",
       icon: <MdPeopleAlt />
     },
     {
