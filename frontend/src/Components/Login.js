@@ -1,11 +1,9 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Loading from "../Components/Loading";
 import ErrorMessage from "../Components/ErrorMessage";
+import Loading from "../Components/Loading";
 import { login } from "../Components/userActions";
-import { toast } from "react-toastify";
 import "./Login.css";
 
 const Login = () => {
@@ -25,7 +23,7 @@ const Login = () => {
           navigate('/admindashboard');
           break;
         case 'lecturer':
-          navigate('/lecturerdashboard');
+          navigate('/lecturedashboard');
           break;
         case 'student':
           navigate('/studentdashboard');
