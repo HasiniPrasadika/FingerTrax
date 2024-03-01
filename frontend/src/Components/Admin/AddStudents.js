@@ -228,7 +228,9 @@ const Student = () => {
               </div>
             </div>
             <div>
-                
+            <button style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" >
+                  Enroll Fingerprint
+                </button>
               {/* <form>
                 <div>
                   <div className="form-group" style={{ marginBottom: 10 }}>
