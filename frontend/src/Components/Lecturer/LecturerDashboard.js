@@ -1,17 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from 'react';
-import { useCookies } from "react-cookie";
+import React from 'react';
 import { GoTriangleRight } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import '../Admin/Admin.css';
-import DashboardLCount from '../Admin/DashboardCount';
-
+import { IoChevronForwardOutline } from "react-icons/io5";
+import '../Lecturer/Lecturer.css';
+import StatusBox from './ModuleStatus';
 
 const DashboardL = () => {
-
-  
-  
 
   return (
     <div className="dashboard">
@@ -32,25 +25,22 @@ const DashboardL = () => {
         </div>
         </div>
 
-    <div className="second-row-container">
-        <div className="item">
-          <DashboardLCount></DashboardLCount>
-        </div>
-        <div className="item">
-        <DashboardLCount></DashboardLCount>
-        </div>
-        <div className="item">
-        <DashboardLCount></DashboardLCount>
-        </div>
-        <div className="item">
-        <DashboardLCount></DashboardLCount>
-        </div>
-
+        <div className="lecturer-second-row-container">
+          <div className='sub-topics'>
+            <h4 style={{fontWeight:'bold'}}>Enrolled Status</h4>
+            <label style={{fontSize:"13px"}}><span ><IoChevronForwardOutline /><IoChevronForwardOutline /><IoChevronForwardOutline /></span>Department of Electrical Engineering</label>
+          </div>
+          <div className='module-container'>
+          
+          <StatusBox></StatusBox>
+          <StatusBox></StatusBox>
+          <StatusBox></StatusBox>
+          <StatusBox></StatusBox>
+          <StatusBox></StatusBox>
+          <StatusBox></StatusBox>
+          </div>
+      </div>
     </div>
-    
-
-    
-</div>
   );
 };
 
