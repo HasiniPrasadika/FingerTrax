@@ -7,7 +7,7 @@ import { PiStudentBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import '../Admin/Admin.css';
-import { logout } from "../userActions";
+import { logout } from "../../actions/userActions";
 
 const LectureSidebar = ({ children }) => {
   const navigate = useNavigate();

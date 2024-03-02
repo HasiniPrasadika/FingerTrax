@@ -5,7 +5,7 @@ import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { logout } from "../userActions";
+import { logout } from "../../actions/userActions";
 import './Admin.css';
 
 const AdminSidebar = ({ children }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { logout } from "../userActions";
+import { logout } from "../../actions/userActions";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { MdPeopleAlt } from "react-icons/md";

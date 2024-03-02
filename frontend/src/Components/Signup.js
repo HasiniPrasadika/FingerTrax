@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../Components/Loading";
 import ErrorMessage from "../Components/ErrorMessage";
-import { register } from "../Components/userActions";
+import { register } from "../actions/userActions";
 import { ToastContainer, toast } from "react-toastify";
 
 const Signup = () => {
