@@ -9,6 +9,7 @@ import ErrorMessage from "../ErrorMessage";
 import { registerstu } from "../../actions/userActions";
 import { GoTriangleRight } from "react-icons/go";
 import "./Admin.css";
+import axios from "axios";
 
 const originData = [];
 for (let i = 0; i < 5; i++) {
@@ -206,6 +207,24 @@ const Student = () => {
       }),
     };
   });
+  const enrollFingerprint = async (fingerprintID) => {
+    try {
+      // Make a POST request to your backend API endpoint
+      const response = await axios.post("http://localhost:8070/enrollFingerprint", { fingerprintID });
+  
+      // Check if the request was successful
+      if (response.status === 200) {
+        // Fingerprint enrolled successfully
+        console.log("Fingerprint enrolled successfully");
+      } else {
+        // Handle other status codes if needed
+        console.error("Failed to enroll fingerprint");
+      }
+    } catch (error) {
+      // Handle any errors that occur during the request
+      console.error("Error enrolling fingerprint:", error);
+    }
+  };
 
   return (
     <div className="lecture-container" style={{ overflowX: "auto" }}>
@@ -228,7 +247,7 @@ const Student = () => {
               </div>
             </div>
             <div>
-            <button style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" >
+            <button style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" onClick={enrollFingerprint} >
                   Enroll Fingerprint
                 </button>
               {/* <form>
