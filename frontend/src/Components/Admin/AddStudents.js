@@ -221,24 +221,7 @@ const Student = () => {
       }),
     };
   });
-  const enrollFingerprint = async (fingerprintID) => {
-    try {
-      // Make a POST request to your backend API endpoint
-      const response = await axios.post("http://localhost:8070/enrollFingerprint", { fingerprintID });
   
-      // Check if the request was successful
-      if (response.status === 200) {
-        // Fingerprint enrolled successfully
-        console.log("Fingerprint enrolled successfully");
-      } else {
-        // Handle other status codes if needed
-        console.error("Failed to enroll fingerprint");
-      }
-    } catch (error) {
-      // Handle any errors that occur during the request
-      console.error("Error enrolling fingerprint:", error);
-    }
-  };
 
   const enrollFingerprint = async () => {
     try {
