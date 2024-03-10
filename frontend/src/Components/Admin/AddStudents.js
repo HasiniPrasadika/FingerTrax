@@ -112,7 +112,8 @@ const Student = () => {
             </h3>
             <div className="profile-photo-preview">
               <div style={{ position: "relative", display: "inline-block" }}>
-                <img src={image} alt="Profile" />
+                
+                <img src={image ? image : '/Images/profile.webp'} alt="Profile" />
                 
               </div>
             </div>

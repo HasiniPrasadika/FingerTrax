@@ -16,6 +16,7 @@ const Header = () => {
             <span className='admin-name'>{userInfo ? userInfo.userName : 'Admin Name'}</span>
             <img src={'/Images/1.jpeg'} alt='Admin' className='admin-image'/>
             
+            
         </div>
         </div>
     );
