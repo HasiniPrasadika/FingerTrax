@@ -36,11 +36,10 @@ const Lecture = () => {
   const { lecloading, lecerror, lecusers } = lecuserList;
 
   useEffect(() => {
-    dispatch(listLecUsers());
-  }, [dispatch]);
-  useEffect(() => {
     dispatch(listDepartments());
-  }, [dispatch]);
+    dispatch(listLecUsers());
+  }, [dispatch, dispatch]);
+  
 
   const [message, setMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
@@ -61,13 +60,27 @@ const Lecture = () => {
       setimage(reader.result);
     };
   };
+  const resetHandler = () => {
+    setfullName("");
+    setregNo("");
+    setuserName("");
+    setpassword("");
+    setimage('/Images/profile.webp');
+    setMessage(null);
+  };
 
   const submitHandler = (e) => {
-    e.preventDefault();
+       
+    try{
+      e.preventDefault();
+      dispatch(
+        registerlec(userName, password, role, fullName, depName, regNo, image)
+      );
+      setMessage("Lecturer Added successfully!");
 
-    dispatch(
-      registerlec(userName, password, role, fullName, depName, regNo, image)
-    );
+    } catch (error) {
+      setMessage("Failed to add Lecturer!");
+    }
   };
 
   return (
@@ -89,9 +102,9 @@ const Lecture = () => {
             </div>
           </div>
           <div>
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {loading && <Loading />}
+            
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -132,15 +145,24 @@ const Lecture = () => {
                     value={depName}
                     onChange={(value) => setdepName(value)}
                     placeholder="Select department"
+                    style={{ width: '300px' }}
                   >
-                    {departments.map((department, depindex) => (
-                      <Select.Option
-                        key={depindex}
-                        value={department.depName}
-                      >
-                        {department.depName}
-                      </Select.Option>
-                    ))}
+                    {deploading? (
+                      <Loading/>
+                    ) : deperror ? (
+                      <ErrorMessage message={deperror} />
+                    ) : (
+                      departments.map((department, depindex) => (
+                        <Select.Option
+                          key={depindex}
+                          value={department.depName}
+                        >
+                          {department.depName}
+                        </Select.Option>
+                      ))
+
+                    )}
+                    
                   </Select>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -184,6 +206,7 @@ const Lecture = () => {
                     type="submit"
                     className="btn btn-primary"
                     style={{ backgroundColor: "gray" }}
+                    onClick={resetHandler}
                   >
                     Reset
                   </button>
@@ -210,8 +233,8 @@ const Lecture = () => {
                 </tr>
               </thead>
               <tbody>
-                {lecusers.map((lecturer, index) => (
-                  <tr key={index}>
+                {lecusers.map((lecturer) => (
+                  <tr key={lecturer._id}>
                     <td>{lecturer.fullName}</td>
                     <td>{lecturer.userName}</td>
                     <td>{lecturer.regNo}</td>
