@@ -10,47 +10,6 @@ import "./Admin.css";
 import {listLecUsers} from "../../actions/userActions";
 
 
-const originData = [];
-for (let i = 0; i < 100; i++) {
-  originData.push({
-    key: i.toString(),
-    Fullname: `Edward ${i}`,
-    Username: `Edward@${i}`,
-    Department: `Department of Computer Engineering`,
-  });
-}
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
 
 const Lecture = () => {
     const navigate = useNavigate();
@@ -101,108 +60,6 @@ const Lecture = () => {
     dispatch(registerlec(userName, password, role, fullName, depName, regNo, image));
   };
 
-  const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
-  const [editingKey, setEditingKey] = useState("");
-  const isEditing = (record) => record.key === editingKey;
-  const edit = (record) => {
-    form.setFieldsValue({
-      Fullname: "",
-      Username: "",
-      Department: "",
-      ...record,
-    });
-    setEditingKey(record.key);
-  };
-  const cancel = () => {
-    setEditingKey("");
-  };
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
-    }
-  };
-  const columns = [
-    {
-      title: "Fullname",
-      dataIndex: "Fullname",
-      width: "20%",
-      editable: true,
-    },
-    {
-      title: "Username",
-      dataIndex: "Username",
-      width: "20%",
-      editable: true,
-    },
-    {
-      title: "Department",
-      dataIndex: "Department",
-      width: "40%",
-      editable: true,
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
-        );
-      },
-    },
-  ];
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "age" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
 
   return (
     <div className="lecture-container">
@@ -322,23 +179,21 @@ const Lecture = () => {
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Lecturers</h3>
-          <Form form={form} component={false}>
-            <Table
-              style={{ width: "auto" }}
-              components={{
-                body: {
-                  cell: EditableCell,
-                },
-              }}
-              bordered
-              dataSource={data}
-              columns={mergedColumns}
-              rowClassName="editable-row"
-              pagination={{
-                onChange: cancel,
-              }}
-            />
-          </Form>
+          
+      <ul>
+        {lecloading ? (
+          <Loading/>
+        ) : lecerror ? (
+          <ErrorMessage message = {lecerror} />
+        ) : (lecusers.map((lecturer, index) => (
+          <li key={index}>
+            <p>Full Name: {lecturer.fullName}</p>
+            <p>Username: {lecturer.userName}</p>
+            <p>Department: {lecturer.depName}</p>
+          </li>
+        )))}
+        
+      </ul>
         </div>
       </div>
     </div>

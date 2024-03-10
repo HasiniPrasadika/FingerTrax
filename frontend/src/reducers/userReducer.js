@@ -54,15 +54,31 @@ import {
         return state;
     }
   };
-  export const lecuserListReducer = (state = { lecusers: [] }, action) => {
+  const initialState = {
+    lecloading: false,
+    lecerror: null,
+    lecusers: [],
+  };
+  
+  export const lecuserListReducer = (state = initialState, action) => {
     switch (action.type) {
       case LECUSERS_LIST_REQUEST:
-        return { loading: true };
+        return {
+          ...state,
+          lecloading: true,
+        };
       case LECUSERS_LIST_SUCCESS:
-        return { loading: false, lecusers: action.payload };
+        return {
+          ...state,
+          lecloading: false,
+          lecusers: action.payload,
+        };
       case LECUSERS_LIST_FAIL:
-        return { loading: false, error: action.payload };
-  
+        return {
+          ...state,
+          lecloading: false,
+          lecerror: action.payload,
+        };
       default:
         return state;
     }
