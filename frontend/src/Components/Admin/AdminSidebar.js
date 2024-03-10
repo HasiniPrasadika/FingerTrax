@@ -16,6 +16,7 @@ const AdminSidebar = ({ children }) => {
     dispatch(logout());
     navigate('/'); // Redirect to login page after logout
   };
+  
    
 
   const menuItem = [

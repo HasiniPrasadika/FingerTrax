@@ -1,6 +1,6 @@
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
+import { Form, Input, InputNumber, Popconfirm, Table, Typography, Select} from "antd";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,15 +10,11 @@ import { registerstu } from "../../actions/userActions";
 import { GoTriangleRight } from "react-icons/go";
 import "./Admin.css";
 import { listStuUsers } from "../../actions/userActions";
+import { listDepartments } from "../../actions/depActions";
 
 import axios from 'axios';
 import {fireDb} from "../../firebase";
 import { ref, set } from "firebase/database";
-
-
-
-
-
 
 const Student = () => {
   const navigate = useNavigate();
@@ -35,11 +31,16 @@ const Student = () => {
     ""
   );
 
+
+
+  const departmentList = useSelector((state) => state.depList);
+  const { deploading, deperror, departments } = departmentList;
   
   const stuuserList = useSelector((state) => state.stuuserList);
   const {stuloading, stuerror, stuusers} = stuuserList;
 
   useEffect(() => {
+    dispatch(listDepartments());
     dispatch(listStuUsers());
   }, [dispatch]);
 
@@ -67,12 +68,30 @@ const Student = () => {
       setimage(reader.result);
     }
   }
+  const resetHandler = () => {
+    setfullName("");
+    setregNo("");
+    setuserName("");
+    setpassword("");
+    setfingerprintID("");
+    setbatch("");
+    setimage('/Images/profile.webp');
+    setMessage(null);
+  };
   
 
   const submitHandler = (e) => {
-    e.preventDefault();
+    
+    try{
+      e.preventDefault();
+      dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
+      setMessage("Student Added successfully!");
 
-    dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
+    } catch (error) {
+      setMessage("Failed to add Student!");
+    }
+
+    
   };
 
   
@@ -88,9 +107,9 @@ const Student = () => {
         arduinoState: "1"
       })
       
-      setMessage("Fingerprint enrolled successfully");
+      setMessage("Fingerprint enrolled successfully!");
     } catch (error) {
-      setMessage("Failed to enroll fingerprint");
+      setMessage("Failed to enroll fingerprint!");
       console.error(error);
     }
   };
@@ -127,9 +146,8 @@ const Student = () => {
             </div>
           </div>
           <div>
-          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+          
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -176,13 +194,29 @@ const Student = () => {
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Department Name</label>
-                  <input
-                    type="text"
+                  <Select
                     value={depName}
-                    className="form-control"
-                    placeholder="Name"
-                    onChange={(e) => setdepName(e.target.value)}
-                  />
+                    onChange={(value) => setdepName(value)}
+                    placeholder="Select department"
+                    style={{ width: '300px' }}
+                  >
+                    {deploading? (
+                      <Loading/>
+                    ) : deperror ? (
+                      <ErrorMessage message={deperror} />
+                    ) : (
+                      departments.map((department, depindex) => (
+                        <Select.Option
+                          key={depindex}
+                          value={department.depName}
+                        >
+                          {department.depName}
+                        </Select.Option>
+                      ))
+
+                    )}
+                    
+                  </Select>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Fingerprint ID</label>
@@ -243,6 +277,7 @@ const Student = () => {
                     type="submit"
                     className="btn btn-primary"
                     style={{ backgroundColor: "gray" }}
+                    onClick={resetHandler}
                   >
                     Reset
                   </button>

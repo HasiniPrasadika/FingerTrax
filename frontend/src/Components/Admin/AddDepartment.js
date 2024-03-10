@@ -10,7 +10,7 @@ const Department = () => {
   const [depName, setdepName] = useState("");
   const [noOfStu, setnoOfStu] = useState("");
   const [noOfLec, setnoOfLec] = useState("");
-
+  const [message, setMessage] = useState(null);
   const dispatch = useDispatch();
 
   const depAdd = useSelector((state) => state.depAdd);
@@ -24,10 +24,19 @@ const Department = () => {
     setnoOfStu("");
     setnoOfLec("");
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(addDepAction(depCode, depName, noOfStu, noOfLec));
+  const submitHandler = (e) => {   
     
+    try{
+      e.preventDefault();
+      dispatch(addDepAction(depCode, depName, noOfStu, noOfLec));
+      setMessage("Department Added successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+
+    } catch (error) {
+      setMessage("Failed to add Department!");
+    }
 
     
   };
@@ -48,8 +57,8 @@ const Department = () => {
           </h3>
         </div>
         <div className="dep-details">
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
           <form onSubmit={submitHandler} className="form-style">
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             <div className="form-group row">
               <label
                 htmlFor="departmentCode"
@@ -124,7 +133,7 @@ const Department = () => {
             </div>
             <div className="form-group row">
               <div className="col-sm-10 ">
-              {loading && <Loading size={50} />}
+              
                 <button  type="submit" className="btn btn-primary">
                   Add
                 </button>
