@@ -11,7 +11,10 @@ import {
     USER_UPDATE_SUCCESS,
     LECUSERS_LIST_REQUEST,
     LECUSERS_LIST_SUCCESS,
-    LECUSERS_LIST_FAIL
+    LECUSERS_LIST_FAIL,
+    STUUSERS_LIST_REQUEST,
+    STUUSERS_LIST_SUCCESS,
+    STUUSERS_LIST_FAIL
 
 
   } from "../constants/userConstants";
@@ -219,6 +222,38 @@ export const loadUser = () => async (dispatch) => {
           : error.message;
       dispatch({
         type: LECUSERS_LIST_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+  export const listStuUsers = () => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: STUUSERS_LIST_REQUEST,
+      });
+  
+      
+  
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+  
+      const { data } = await axios.get("http://localhost:8070/api/users/getstuusers", config);
+  
+      dispatch({
+        type: STUUSERS_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch({
+        type: STUUSERS_LIST_FAIL,
         payload: message,
       });
     }

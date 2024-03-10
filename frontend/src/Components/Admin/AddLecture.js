@@ -1,4 +1,12 @@
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Table,
+  Typography,
+  Select,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,22 +15,22 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import { registerlec } from "../../actions/userActions";
 import "./Admin.css";
-import {listLecUsers} from "../../actions/userActions";
-
-
+import { listLecUsers } from "../../actions/userActions";
+import { listDepartments } from "../../actions/depActions";
 
 const Lecture = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("lecturer");
   const [fullName, setfullName] = useState("");
   const [depName, setdepName] = useState("");
   const [regNo, setregNo] = useState("");
-  const [image, setimage] = useState(
-    ""
-  );
+  const [image, setimage] = useState("");
+
+  const departmentList = useSelector((state) => state.depList);
+  const { deploading, deperror, departments } = departmentList;
 
   const lecuserList = useSelector((state) => state.lecuserList);
   const { lecloading, lecerror, lecusers } = lecuserList;
@@ -30,36 +38,37 @@ const Lecture = () => {
   useEffect(() => {
     dispatch(listLecUsers());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(listDepartments());
+  }, [dispatch]);
 
   const [message, setMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
 
-  
-
   const lecUserRegister = useSelector((state) => state.lecUserRegister);
   const { loading, error, userInfo } = lecUserRegister;
 
-  const handleImage = (e) =>{
+  const handleImage = (e) => {
     const file = e.target.files[0];
     setFileToBase(file);
     console.log(file);
-  }
+  };
 
-  const setFileToBase = (file) =>{
+  const setFileToBase = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () =>{
+    reader.onloadend = () => {
       setimage(reader.result);
-    }
-  }
+    };
+  };
 
-  
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(registerlec(userName, password, role, fullName, depName, regNo, image));
+    dispatch(
+      registerlec(userName, password, role, fullName, depName, regNo, image)
+    );
   };
-
 
   return (
     <div className="lecture-container">
@@ -80,9 +89,9 @@ const Lecture = () => {
             </div>
           </div>
           <div>
-          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-          {loading && <Loading />}
+            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {loading && <Loading />}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -119,13 +128,20 @@ const Lecture = () => {
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Department Name</label>
-                  <input
-                    type="text"
+                  <Select
                     value={depName}
-                    className="form-control"
-                    placeholder="Name"
-                    onChange={(e) => setdepName(e.target.value)}
-                  />
+                    onChange={(value) => setdepName(value)}
+                    placeholder="Select department"
+                  >
+                    {departments.map((department, depindex) => (
+                      <Select.Option
+                        key={depindex}
+                        value={department.depName}
+                      >
+                        {department.depName}
+                      </Select.Option>
+                    ))}
+                  </Select>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Registration Number</label>
@@ -138,13 +154,12 @@ const Lecture = () => {
                   />
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
-                {imageMessage && (
-            <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
-          )}
+                  {imageMessage && (
+                    <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
+                  )}
                   <label>Upload Profile Picture</label>
                   <input
                     type="file"
-                  
                     className="form-control"
                     placeholder="Name"
                     onChange={handleImage}
@@ -179,21 +194,33 @@ const Lecture = () => {
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Lecturers</h3>
-          
-      <ul>
-        {lecloading ? (
-          <Loading/>
-        ) : lecerror ? (
-          <ErrorMessage message = {lecerror} />
-        ) : (lecusers.map((lecturer, index) => (
-          <li key={index}>
-            <p>Full Name: {lecturer.fullName}</p>
-            <p>Username: {lecturer.userName}</p>
-            <p>Department: {lecturer.depName}</p>
-          </li>
-        )))}
-        
-      </ul>
+
+          {lecloading ? (
+            <Loading />
+          ) : lecerror ? (
+            <ErrorMessage message={lecerror} />
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Username</th>
+                  <th>Registration Number</th>
+                  <th>Department</th>
+                </tr>
+              </thead>
+              <tbody>
+                {lecusers.map((lecturer, index) => (
+                  <tr key={index}>
+                    <td>{lecturer.fullName}</td>
+                    <td>{lecturer.userName}</td>
+                    <td>{lecturer.regNo}</td>
+                    <td>{lecturer.depName}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

@@ -9,60 +9,20 @@ import ErrorMessage from "../ErrorMessage";
 import { registerstu } from "../../actions/userActions";
 import { GoTriangleRight } from "react-icons/go";
 import "./Admin.css";
+import { listStuUsers } from "../../actions/userActions";
 
 import axios from 'axios';
 import {fireDb} from "../../firebase";
 import { ref, set } from "firebase/database";
 
 
-const originData = [];
-for (let i = 0; i < 5; i++) {
-  originData.push({
-    key: i.toString(),
-    Fullname: `Edward ${i}`,
-    Registration_No: `EG/2020/00${i}`,
-    Username: `Edward@${i}`,
-    Department: `Department of Computer Engineering`,
-  });
-}
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
+
 
 
 
 const Student = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("lecturer");
@@ -76,7 +36,12 @@ const Student = () => {
   );
 
   
-  
+  const stuuserList = useSelector((state) => state.stuuserList);
+  const {stuloading, stuerror, stuusers} = stuuserList;
+
+  useEffect(() => {
+    dispatch(listStuUsers());
+  }, [dispatch]);
 
   const idData = {
     stuRegNo: regNo,
@@ -85,8 +50,6 @@ const Student = () => {
 
   const [message, setMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
-
-  const dispatch = useDispatch();
 
   const stuUserRegister = useSelector((state) => state.stuUserRegister);
   const { loading, error, userInfo } = stuUserRegister;
@@ -112,115 +75,6 @@ const Student = () => {
     dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
   };
 
-  const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
-  const [editingKey, setEditingKey] = useState("");
-  const isEditing = (record) => record.key === editingKey;
-  const edit = (record) => {
-    form.setFieldsValue({
-      Fullname: "",
-      Registration_No: "",
-      Username: "",
-      Department: "",
-      ...record,
-    });
-    setEditingKey(record.key);
-  };
-  const cancel = () => {
-    setEditingKey("");
-  };
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
-    }
-  };
-  const columns = [
-    {
-      title: "Fullname",
-      dataIndex: "Fullname",
-      width: "20%",
-      editable: true,
-    },
-    {
-      title: "Registration Number",
-      dataIndex: "Registration_No",
-      width: "20%",
-      editable: true,
-    },
-    {
-      title: "Username",
-      dataIndex: "Username",
-      width: "15%",
-      editable: true,
-    },
-    {
-      title: "Department",
-      dataIndex: "Department",
-      width: "40%",
-      editable: true,
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
-        );
-      },
-    },
-  ];
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "age" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
   
 
   const enrollFingerprint = async () => {
@@ -398,23 +252,34 @@ const Student = () => {
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Students</h3>
-          <Form form={form} component={false}>
-            <Table
-              style={{ width: "auto" }}
-              components={{
-                body: {
-                  cell: EditableCell,
-                },
-              }}
-              bordered
-              dataSource={data}
-              columns={mergedColumns}
-              rowClassName="editable-row"
-              pagination={{
-                onChange: cancel,
-              }}
-            />
-          </Form>
+          {stuloading ? (
+            <Loading />
+          ) : stuerror ? (
+            <ErrorMessage message={stuerror} />
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Username</th>
+                  <th>Registration Number</th>
+                  <th>Department</th>
+                  <th>Batch</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stuusers.map((student, index) => (
+                  <tr key={index}>
+                    <td>{student.fullName}</td>
+                    <td>{student.userName}</td>
+                    <td>{student.regNo}</td>
+                    <td>{student.depName}</td>
+                    <td>{student.batch}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

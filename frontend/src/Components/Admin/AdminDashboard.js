@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import './Admin.css';
-import DashboardCount from './DashboardCount';
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { listDepartments } from "../../actions/depActions";

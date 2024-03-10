@@ -11,7 +11,10 @@ import {
     USER_UPDATE_SUCCESS,
     LECUSERS_LIST_REQUEST,
     LECUSERS_LIST_SUCCESS,
-    LECUSERS_LIST_FAIL
+    LECUSERS_LIST_FAIL,
+    STUUSERS_LIST_REQUEST,
+    STUUSERS_LIST_SUCCESS,
+    STUUSERS_LIST_FAIL
   } from "../constants/userConstants";
   
   export const userLoginReducer = (state = {}, action) => {
@@ -78,6 +81,36 @@ import {
           ...state,
           lecloading: false,
           lecerror: action.payload,
+        };
+      default:
+        return state;
+    }
+  };
+
+  const stuinitialState = {
+    stuloading: false,
+    stuerror: null,
+    stuusers: [],
+  };
+  
+  export const stuuserListReducer = (state = stuinitialState, action) => {
+    switch (action.type) {
+      case STUUSERS_LIST_REQUEST:
+        return {
+          ...state,
+          stuloading: true,
+        };
+      case STUUSERS_LIST_SUCCESS:
+        return {
+          ...state,
+          stuloading: false,
+          stuusers: action.payload,
+        };
+      case STUUSERS_LIST_FAIL:
+        return {
+          ...state,
+          stuloading: false,
+          stuerror: action.payload,
         };
       default:
         return state;

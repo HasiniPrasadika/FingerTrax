@@ -7,21 +7,37 @@ import {
     DEPARTMENTS_LIST_SUCCESS,
     
   } from "../constants/depConstants";
+
+  const depinitialState = {
+    deploading: false,
+    deperror: null,
+    departments: [],
+  };
   
-  export const depListReducer = (state = { departments: [] }, action) => {
+  export const depListReducer = (state = depinitialState, action) => {
     switch (action.type) {
       case DEPARTMENTS_LIST_REQUEST:
-        return { loading: true };
+        return {
+          ...state,
+          deploading: true,
+        };
       case DEPARTMENTS_LIST_SUCCESS:
-        return { loading: false, departments: action.payload };
+        return {
+          ...state,
+          deploading: false,
+          departments: action.payload,
+        };
       case DEPARTMENTS_LIST_FAIL:
-        return { loading: false, error: action.payload };
-  
+        return {
+          ...state,
+          deploading: false,
+          deperror: action.payload,
+        };
       default:
         return state;
     }
   };
-  
+
   export const depAddReducer = (state = {}, action) => {
     switch (action.type) {
       case DEPARTMENTS_CREATE_REQUEST:
