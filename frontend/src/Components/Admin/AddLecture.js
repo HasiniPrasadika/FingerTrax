@@ -7,6 +7,8 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import { registerlec } from "../../actions/userActions";
 import "./Admin.css";
+import {listLecUsers} from "../../actions/userActions";
+
 
 const originData = [];
 for (let i = 0; i < 100; i++) {
@@ -52,7 +54,7 @@ const EditableCell = ({
 
 const Lecture = () => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("lecturer");
@@ -63,11 +65,17 @@ const Lecture = () => {
     ""
   );
 
-  
+  const lecuserList = useSelector((state) => state.lecuserList);
+  const { lecloading, lecerror, lecusers } = lecuserList;
+
+  useEffect(() => {
+    dispatch(listLecUsers());
+  }, [dispatch]);
+
   const [message, setMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
 
-  const dispatch = useDispatch();
+  
 
   const lecUserRegister = useSelector((state) => state.lecUserRegister);
   const { loading, error, userInfo } = lecUserRegister;

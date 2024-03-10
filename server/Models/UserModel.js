@@ -26,6 +26,17 @@ const userSchema = mongoose.Schema(
       url: String    
       
     },
+    enrolledModules: [
+      {
+        modCode: String,
+      }
+    ],
+    attendance: [{
+      modCode: String,
+      attendanceID: String,
+      status: Boolean,
+
+    }]
   }
 
 );

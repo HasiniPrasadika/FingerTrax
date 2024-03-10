@@ -9,6 +9,9 @@ import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
+    LECUSERS_LIST_REQUEST,
+    LECUSERS_LIST_SUCCESS,
+    LECUSERS_LIST_FAIL
   } from "../constants/userConstants";
   
   export const userLoginReducer = (state = {}, action) => {
@@ -47,6 +50,19 @@ import {
         return { loading: false, userInfo: action.payload, success: true };
       case USER_UPDATE_FAIL:
         return { loading: false, error: action.payload, success: false };
+      default:
+        return state;
+    }
+  };
+  export const lecuserListReducer = (state = { lecusers: [] }, action) => {
+    switch (action.type) {
+      case LECUSERS_LIST_REQUEST:
+        return { loading: true };
+      case LECUSERS_LIST_SUCCESS:
+        return { loading: false, lecusers: action.payload };
+      case LECUSERS_LIST_FAIL:
+        return { loading: false, error: action.payload };
+  
       default:
         return state;
     }

@@ -9,6 +9,9 @@ import ErrorMessage from "../ErrorMessage";
 import { registerstu } from "../../actions/userActions";
 import { GoTriangleRight } from "react-icons/go";
 import "./Admin.css";
+import axios from 'axios';
+import {fireDb} from "../../firebase";
+import { ref, set } from "firebase/database";
 
 const originData = [];
 for (let i = 0; i < 5; i++) {
@@ -53,6 +56,8 @@ const EditableCell = ({
   );
 };
 
+
+
 const Student = () => {
   const navigate = useNavigate();
 
@@ -67,6 +72,14 @@ const Student = () => {
   const [image, setimage] = useState(
     ""
   );
+
+  
+  
+
+  const idData = {
+    stuRegNo: regNo,
+    stuFingerprintID: fingerprintID,
+  }
 
   const [message, setMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
@@ -207,6 +220,25 @@ const Student = () => {
     };
   });
 
+  const enrollFingerprint = async () => {
+    try {
+      
+      set(ref(fireDb, 'FingerprintData/'), {
+        stuRegNo: regNo,
+        stuFingerprintID: fingerprintID
+      })
+      set(ref(fireDb, 'State/'), {
+        arduinoState: "1"
+      })
+      
+      setMessage("Fingerprint enrolled successfully");
+    } catch (error) {
+      setMessage("Failed to enroll fingerprint");
+      console.error(error);
+    }
+  };
+  
+
   return (
     <div className="lecture-container" style={{ overflowX: "auto" }}>
       <div className="lecture-second-container" style={{ overflowX: "auto" }}>
@@ -228,30 +260,10 @@ const Student = () => {
               </div>
             </div>
             <div>
-            <button style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" >
+            <button onClick={enrollFingerprint} style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" >
                   Enroll Fingerprint
                 </button>
-              {/* <form>
-                <div>
-                  <div className="form-group" style={{ marginBottom: 10 }}>
-                    <label>Fingerprint ID</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                    />
-                  </div>
-                  <div className="form-row">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      style={{ marginRight: "25px", marginLeft: "5px" }}
-                    >
-                      Enter
-                    </button>
-                  </div>
-                </div>
-              </form> */}
+              
             </div>
           </div>
           <div>

@@ -9,6 +9,11 @@ import {
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
+    LECUSERS_LIST_REQUEST,
+    LECUSERS_LIST_SUCCESS,
+    LECUSERS_LIST_FAIL
+
+
   } from "../constants/userConstants";
   import axios from "axios";
   
@@ -183,6 +188,38 @@ export const loadUser = () => async (dispatch) => {
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
+      });
+    }
+  };
+
+  export const listLecUsers = () => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: LECUSERS_LIST_REQUEST,
+      });
+  
+      
+  
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+  
+      const { data } = await axios.get("http://localhost:8070/api/users/getlecusers", config);
+  
+      dispatch({
+        type: LECUSERS_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch({
+        type: LECUSERS_LIST_FAIL,
+        payload: message,
       });
     }
   };

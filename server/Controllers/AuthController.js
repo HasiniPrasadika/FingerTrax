@@ -184,7 +184,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser };
+const getLecUsers = asyncHandler(async (req, res) => {
+  // Assuming you have a User model defined with Mongoose
+  const lecusers = await User.find({ role: "lecturer" });
+  res.json(lecusers);
+});
+
+module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers };
 
 
 
