@@ -32,4 +32,13 @@ const addDepartment = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = {addDepartment};
+const getDepartments = asyncHandler(async (req, res) => {
+  const departments = await Department.find();
+  res.json(departments);
+});
+
+module.exports = {addDepartment, getDepartments};
+
+
+
+

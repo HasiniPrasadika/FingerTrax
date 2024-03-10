@@ -10,6 +10,7 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
+  lecuserListReducer
 } from "./reducers/userReducer";
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userUpdate: userUpdateReducer,
   lecUserRegister: userRegisterReducer,
+  lecuserList: lecuserListReducer,
   stuUserRegister: userRegisterReducer,
   depAdd: depAddReducer,
   depList: depListReducer,

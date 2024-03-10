@@ -8,6 +8,38 @@ import {
 } from "../constants/depConstants";
 import axios from "axios";
 
+export const listDepartments = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DEPARTMENTS_LIST_REQUEST,
+    });
+
+    
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.get("http://localhost:8070/api/departments/getalldep", config);
+
+    dispatch({
+      type: DEPARTMENTS_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: DEPARTMENTS_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
 export const addDepAction =
   (depCode, depName, noOfStu, noOfLec) => async (dispatch) => {
     try {
@@ -42,3 +74,5 @@ export const addDepAction =
       });
     }
   };
+
+
