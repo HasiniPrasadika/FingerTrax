@@ -20,6 +20,7 @@ import CreateModule from './Components/Lecturer/CreateModule';
 import ModuleAccess from './Components/Lecturer/ModuleAccess';
 import ModuleDetails from './Components/Lecturer/ViewModule';
 import AbsenceApplication from './Components/Student/AbsenceApplication';
+import AttendanceRecord from './Components/Student/AttendanceRecord';
 import StudentEnrollment from './Components/Student/Enrollment';
 import StudentProfile from './Components/Student/Profile';
 import StudentHeader from './Components/Student/StudentHeader';
@@ -79,6 +80,7 @@ const App = () => {
         <Route path='/student_enrollment' element={<StudentEnrollment/>}/>
         <Route path='/student_absence_application' element = {<AbsenceApplication/>}/>
         <Route path='/student_profile' element = {<StudentProfile/>}/>
+        <Route path= "/student-attendance-record" element = {<AttendanceRecord/>}/>
 
         <Route path="/lecturedashboard" element={<DashboardL />} />
         <Route path='/lecture_create_module' element ={<CreateModule/>}/>
