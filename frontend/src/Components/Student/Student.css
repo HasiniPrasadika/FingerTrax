@@ -236,7 +236,7 @@ body {
 
 
 }
-.enrollment-container{
+.enrollment-container-one{
     display: grid;
     grid-template-columns: 1fr ;
     grid-gap: 20px;
@@ -245,6 +245,19 @@ body {
     border-radius: 10px;
     padding: 20px;
     height: 480px;
+    margin-left: 270px;
+    margin-right: 15px;
+}
+
+.enrollment-container-two{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+    background-color: white;
+    width: auto;
+    border-radius: 10px;
+    padding: 20px;
+    height: 350px;
     margin-left: 270px;
     margin-right: 15px;
 }
@@ -267,6 +280,232 @@ body {
     height: 350px;
 
 }
+.module-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    width: auto;
+    height: auto;
+    margin: 10px 5px 5px 5px;
+    border-radius: 15px;
+    padding: 10px;
+
+}
+.module-enrollment{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.blue-box {
+    background-color: #E8F4FF;
+    padding: 20px;
+    margin-top: 20px;
+    height: 150px;
+    width: 350px;
+    border-radius: 20px;
+}
+
+.blue-box input[type="text"] {
+    width: 300px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+.blue-box button {
+   margin: 10px 10px 10px 205px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Absence Application */
+
+.absence-container{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+    background-color: white;
+    width: auto;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 270px;
+    margin-right: 15px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(207, 208, 230) transparent;
+}
+
+.absence-form-container{
+    background-color: #E8F4FF;
+    width: 100%;
+    height: auto;
+    margin: 10px 5px 5px 5px;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    height: 800px;
+}
+
+.absence-form-container h4 {
+    text-align: center;
+    color: #153ED0;
+    margin-bottom: 20px;
+}
+
+.upload-file{
+    background-color: white;
+    height: 200px;
+    margin: 10px 0px 20px 0px ;
+    width: 850px;
+   
+}
+
+/*Profile*/
+
+.profile-container{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+    background-color: white;
+    width: auto;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 270px;
+    margin-right: 15px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(207, 208, 230) transparent;
+}
+
+.profile-form-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    background-color: #E8F4FF;
+    width: auto;
+    height: auto;
+    margin: 10px 5px 5px 5px;
+    border-radius: 15px;
+    padding: 20px;
+}
+.edit-photo-area{
+    margin: 15px 0px 0px 60px;
+    
+}
+.profile-photo-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-left: 10px;
+    }
+
+
+
+/* Attendance Record */
+
+
+.attendance-square {
+    width: 250px; 
+    height: 250px; 
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 20px 20px 40px rgba(60, 60, 150, 0.25);
+    display: grid;
+    place-items: center;
+}
+
+.attendance-circle {
+    position: relative;
+    width: 130px; 
+    height: 130px; 
+    background-color: #007bff; 
+    border-radius: 50%; 
+    display: grid;
+    place-items: center;
+    align-items: center;
+   
+   
+}
+.attendance-circle:before {
+    content: "";
+    position: absolute;
+    height: 105px;
+    width: 105px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.value-container {
+    position: absolute;
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    color: #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.att-container{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 20px;
+    background-color: white;
+    min-height: 550px;
+    width: auto;
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 270px;
+    margin-right: 15px;
+    height: 93vh;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+  scrollbar-color: rgb(207, 208, 230) transparent;
+}
+
+.att-second-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr minmax(200px auto);
+    grid-gap: 10px;
+}
+.att-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin: 10px 5px 5px 5px;
+    border-radius: 15px;
+    padding: 20px;
+    padding-left: 250px;
+    place-items: center;
+
+}
+.attendance-list{
+    margin-top: 20px;
+    padding: 10px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
