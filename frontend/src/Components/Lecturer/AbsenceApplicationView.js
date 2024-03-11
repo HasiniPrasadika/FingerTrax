@@ -4,7 +4,7 @@ import { GoTriangleRight } from "react-icons/go";
  
 const AbsenceAppicationView = () => {
     return (
-        <div className="lecturer-second-row-container">
+        <div className="lecturer-first-row-container">
             
             <div className="path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Absence Appication</p>

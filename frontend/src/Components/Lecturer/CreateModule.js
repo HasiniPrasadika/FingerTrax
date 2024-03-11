@@ -5,7 +5,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
  
 const CreateModule = () => {
     return (
-        <div className="lecturer-second-row-container">
+        <div className="lecturer-first-row-container">
             
             <div className="path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Create Module</p>
