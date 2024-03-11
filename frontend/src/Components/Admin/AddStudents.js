@@ -5,7 +5,7 @@ import { Form, Input, InputNumber, Popconfirm, Table, Typography, Select} from "
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { listStuUsers, registerstu } from "../../actions/userActions";
+import { registerstu } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import "./Admin.css";
