@@ -88,6 +88,7 @@ body {
 
 .admin-name {
     margin-left: 850px;
+    cursor: pointer;
 }
 
 .dropdown {
@@ -275,3 +276,5 @@ body {
     grid-template-columns: 3fr 2fr;
     grid-template-rows: 1fr;
 }
+
+

@@ -348,7 +348,7 @@ body {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 20px;
-    height: 800px;
+    height: 850px;
     margin-bottom: 40px;
 }
 
@@ -360,14 +360,14 @@ body {
 
 .upload-file{
     background-color: white;
-    height: 250px;
+    height: 300px;
     margin: 10px 0px 20px 0px ;
     width: 870px;
     place-items: center;
    
 }
 .doted-border {
-    height: 200px;
+    height: 250px;
     width: 700px;
     border: 1px dashed #000;
     text-align: center;
@@ -392,17 +392,29 @@ body {
     border: 1px solid #0F91D2; /* Change background color on hover */
 }
 .file-border{
-    height: 50px;
+    height: 85px;
     width: 300px;
     border: 1px solid #000;
     text-align: left;
     padding-left: 10px ;
-    margin-left: 200px;
+    margin-left: 100px;
     margin-top: 20px;
     padding-top: 10px;
     font-family: 'Poppins', sans-serif;
     opacity: 0.5;
 
+}
+.excuse-application{
+
+    background-color: #E8F4FF;
+    width: 100%;
+    margin: 10px 5px 5px 5px;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    height: auto;
+    margin-bottom: 40px;
 }
 
 
