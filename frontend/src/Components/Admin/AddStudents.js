@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Form, Input, InputNumber, Popconfirm, Table, Typography, Select} from "antd";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { listStuUsers, registerstu } from "../../actions/userActions";
@@ -7,13 +10,12 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import "./Admin.css";
 
+import { listStuUsers } from "../../actions/userActions";
+import { listDepartments } from "../../actions/depActions";
+
+
 import { ref, set } from "firebase/database";
 import { fireDb } from "../../firebase";
-
-
-
-
-
 
 const Student = () => {
   const navigate = useNavigate();
@@ -29,14 +31,19 @@ const Student = () => {
   const [image, setimage] = useState(
     ""
   );
+  useEffect(() => {
+    dispatch(listDepartments());
+    dispatch(listStuUsers());
+  }, [dispatch]);
 
+
+  const departmentList = useSelector((state) => state.depList);
+  const { deploading, deperror, departments } = departmentList;
   
   const stuuserList = useSelector((state) => state.stuuserList);
   const {stuloading, stuerror, stuusers} = stuuserList;
 
-  useEffect(() => {
-    dispatch(listStuUsers());
-  }, [dispatch]);
+  
 
   const idData = {
     stuRegNo: regNo,
@@ -62,16 +69,6 @@ const Student = () => {
       setimage(reader.result);
     }
   }
-  
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
-  };
-
-  
-
   const enrollFingerprint = async () => {
     try {
       
@@ -83,11 +80,44 @@ const Student = () => {
         arduinoState: "1"
       })
       
-      setMessage("Fingerprint enrolled successfully");
+      setMessage("Fingerprint enrolled successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     } catch (error) {
-      setMessage("Failed to enroll fingerprint");
-      console.error(error);
+      setMessage("Failed to enroll fingerprint!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
+  };
+
+  const submitHandler = (e) => {
+    
+    try{
+      e.preventDefault();
+      dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
+      setMessage("Student Added successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+
+    } catch (error) {
+      setMessage("Failed to add Student!");
+    }
+
+    
+  };
+
+  const resetHandler = () => {
+    setfullName("");
+    setregNo("");
+    setuserName("");
+    setpassword("");
+    setfingerprintID("");
+    setbatch("");
+    setimage('/Images/profile.webp');
+   
   };
   
 
@@ -122,9 +152,8 @@ const Student = () => {
             </div>
           </div>
           <div>
-          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+          
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -171,13 +200,29 @@ const Student = () => {
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Department Name</label>
-                  <input
-                    type="text"
+                  <Select
                     value={depName}
-                    className="form-control"
-                    placeholder="Name"
-                    onChange={(e) => setdepName(e.target.value)}
-                  />
+                    onChange={(value) => setdepName(value)}
+                    placeholder="Select department"
+                    style={{ width: '300px' }}
+                  >
+                    {deploading? (
+                      <Loading/>
+                    ) : deperror ? (
+                      <ErrorMessage message={deperror} />
+                    ) : (
+                      departments.map((department, depindex) => (
+                        <Select.Option
+                          key={depindex}
+                          value={department.depName}
+                        >
+                          {department.depName}
+                        </Select.Option>
+                      ))
+
+                    )}
+                    
+                  </Select>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Fingerprint ID</label>
@@ -238,6 +283,7 @@ const Student = () => {
                     type="submit"
                     className="btn btn-primary"
                     style={{ backgroundColor: "gray" }}
+                    onClick={resetHandler}
                   >
                     Reset
                   </button>
