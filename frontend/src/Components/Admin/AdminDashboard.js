@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { GoTriangleRight } from "react-icons/go";
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
+import { GoTriangleRight } from "react-icons/go";
+import { IoChevronForwardOutline } from "react-icons/io5";
 import './Admin.css';
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { listDepartments } from "../../actions/depActions";
-import Loading from "../../Components/Loading";
 import ErrorMessage from "../../Components/ErrorMessage";
+import Loading from "../../Components/Loading";
+import { listDepartments } from "../../actions/depActions";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -44,8 +45,8 @@ const Dashboard = () => {
           departments.map((department, index) => (
             <div className="item" key={index}>
               <div className='count-container' >
-                <div>
-                  {department.depName}
+                <div style={{fontWeight:'lighter', margin:'10px'}}><span style={{fontSize:'12px'}}><IoChevronForwardOutline /><IoChevronForwardOutline /></span>
+                {department.depName}
                 </div>  
                 <div className='count'>
                   <div className='lecture'>

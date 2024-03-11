@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
-import { logout } from "../../actions/userActions";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { IoDocumentText } from "react-icons/io5";
 import { MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { logout } from "../../actions/userActions";
 import '../Admin/Admin.css';
 
 const StudentSidebar = ({ children }) => {
@@ -32,7 +33,7 @@ const StudentSidebar = ({ children }) => {
     {
       path: "/student_absence_application",
       name: "Absence Application",
-      icon: <PiStudentBold />
+      icon: <IoDocumentText />
     },
     {
         path: "/student_profile",

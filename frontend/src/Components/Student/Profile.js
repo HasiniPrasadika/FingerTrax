@@ -8,7 +8,7 @@ const StudentProfile = () => {
     return (
         <div className='profile-container'>
                         <div>
-                <span style={{opacity:'0.8' , fontSize:'14px'}}>Profile</span>    
+                <span style={{ padding: '5px', fontSize: '18px', color: '#4154F1' }}>Profile</span>    
             </div>
             <div>
                 <span style={{opacity:'0.8',  fontSize:'12px'}}><GoTriangleRight />Profile</span>
@@ -32,7 +32,7 @@ const StudentProfile = () => {
                                 <div className="form-group">
                                     <label>Change Password :</label>
                                     <input type="text" className="form-control" placeholder="************"/>
-                                    <h6 style={{fontSize:'9px',opacity:'0.8',marginLeft:'310px',marginTop:'5px'}}>Reset Password</h6>
+                                    <h6 style={{fontSize:'9px',opacity:'0.8',marginLeft:'300px',marginTop:'5px'}}>Reset Password</h6>
                                 </div>
                             </div>
 

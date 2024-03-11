@@ -1,22 +1,15 @@
 import {
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Table,
-  Typography,
-  Select,
+  Select
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { listDepartments } from "../../actions/depActions";
+import { listLecUsers, registerlec } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-import { registerlec } from "../../actions/userActions";
 import "./Admin.css";
-import { listLecUsers } from "../../actions/userActions";
-import { listDepartments } from "../../actions/depActions";
 
 const Lecture = () => {
   const navigate = useNavigate();
@@ -200,13 +193,15 @@ const Lecture = () => {
           ) : lecerror ? (
             <ErrorMessage message={lecerror} />
           ) : (
-            <table>
-              <thead>
+            <div className='table-design'>
+            <table className="table">
+              <thead style={{backgroundColor:'#dfeaf5'}}>
                 <tr>
-                  <th>Full Name</th>
-                  <th>Username</th>
-                  <th>Registration Number</th>
-                  <th>Department</th>
+                  
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Registration Number</th>
+                  <th scope="col">Department</th>
                 </tr>
               </thead>
               <tbody>
@@ -220,6 +215,7 @@ const Lecture = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

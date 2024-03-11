@@ -12,21 +12,16 @@ const AbsenceApplication = () => {
         setSelectedFile(file);
     };
 
-    const handleUpload = () => {
-        // Simulating upload process
-        let currentProgress = 0;
-        const interval = setInterval(() => {
-            currentProgress += 10;
-            setProgress(currentProgress);
-            if (currentProgress >= 100) {
-                clearInterval(interval);
-            }
-        }, 500);
-    };
+    function handleUpload() {
+        // Perform upload operation here
+        // For demonstration purposes, let's just log the file information
+        console.log('File selected:', selectedFile);
+    }
+
     return (
         <div className='absence-container'>
             <div>
-                <span style={{opacity:'0.8', padding:'5px' , fontSize:'14px'}}>Absence Application</span>    
+                <span style={{ padding: '5px', fontSize: '18px', color: '#4154F1' }}>Absence Application</span>    
             </div>
             <div>
                 <span style={{opacity:'0.8', padding:'5px' , fontSize:'12px'}}><GoTriangleRight />Absence Application</span>
@@ -69,23 +64,28 @@ const AbsenceApplication = () => {
                         <textarea class="form-control" id="inputdescription" rows="3"></textarea>
                     </div>
 
-                    <div className='upload-file'>
-                    <div className="form-group">
-                        <label htmlFor="fileInput">Select File:</label>
-                        <input type="file" id="fileInput" onChange={handleFileChange} />
+                    <div className='upload-file' style={{padding: '20px'}}>
+                        <div className='doted-border'>
+                            <div><span>Select a file or drag and drop here</span></div>
+                            <div style={{opacity:'0.6', fontSize:'13.5px'}}><span>JPG, PNG or PDF, file size no more than 10MB</span></div>
+                            <div>
+                                <input type="file" id="fileInput" style={{ display: 'none' }} onChange={handleFileChange} />
+                                <button type="button" className="upload-button" onClick={() => document.getElementById('fileInput').click()}>Upload File</button>
+                            </div>
+                            <div className='file-border' >
+                                <div>{selectedFile && <p > {selectedFile.name}</p>}</div>
+                            </div>
+                            
+                        </div>
+                        
                     </div>
-                
-                    <button type="button" className="btn btn-primary" onClick={handleUpload}>Upload</button>
-               </div>
-               <div className="form-row">
-                            <button type="submit" className="btn btn-primary" style={{marginRight:'15px', marginLeft:'700px'}}>Submit</button>
-                            <button type="submit" className="btn btn-primary" style={{backgroundColor:'gray'}}>Reset</button>
-                        </div> </form>
-                </div>
-                </div>
-              
-        
-        
+                    <div className="form-row">
+                        <button type="submit" className="btn btn-primary" style={{marginRight:'15px', marginLeft:'700px'}}>Submit</button>
+                        <button type="submit" className="btn btn-primary" style={{backgroundColor:'gray'}}>Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 
