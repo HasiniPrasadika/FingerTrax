@@ -23,7 +23,7 @@ const AbsenceAppicationView = () => {
                     <th scope="col">Absence Module</th>
                     <th scope="col">Absence Date</th>
                     <th scope="col">Absence For</th>
-                    <th scope="col">Application form</th>
+                    <th scope="col">Excuse Application</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>
