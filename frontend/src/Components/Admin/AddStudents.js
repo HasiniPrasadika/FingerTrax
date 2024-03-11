@@ -30,7 +30,10 @@ const Student = () => {
   const [image, setimage] = useState(
     ""
   );
-
+  useEffect(() => {
+    dispatch(listDepartments());
+    dispatch(listStuUsers());
+  }, [dispatch]);
 
 
   const departmentList = useSelector((state) => state.depList);
@@ -39,10 +42,7 @@ const Student = () => {
   const stuuserList = useSelector((state) => state.stuuserList);
   const {stuloading, stuerror, stuusers} = stuuserList;
 
-  useEffect(() => {
-    dispatch(listDepartments());
-    dispatch(listStuUsers());
-  }, [dispatch]);
+  
 
   const idData = {
     stuRegNo: regNo,
@@ -68,34 +68,6 @@ const Student = () => {
       setimage(reader.result);
     }
   }
-  const resetHandler = () => {
-    setfullName("");
-    setregNo("");
-    setuserName("");
-    setpassword("");
-    setfingerprintID("");
-    setbatch("");
-    setimage('/Images/profile.webp');
-    setMessage(null);
-  };
-  
-
-  const submitHandler = (e) => {
-    
-    try{
-      e.preventDefault();
-      dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
-      setMessage("Student Added successfully!");
-
-    } catch (error) {
-      setMessage("Failed to add Student!");
-    }
-
-    
-  };
-
-  
-
   const enrollFingerprint = async () => {
     try {
       
@@ -108,10 +80,43 @@ const Student = () => {
       })
       
       setMessage("Fingerprint enrolled successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     } catch (error) {
       setMessage("Failed to enroll fingerprint!");
-      console.error(error);
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
+  };
+
+  const submitHandler = (e) => {
+    
+    try{
+      e.preventDefault();
+      dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
+      setMessage("Student Added successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+
+    } catch (error) {
+      setMessage("Failed to add Student!");
+    }
+
+    
+  };
+
+  const resetHandler = () => {
+    setfullName("");
+    setregNo("");
+    setuserName("");
+    setpassword("");
+    setfingerprintID("");
+    setbatch("");
+    setimage('/Images/profile.webp');
+   
   };
   
 

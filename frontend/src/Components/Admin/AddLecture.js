@@ -29,16 +29,18 @@ const Lecture = () => {
   const [regNo, setregNo] = useState("");
   const [image, setimage] = useState("");
 
+  useEffect(() => {
+    dispatch(listDepartments());
+    dispatch(listLecUsers());
+  }, [dispatch, dispatch]);
+
   const departmentList = useSelector((state) => state.depList);
   const { deploading, deperror, departments } = departmentList;
 
   const lecuserList = useSelector((state) => state.lecuserList);
   const { lecloading, lecerror, lecusers } = lecuserList;
 
-  useEffect(() => {
-    dispatch(listDepartments());
-    dispatch(listLecUsers());
-  }, [dispatch, dispatch]);
+  
   
 
   const [message, setMessage] = useState(null);
@@ -66,7 +68,7 @@ const Lecture = () => {
     setuserName("");
     setpassword("");
     setimage('/Images/profile.webp');
-    setMessage(null);
+    
   };
 
   const submitHandler = (e) => {
@@ -77,9 +79,15 @@ const Lecture = () => {
         registerlec(userName, password, role, fullName, depName, regNo, image)
       );
       setMessage("Lecturer Added successfully!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
 
     } catch (error) {
       setMessage("Failed to add Lecturer!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
   };
 
