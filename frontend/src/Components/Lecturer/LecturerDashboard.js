@@ -25,7 +25,7 @@ const DashboardL = () => {
         </div>
         </div>
 
-        <div className="lecturer-second-row-container">
+        <div className="lecturer-first-row-container">
           <div className='sub-topics'>
             <h4 style={{fontWeight:'bold'}}>Enrolled Status</h4>
             <label style={{fontSize:"13px"}}><span ><IoChevronForwardOutline /><IoChevronForwardOutline /><IoChevronForwardOutline /></span>Department of Electrical Engineering</label>
