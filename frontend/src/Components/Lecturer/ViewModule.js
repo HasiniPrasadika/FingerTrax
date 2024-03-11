@@ -5,7 +5,7 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
 import React, { useState } from "react";
 import { BiDotsVerticalRounded, BiTachometer, BiUserCheck, BiUserX } from "react-icons/bi";
-import { GoGraph, GoTriangleRight } from "react-icons/go";
+import { GoTriangleRight } from "react-icons/go";
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
@@ -31,7 +31,8 @@ const ModuleDetails = () => {
                 <p style={{ opacity: 0.8 }}><GoTriangleRight />Dashboard / EE5261 Control System Design</p>
             </div>
             <div className="second-container">
-                <div className="second-column-frist-container">
+                <div className='second-column-frist-container'>
+                    <div className="second-column-frist-container-three">
                     
                         <div className="card-box">
                             <div className="row">
@@ -86,7 +87,7 @@ const ModuleDetails = () => {
                         <div className="card-box">
                             <div className="row">
                                 <h6 className="box-title">Total Lecture Hours<span style={{ color: "gray", fontSize: "12px" }}> | {selectedDate ? selectedDate.toLocaleDateString() : "Select a date"}</span></h6>
-                                <div style={{ marginLeft: "6px" }}>
+                                <div style={{ marginLeft: "4px" }}>
                                     <BiDotsVerticalRounded onClick={() => setShowCalendar(true)} />
                                 </div>
                             </div>
@@ -108,9 +109,11 @@ const ModuleDetails = () => {
                                 </div>
                             </div>
                         </div>
-
-                    <div className="report-container">
-                        <GoGraph></GoGraph>
+                    </div>
+                    <div>
+                        <div className="report-container">
+                        <h6 className="box-title"><br/>Reports</h6>
+                        </div>
                     </div>
                 </div>
                 <div className="second-column-second-container">
@@ -161,16 +164,36 @@ const ModuleDetails = () => {
                         </DemoContainer>
                         </LocalizationProvider>
                         </div>
+                        <div style={{marginLeft:"15px", marginBottom:"10px"}}>
+                        <button className="btn btn-primary">Start</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="lecture-details-box">
+                        <h6 className="box-title">Daily Attendance</h6>
                         <div style={{marginLeft:"10px", marginBottom:"10px"}}>
-                        <button className="btn btn-primary">View</button>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']}>
+                                <DemoItem>
+                                <div className="time-label" style={{marginLeft:"10px"}}>Conducted Date</div>
+                                <DatePicker
+                                    defaultValue={today}
+                                    shouldDisableMonth={isInCurrentMonth}
+                                    views={['year', 'month', 'day']}
+                                />
+                                </DemoItem>
+                            </DemoContainer>
+                            </LocalizationProvider>
                         </div>
+                        <div style={{marginLeft:"15px", marginBottom:"10px"}}>
+                            <button className="btn btn-primary">View</button>
                         </div>
                     </div>
                     <div className="lecture-details-box">
-                        
-                    </div>
-                    <div className="lecture-details-box">
-                        
+                    <h6 className="box-title">Overall Attendance Report</h6>
+                    <div style={{marginLeft:"15px", marginBottom:"10px"}}>
+                            <button className="btn btn-primary">View</button>
+                        </div>
                     </div>
                 </div>
             </div>

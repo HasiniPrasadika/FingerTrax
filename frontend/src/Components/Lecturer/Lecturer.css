@@ -169,6 +169,7 @@ body {
     width: auto;
     height: auto;
     border-radius: 10px;
+    
 }
 
 .sub-topics{
@@ -179,9 +180,9 @@ body {
     color: #012970;
     font-family: 'Poppins', sans-serif;
 }
-
+/*module Access*/
 .topic-style{
-    margin: 0px 0px 15px 25px;
+    margin: 0px 0px 0px 25px;
     color: #072f75;
     font-weight: bold;
     font-size: larger;
@@ -199,6 +200,20 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     
+}
+.module-access-box{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(240, 244, 248);
+    margin: 25px;
+    border-radius: 15px;
+    height: auto;
+    width: 90%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.access-lecturer-names{
+    margin: 0px 0px 15px 50px;
 }
 
 /*Dashboard enrolled modules */
@@ -251,7 +266,7 @@ body {
     background-color: #e8f4ff;
     width: auto;
     height: auto;
-    margin: 15px 70px 10px 70px;
+    margin: 15px 70px 20px 70px;
     border-radius: 15px;
     padding: 20px;
 
@@ -282,22 +297,26 @@ body {
     grid-template-columns: 4fr 2fr;
 
 }
-
 .second-column-frist-container{
     display: grid;
+    grid-template-rows: 0.8fr 3fr;
+    
+}
+/* first three containers*/
+.second-column-frist-container-three{
+    display: grid;
     grid-template-columns: 1fr 1fr 1.2fr;
-    margin: 10px 10px 10px 10px;
+    margin: 10px 10px 0px 10px;
     gap: 10px;
     height: 120px;
 }
-
-
 
 .card-box {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
+
 .box-title{
     margin: 10px 0px 10px 25px;
     color: blue;
@@ -322,11 +341,18 @@ body {
     color: blue;
 }
 
+/*second report container*/
 .report-container{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    margin: 0px 10px 10px 10px;
+    width: 97%;
+    height: 96%;
 
 }
 
-
+/* second column three containers*/
 .second-column-second-container{
     display: grid;
     grid-template-rows: 1.5fr 1fr 0.5fr;
@@ -347,7 +373,7 @@ body {
 
 .time-picker{
     width: 150px;
-    margin-left: 22px;
+    margin-left: 20px;
 }
 .time-label {
     color: gray;
