@@ -10,6 +10,10 @@ const moduleSchema = new mongoose.Schema({
   },
   noOfStu: {
     type: Number,
+    default: 0
+  },
+  enrolKey: {
+    type: String,
   },
   modCoordinator: {
     type: String,
@@ -22,7 +26,13 @@ const moduleSchema = new mongoose.Schema({
   },
   lecturers: [{
     regNo: String,
-  }]
+  }],
+  students: [{
+    regNo: String,
+  }],
+  semester: {
+    type: String,
+  }
 
   // other module details
 });

@@ -13,6 +13,10 @@ import {
   lecuserListReducer,
   stuuserListReducer
 } from "./reducers/userReducer";
+import {
+  moduleCreateReducer,
+  modListReducer
+} from "./reducers/modReducer";
 
 const rootReducer = combineReducers({
   userLogin: userLoginReducer,
@@ -24,6 +28,8 @@ const rootReducer = combineReducers({
   stuUserRegister: userRegisterReducer,
   depAdd: depAddReducer,
   depList: depListReducer,
+  modAdd: moduleCreateReducer,
+  modList: modListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

@@ -18,12 +18,7 @@ const Department = () => {
 
   console.log(department);
 
-  const resetHandler = () => {
-    setdepCode("");
-    setdepName("");
-    setnoOfStu("");
-    setnoOfLec("");
-  };
+  
   const submitHandler = (e) => {   
     
     try{
@@ -40,7 +35,13 @@ const Department = () => {
 
     
   };
-  useEffect(() => {}, []);
+  const resetHandler = () => {
+    setdepCode("");
+    setdepName("");
+    setnoOfStu("");
+    setnoOfLec("");
+  };
+
 
   return (
     <div className="dep-container">
