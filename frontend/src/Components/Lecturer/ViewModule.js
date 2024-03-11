@@ -61,7 +61,7 @@ const ModuleDetails = () => {
                         <div className="card-box">
                             <div className="row">
                                 <h6 className="box-title">Absence<span style={{ color: "gray", fontSize: "12px" }}> | {selectedDate ? selectedDate.toLocaleDateString() : "Select a date"}</span></h6>
-                                <div style={{ marginLeft: "50px" }}>
+                                <div style={{ marginLeft: "40px" }}>
                                     <BiDotsVerticalRounded onClick={() => setShowCalendar(true)} />
                                 </div>
                             </div>
@@ -86,7 +86,7 @@ const ModuleDetails = () => {
                         <div className="card-box">
                             <div className="row">
                                 <h6 className="box-title">Total Lecture Hours<span style={{ color: "gray", fontSize: "12px" }}> | {selectedDate ? selectedDate.toLocaleDateString() : "Select a date"}</span></h6>
-                                <div style={{ marginLeft: "12px" }}>
+                                <div style={{ marginLeft: "6px" }}>
                                     <BiDotsVerticalRounded onClick={() => setShowCalendar(true)} />
                                 </div>
                             </div>
