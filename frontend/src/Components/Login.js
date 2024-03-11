@@ -75,7 +75,6 @@ const Login = () => {
 
         <div className="form_container">
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-        {loading && <Loading />}
           <form onSubmit={submitHandler}>
             <div>
               <label htmlFor="username">Username</label>

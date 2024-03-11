@@ -4,7 +4,7 @@ import { GoTriangleRight } from "react-icons/go";
  
 const AbsenceAppicationView = () => {
     return (
-        <div className="lecturer-second-row-container">
+        <div className="lecturer-first-row-container">
             
             <div className="path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Absence Appication</p>
@@ -23,7 +23,7 @@ const AbsenceAppicationView = () => {
                     <th scope="col">Absence Module</th>
                     <th scope="col">Absence Date</th>
                     <th scope="col">Absence For</th>
-                    <th scope="col">Application form</th>
+                    <th scope="col">Excuse Application</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>

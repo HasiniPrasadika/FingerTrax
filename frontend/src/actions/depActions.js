@@ -8,7 +8,7 @@ import {
 } from "../constants/depConstants";
 import axios from "axios";
 
-export const listDepartments = () => async (dispatch, getState) => {
+export const listDepartments = () => async (dispatch) => {
   try {
     dispatch({
       type: DEPARTMENTS_LIST_REQUEST,

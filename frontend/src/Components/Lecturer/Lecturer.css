@@ -159,17 +159,18 @@ body {
     
 }
 
-.lecturer-second-row-container{
+.lecturer-first-row-container{
     display: block;
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: minmax(300px auto);
     grid-gap: 10px;
     justify-items: left;
-    margin: 15px 0px 0px 270px;
+    margin: 15px 10px 0px 270px;
     background-color: white;
     width: auto;
     height: auto;
     border-radius: 10px;
+    
 }
 
 .sub-topics{
@@ -180,9 +181,9 @@ body {
     color: #012970;
     font-family: 'Poppins', sans-serif;
 }
-
+/*module Access*/
 .topic-style{
-    margin: 0px 0px 15px 25px;
+    margin: 0px 0px 0px 25px;
     color: #072f75;
     font-weight: bold;
     font-size: larger;
@@ -200,6 +201,20 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     
+}
+.module-access-box{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(240, 244, 248);
+    margin: 25px;
+    border-radius: 15px;
+    height: auto;
+    width: 90%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.access-lecturer-names{
+    margin: 0px 0px 15px 50px;
 }
 
 /*Dashboard enrolled modules */
@@ -252,7 +267,7 @@ body {
     background-color: #e8f4ff;
     width: auto;
     height: auto;
-    margin: 15px 70px 10px 70px;
+    margin: 15px 70px 20px 70px;
     border-radius: 15px;
     padding: 20px;
 
@@ -278,3 +293,96 @@ body {
 }
 
 
+/*Viewmodule dashboard*/
+.second-container{
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+
+}
+.second-column-frist-container{
+    display: grid;
+    grid-template-rows: 0.8fr 3fr;
+    
+}
+/* first three containers*/
+.second-column-frist-container-three{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    margin: 10px 10px 0px 10px;
+    gap: 10px;
+    height: 120px;
+}
+
+.card-box {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.box-title{
+    margin: 10px 0px 10px 25px;
+    color: blue;
+
+}
+.icon-cart{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 0px 5px 0px 5px;
+    margin: 10px 10px 10px 50px;
+    background-color: #abcbec;
+}
+
+.cart-icon-style{
+    margin: 7px 0px 0px 8px;
+    font-size: x-large;
+}
+
+.count-of-stu{
+    color: blue;
+}
+
+/*second report container*/
+.report-container{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    margin: 0px 10px 10px 10px;
+    width: 97%;
+    height: 96%;
+
+}
+
+/* second column three containers*/
+.second-column-second-container{
+    display: grid;
+    grid-template-rows: 1.5fr 1fr 0.5fr;
+    gap: 10px;
+    margin: 10px 10px 10px 0px;
+}
+
+
+.lecture-details-box{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.time-picker-title{
+    color: gray;
+}
+
+.time-picker{
+    width: 150px;
+    margin-left: 20px;
+}
+.time-label {
+    color: gray;
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.date-picker{
+    margin-left: 25px;
+}
