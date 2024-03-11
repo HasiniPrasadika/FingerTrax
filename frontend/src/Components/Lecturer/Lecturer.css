@@ -158,13 +158,13 @@ body {
     
 }
 
-.lecturer-second-row-container{
+.lecturer-first-row-container{
     display: block;
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: minmax(300px auto);
     grid-gap: 10px;
     justify-items: left;
-    margin: 15px 0px 0px 270px;
+    margin: 15px 10px 0px 270px;
     background-color: white;
     width: auto;
     height: auto;
@@ -274,4 +274,87 @@ body {
     display: grid;
     grid-template-columns: 3fr 2fr;
     grid-template-rows: 1fr;
+}
+
+/*Viewmodule dashboard*/
+.second-container{
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+
+}
+
+.second-column-frist-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    margin: 10px 10px 10px 10px;
+    gap: 10px;
+    height: 120px;
+}
+
+
+
+.card-box {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+.box-title{
+    margin: 10px 0px 10px 25px;
+    color: blue;
+
+}
+.icon-cart{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 0px 5px 0px 5px;
+    margin: 10px 10px 10px 50px;
+    background-color: #abcbec;
+}
+
+.cart-icon-style{
+    margin: 7px 0px 0px 8px;
+    font-size: x-large;
+}
+
+.count-of-stu{
+    color: blue;
+}
+
+.report-container{
+
+}
+
+
+.second-column-second-container{
+    display: grid;
+    grid-template-rows: 1.5fr 1fr 0.5fr;
+    gap: 10px;
+    margin: 10px 10px 10px 0px;
+}
+
+
+.lecture-details-box{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.time-picker-title{
+    color: gray;
+}
+
+.time-picker{
+    width: 150px;
+    margin-left: 22px;
+}
+.time-label {
+    color: gray;
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.date-picker{
+    margin-left: 25px;
 }
