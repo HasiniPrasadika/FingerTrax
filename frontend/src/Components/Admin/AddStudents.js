@@ -1,20 +1,21 @@
+import { GoTriangleRight } from "react-icons/go";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Input, InputNumber, Popconfirm, Table, Typography, Select} from "antd";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import Loading from "../Loading";
+import { useNavigate } from "react-router-dom";
+import { listStuUsers, registerstu } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
-import { registerstu } from "../../actions/userActions";
-import { GoTriangleRight } from "react-icons/go";
+import Loading from "../Loading";
 import "./Admin.css";
+
 import { listStuUsers } from "../../actions/userActions";
 import { listDepartments } from "../../actions/depActions";
 
-import axios from 'axios';
-import {fireDb} from "../../firebase";
+
 import { ref, set } from "firebase/database";
+import { fireDb } from "../../firebase";
 
 const Student = () => {
   const navigate = useNavigate();
@@ -298,14 +299,15 @@ const Student = () => {
           ) : stuerror ? (
             <ErrorMessage message={stuerror} />
           ) : (
-            <table>
-              <thead>
+            <div className='table-design'> 
+            <table className="table">
+              <thead style={{backgroundColor:'#dfeaf5'}}>
                 <tr>
-                  <th>Full Name</th>
-                  <th>Username</th>
-                  <th>Registration Number</th>
-                  <th>Department</th>
-                  <th>Batch</th>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Registration Number</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Batch</th>
                 </tr>
               </thead>
               <tbody>
@@ -320,6 +322,7 @@ const Student = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

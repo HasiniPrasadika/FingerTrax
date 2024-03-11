@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
-import { addDepAction } from "../../actions/depActions";
-import Loading from "../../Components/Loading";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
+import Loading from "../../Components/Loading";
+import { addDepAction } from "../../actions/depActions";
 
 const Department = () => {
   const [depCode, setdepCode] = useState("");
@@ -137,7 +137,7 @@ const Department = () => {
                 <button  type="submit" className="btn btn-primary">
                   Add
                 </button>
-                <button className="btn btn-primary" onClick={resetHandler}>
+                <button className="btn btn-primary" onClick={resetHandler} style={{marginLeft:'10px'}}>
                   Reset
                 </button>
               </div>

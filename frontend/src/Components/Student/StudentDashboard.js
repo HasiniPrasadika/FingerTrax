@@ -1,9 +1,5 @@
-import axios from "axios";
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import { GoTriangleRight } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import '../Admin/Admin.css';
 import ModuleBox from "./ModuleBox";
 import './Student.css';
@@ -17,7 +13,10 @@ const DashboardS = () => {
     
         <div className="ruhuna-details" >
         <div>
-            <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Student Dashboard </span>
+          <span style={{ opacity: "0.8", padding: "10px", fontSize: "12px" }}>
+            <GoTriangleRight />
+            Student Dashboard
+          </span>
         </div>
         <div className="row">
           <img src='/Images/logo_ruhuna.jpg'/>
@@ -32,6 +31,9 @@ const DashboardS = () => {
         </div>
 
     <div className="student-second-row-container">
+        <ModuleBox></ModuleBox>
+        <ModuleBox></ModuleBox>
+        <ModuleBox></ModuleBox>
         <ModuleBox></ModuleBox>
         <ModuleBox></ModuleBox>
         <ModuleBox></ModuleBox>

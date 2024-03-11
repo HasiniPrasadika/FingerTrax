@@ -6,6 +6,7 @@
 
 body {
     background-color: #E7E7E9;
+    overflow-y: hidden;
     
 }
 
@@ -332,6 +333,11 @@ body {
     top: 100%;
     font-size: 12px;
     }
+
+    .table-design{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 /*Department*/
     .dep-container{
         display: grid;
@@ -345,6 +351,10 @@ body {
         margin-left: 270px;
         margin-right: 15px;
         height: 93vh;
+        overflow-y: scroll;
+        overflow-x: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: rgb(207, 208, 230) transparent;
     }
     
     

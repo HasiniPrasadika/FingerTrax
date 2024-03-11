@@ -127,11 +127,11 @@ body {
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 1fr;
     background-color: #E7E7E9;
+    height: 93vh;
     overflow-y: scroll;
     overflow-x: scroll;
     scrollbar-width: thin;
-  scrollbar-color: rgb(207, 208, 230) transparent;
-}
+    scrollbar-color: rgb(207, 208, 230) transparent;}
 
 .ruhuna-details {
     display: grid;
@@ -168,6 +168,7 @@ body {
     justify-items: left;
     margin: 15px 0px 0px 270px;
     background-color: white;
+    padding-top: 20px;
     width: auto;
     height: 100vh;
     border-radius: 10px;
@@ -191,17 +192,17 @@ body {
     flex-direction: column;
     background: linear-gradient(to bottom, #c4def9, white );
     margin: 20px;
-    border-radius: 25px;
-    height: 180px;
+    border-radius:25px 25px 0px 0px;
+    height: 120px;
     width: 250px;
 }
 
 .module-name {
     color: black;
     font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
     margin: 20px;
+    margin-top: 30px;
 }
 
 .module-info {
@@ -213,7 +214,7 @@ body {
     cursor: pointer;
     padding: 10px;
     height: 40px;
-    margin-top: 62px;
+    margin-top: 22px;
     width: 250px;
  
 }
@@ -332,6 +333,7 @@ body {
     padding: 20px;
     margin-left: 270px;
     margin-right: 15px;
+    height: 93vh;
     overflow-y: scroll;
     overflow-x: scroll;
     scrollbar-width: thin;
@@ -341,13 +343,13 @@ body {
 .absence-form-container{
     background-color: #E8F4FF;
     width: 100%;
-    height: auto;
     margin: 10px 5px 5px 5px;
     border-radius: 15px;
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 20px;
     height: 800px;
+    margin-bottom: 40px;
 }
 
 .absence-form-container h4 {
@@ -358,18 +360,58 @@ body {
 
 .upload-file{
     background-color: white;
-    height: 200px;
+    height: 250px;
     margin: 10px 0px 20px 0px ;
-    width: 850px;
+    width: 870px;
+    place-items: center;
    
 }
+.doted-border {
+    height: 200px;
+    width: 700px;
+    border: 1px dashed #000;
+    text-align: center;
+    margin-left: 65px;
+    padding-top: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.upload-button {
+    background-color: white;
+    border: 1px solid #0F91D2;
+    color: #0F91D2;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.upload-button:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #0F91D2; /* Change background color on hover */
+}
+.file-border{
+    height: 50px;
+    width: 300px;
+    border: 1px solid #000;
+    text-align: left;
+    padding-left: 10px ;
+    margin-left: 200px;
+    margin-top: 20px;
+    padding-top: 10px;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0.5;
+
+}
+
 
 /*Profile*/
 
 .profile-container{
     display: grid;
     grid-template-columns: 1fr ;
-    grid-gap: 20px;
+    grid-gap: 10px;
     background-color: white;
     width: auto;
     border-radius: 10px;
@@ -412,8 +454,8 @@ body {
 
 
 .attendance-square {
-    width: 250px; 
-    height: 250px; 
+    width: 270px; 
+    height: 270px; 
     background-color: white;
     border-radius: 8px;
     box-shadow: 20px 20px 40px rgba(60, 60, 150, 0.25);
@@ -492,6 +534,10 @@ body {
     margin-top: 20px;
     padding: 10px;
 
+}
+.table-design{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 
