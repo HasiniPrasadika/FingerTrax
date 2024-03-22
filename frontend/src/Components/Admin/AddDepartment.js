@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
-import Loading from "../../Components/Loading";
-import { addDepAction } from "../../actions/depActions";
+import axios from "axios";
 
 const Department = () => {
   const [depCode, setdepCode] = useState("");
@@ -11,23 +9,30 @@ const Department = () => {
   const [noOfStu, setnoOfStu] = useState("");
   const [noOfLec, setnoOfLec] = useState("");
   const [message, setMessage] = useState(null);
-  const dispatch = useDispatch();
-
-  const depAdd = useSelector((state) => state.depAdd);
-  const { loading, error, department } = depAdd;
-
-  console.log(department);
-
-  
+    
   const submitHandler = (e) => {   
     
     try{
       e.preventDefault();
-      dispatch(addDepAction(depCode, depName, noOfStu, noOfLec));
-      setMessage("Department Added successfully!");
+      axios
+    .post("http://localhost:8070/api/departments/adddep",{ depCode, depName, noOfStu, noOfLec })
+    .then((response) => {
+      if(response != null){
+        setMessage("Department Added successfully!");
       setTimeout(() => {
         setMessage(null);
       }, 3000);
+      }
+      else{
+        setMessage("Department Adding Unsuccessful!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+      }
+    })
+    .catch((error) => {
+      console.error('Error adding departments', error);
+    });
 
     } catch (error) {
       setMessage("Failed to add Department!");
@@ -138,12 +143,17 @@ const Department = () => {
                 <button  type="submit" className="btn btn-primary">
                   Add
                 </button>
-                <button className="btn btn-primary" onClick={resetHandler} style={{marginLeft:'10px'}}>
-                  Reset
-                </button>
+                
               </div>
             </div>
           </form>
+          
+          <button className="btn btn-primary" onClick={resetHandler} style={{marginLeft:'10px'}}>
+                  Reset
+          </button>
+
+          
+          
         </div>
       </div>
     </div>

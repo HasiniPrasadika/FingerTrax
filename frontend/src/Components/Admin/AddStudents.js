@@ -1,25 +1,13 @@
 import { GoTriangleRight } from "react-icons/go";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Input, InputNumber, Popconfirm, Table, Typography, Select} from "antd";
+import { Select } from "antd";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { registerstu } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
 import "./Admin.css";
 import axios from "axios";
-import { listStuUsers } from "../../actions/userActions";
-import { listDepartments } from "../../actions/depActions";
-
-
 import { ref, set } from "firebase/database";
 import { fireDb } from "../../firebase";
 
 const Student = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("lecturer");
@@ -28,126 +16,84 @@ const Student = () => {
   const [regNo, setregNo] = useState("");
   const [batch, setbatch] = useState("");
   const [fingerprintID, setfingerprintID] = useState("");
-  const [image, setimage] = useState(
-    ""
-  );
+  const [image, setimage] = useState("");
   const [departments, setDepartments] = useState([]);
   const [stuusers, setStuusers] = useState([]);
+  const [message, setMessage] = useState(null);
+  const [imageMessage, setimageMessage] = useState(null);
 
   useEffect(() => {
     axios
-    .get('http://localhost:8070/api/departments/getalldep')
-    .then((response) => {
-      setDepartments(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching departments', error);
-    });
+      .get("http://localhost:8070/api/departments/getalldep")
+      .then((response) => {
+        setDepartments(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching departments", error);
+      });
   }, [departments]);
 
   useEffect(() => {
     axios
-    .get('http://localhost:8070/api/users/getstuusers')
-    .then((response) => {
-      setStuusers(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching Students', error);
-    });
+      .get("http://localhost:8070/api/users/getstuusers")
+      .then((response) => {
+        setStuusers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching Students", error);
+      });
   }, [stuusers]);
-
 
   
 
-  const idData = {
-    stuRegNo: regNo,
-    stuFingerprintID: fingerprintID,
-  }
-
-  const [message, setMessage] = useState(null);
-  const [imageMessage, setimageMessage] = useState(null);
-
-  const stuUserRegister = useSelector((state) => state.stuUserRegister);
-  const { loading, error, userInfo } = stuUserRegister;
-
-  const handleImage = (e) =>{
+  const handleImage = (e) => {
     const file = e.target.files[0];
     setFileToBase(file);
     console.log(file);
-  }
+  };
 
-  const setFileToBase = (file) =>{
+  const setFileToBase = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () =>{
+    reader.onloadend = () => {
       setimage(reader.result);
-    }
-  }
+    };
+  };
   const enrollFingerprint = async () => {
     try {
       // Fetch existing student users from MongoDB
-      const existingUsersResponse = await axios.get('http://localhost:8070/api/users/getstuusers');
+      const existingUsersResponse = await axios.get(
+        "http://localhost:8070/api/users/getstuusers"
+      );
       const existingUsers = existingUsersResponse.data;
-      console.log(existingUsers);
-  
+
       // Extract existing fingerprint IDs from fetched users
-      const existingFingerprintIDs = existingUsers.map((user) => user.fingerprintID);
-      console.log(existingFingerprintIDs);
-  
+      const existingFingerprintIDs = existingUsers.map(
+        (user) => user.fingerprintID
+      );
+
       // Check if entered fingerprint ID already exists
       if (existingFingerprintIDs.includes(fingerprintID)) {
         setMessage("Fingerprint ID already exists!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
         return;
       }
-  
+
       // If fingerprint ID does not exist, proceed to enroll in Firebase
-      set(ref(fireDb, 'FingerprintData/'), {
+      set(ref(fireDb, "FingerprintData/"), {
         stuRegNo: regNo,
-        stuFingerprintID: fingerprintID
+        stuFingerprintID: fingerprintID,
       });
-      set(ref(fireDb, 'State/'), {
-        arduinoState: "1"
+      set(ref(fireDb, "State/"), {
+        arduinoState: "1",
       });
-  
+
       setMessage("Fingerprint enrolled successfully!");
-      const enrollFingerprint = async () => {
-  try {
-    // Fetch existing student users from MongoDB
-    const existingUsersResponse = await axios.get('http://localhost:8070/api/users/getstuusers');
-    const existingUsers = existingUsersResponse.data;
-
-    // Extract existing fingerprint IDs from fetched users
-    const existingFingerprintIDs = existingUsers.map((user) => user.fingerprintID);
-
-    // Check if entered fingerprint ID already exists
-    if (existingFingerprintIDs.includes(fingerprintID)) {
-      setMessage("Fingerprint ID already exists!");
       setTimeout(() => {
         setMessage(null);
       }, 3000);
-      return;
-    }
-
-    // If fingerprint ID does not exist, proceed to enroll in Firebase
-    set(ref(fireDb, 'FingerprintData/'), {
-      stuRegNo: regNo,
-      stuFingerprintID: fingerprintID
-    });
-    set(ref(fireDb, 'State/'), {
-      arduinoState: "1"
-    });
-
-    setMessage("Fingerprint enrolled successfully!");
-    setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  } catch (error) {
-    setMessage("Failed to enroll fingerprint!");
-    setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  }
-};
     } catch (error) {
       setMessage("Failed to enroll fingerprint!");
       setTimeout(() => {
@@ -157,20 +103,39 @@ const Student = () => {
   };
 
   const submitHandler = (e) => {
-    
-    try{
+    try {
       e.preventDefault();
-      dispatch(registerstu(userName, password, role, fullName, depName, regNo,fingerprintID, batch, image));
-      setMessage("Student Added successfully!");
-      setTimeout(() => {
-        setMessage(null);
-      }, 3000);
-
+      axios
+        .post("http://localhost:8070/api/users/regstu", {
+          userName,
+          password,
+          role,
+          fullName,
+          depName,
+          regNo,
+          fingerprintID,
+          batch,
+          image,
+        })
+        .then((response) => {
+          if (response != null) {
+            setMessage("Student Added successfully!");
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+          } else {
+            setMessage("Student Adding Unsuccessful!");
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding students", error);
+        });
     } catch (error) {
       setMessage("Failed to add Student!");
     }
-
-    
   };
 
   const resetHandler = () => {
@@ -180,10 +145,8 @@ const Student = () => {
     setpassword("");
     setfingerprintID("");
     setbatch("");
-    setimage('/Images/profile.webp');
-   
+    setimage("/Images/profile.webp");
   };
-  
 
   return (
     <div className="lecture-container" style={{ overflowX: "auto" }}>
@@ -201,23 +164,24 @@ const Student = () => {
             </h3>
             <div className="profile-photo-preview">
               <div style={{ position: "relative", display: "inline-block" }}>
-                
-                <img src={image ? image : '/Images/profile.webp'} alt="Profile" />
-                
+                <img
+                  src={image ? image : "/Images/profile.webp"}
+                  alt="Profile"
+                />
               </div>
             </div>
             <div>
-
-            <button onClick={enrollFingerprint} style={{ marginBottom: "25px", marginTop: "50px" }} className="btn btn-primary" >
-
-                  Enroll Fingerprint
-                </button>
-              
+              <button
+                onClick={enrollFingerprint}
+                style={{ marginBottom: "25px", marginTop: "50px" }}
+                className="btn btn-primary"
+              >
+                Enroll Fingerprint
+              </button>
             </div>
           </div>
           <div>
-          
-        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -268,19 +232,16 @@ const Student = () => {
                     value={depName}
                     onChange={(value) => setdepName(value)}
                     placeholder="Select department"
-                    style={{ width: '300px' }}
+                    style={{ width: "300px" }}
                   >
                     {departments.map((department) => (
-                        <Select.Option
-                          key={department._id}
-                          value={department.depName}
-                        >
-                          {department.depName}
-                        </Select.Option>
-                      ))
-
-                    }
-                    
+                      <Select.Option
+                        key={department._id}
+                        value={department.depName}
+                      >
+                        {department.depName}
+                      </Select.Option>
+                    ))}
                   </Select>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
@@ -304,13 +265,12 @@ const Student = () => {
                   />
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
-                {imageMessage && (
-            <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
-          )}
+                  {imageMessage && (
+                    <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
+                  )}
                   <label>Upload Profile Picture</label>
                   <input
                     type="file"
-                  
                     className="form-control"
                     placeholder="Name"
                     onChange={handleImage}
@@ -338,44 +298,44 @@ const Student = () => {
                   >
                     Submit
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ backgroundColor: "gray" }}
-                    onClick={resetHandler}
-                  >
-                    Reset
-                  </button>
                 </div>
               </div>
             </form>
+            <button
+              className="btn btn-primary"
+              style={{ backgroundColor: "gray" }}
+              onClick={resetHandler}
+            >
+              Reset
+            </button>
           </div>
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Students</h3>
-          {<div className='table-design'> 
-            <table className="table">
-              <thead style={{backgroundColor:'#dfeaf5'}}>
-                <tr>
-                  <th scope="col">Full Name</th>
-                  <th scope="col">Username</th>
-                  <th scope="col">Registration Number</th>
-                  <th scope="col">Department</th>
-                  <th scope="col">Batch</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stuusers.map((student) => (
-                  <tr key={student._id}>
-                    <td>{student.fullName}</td>
-                    <td>{student.userName}</td>
-                    <td>{student.regNo}</td>
-                    <td>{student.depName}</td>
-                    <td>{student.batch}</td>
+          {
+            <div className="table-design">
+              <table className="table">
+                <thead style={{ backgroundColor: "#dfeaf5" }}>
+                  <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Registration Number</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Batch</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {stuusers.map((student) => (
+                    <tr key={student._id}>
+                      <td>{student.fullName}</td>
+                      <td>{student.userName}</td>
+                      <td>{student.regNo}</td>
+                      <td>{student.depName}</td>
+                      <td>{student.batch}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           }
         </div>

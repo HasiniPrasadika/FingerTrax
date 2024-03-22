@@ -3,10 +3,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import {thunk} from "redux-thunk"; // Correct import statement
 import { composeWithDevTools } from "@redux-devtools/extension"; // Correct import statement
 import {
-  depAddReducer,
-  depListReducer,
-} from "./reducers/depReducer";
-import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
@@ -26,8 +22,6 @@ const rootReducer = combineReducers({
   lecuserList: lecuserListReducer,
   stuuserList: stuuserListReducer,
   stuUserRegister: userRegisterReducer,
-  depAdd: depAddReducer,
-  depList: depListReducer,
   modAdd: moduleCreateReducer,
   modList: modListReducer,
 });
