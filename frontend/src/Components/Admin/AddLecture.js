@@ -10,6 +10,7 @@ import { listLecUsers, registerlec } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import "./Admin.css";
+import axios from "axios";
 
 const Lecture = () => {
   const navigate = useNavigate();
@@ -21,17 +22,30 @@ const Lecture = () => {
   const [depName, setdepName] = useState("");
   const [regNo, setregNo] = useState("");
   const [image, setimage] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [lecusers, setLecusers] = useState([]);
 
   useEffect(() => {
-    dispatch(listDepartments());
-    dispatch(listLecUsers());
-  }, [dispatch, dispatch]);
+    axios
+    .get('http://localhost:8070/api/departments/getalldep')
+    .then((response) => {
+      setDepartments(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching departments', error);
+    });
+  }, [departments]);
 
-  const departmentList = useSelector((state) => state.depList);
-  const { deploading, deperror, departments } = departmentList;
-
-  const lecuserList = useSelector((state) => state.lecuserList);
-  const { lecloading, lecerror, lecusers } = lecuserList;
+  useEffect(() => {
+    axios
+    .get('http://localhost:8070/api/users/getlecusers')
+    .then((response) => {
+      setLecusers(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching Lecturers', error);
+    });
+  }, [lecusers]);
 
   
   
@@ -148,21 +162,16 @@ const Lecture = () => {
                     placeholder="Select department"
                     style={{ width: '300px' }}
                   >
-                    {deploading? (
-                      <Loading/>
-                    ) : deperror ? (
-                      <ErrorMessage message={deperror} />
-                    ) : (
-                      departments.map((department, depindex) => (
+                    {departments.map((department) => (
                         <Select.Option
-                          key={depindex}
+                          key={department._id}
                           value={department.depName}
                         >
                           {department.depName}
                         </Select.Option>
                       ))
 
-                    )}
+                    }
                     
                   </Select>
                 </div>
@@ -219,12 +228,7 @@ const Lecture = () => {
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Lecturers</h3>
 
-          {lecloading ? (
-            <Loading />
-          ) : lecerror ? (
-            <ErrorMessage message={lecerror} />
-          ) : (
-            <div className='table-design'>
+          {<div className='table-design'>
             <table className="table">
               <thead style={{backgroundColor:'#dfeaf5'}}>
                 <tr>
@@ -247,7 +251,7 @@ const Lecture = () => {
               </tbody>
             </table>
             </div>
-          )}
+          }
         </div>
       </div>
     </div>

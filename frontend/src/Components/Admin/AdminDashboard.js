@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import './Admin.css';
-
-
-import { useDispatch, useSelector } from "react-redux";
-import ErrorMessage from "../../Components/ErrorMessage";
-import Loading from "../../Components/Loading";
-import { listDepartments } from "../../actions/depActions";
+import axios from "axios";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  const departmentList = useSelector((state) => state.depList);
-  const { loading, error, departments } = departmentList;
+   
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    dispatch(listDepartments());
-  }, [dispatch]);
+    axios
+    .get('http://localhost:8070/api/departments/getalldep')
+    .then((response) => {
+      setDepartments(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching departments', error);
+    });
+  }, []);
 
   return (
     <div className="dashboard-container">
@@ -37,13 +38,8 @@ const Dashboard = () => {
       </div>
 
       <div className="second-row-container">
-        {loading ? (
-          <Loading />
-        ) : error ? (
-          <ErrorMessage message={error} />
-        ) : (
-          departments.map((department, index) => (
-            <div className="item" key={index}>
+        {departments.map((department) => (
+            <div className="item" key={department._id}>
               <div className='count-container' >
                 <div style={{fontWeight:'lighter', margin:'10px'}}><span style={{fontSize:'12px'}}><IoChevronForwardOutline /><IoChevronForwardOutline /></span>
                 {department.depName}
@@ -63,7 +59,7 @@ const Dashboard = () => {
               </div>
             </div>
           ))
-        )}
+        }
       </div>
     </div>
   );

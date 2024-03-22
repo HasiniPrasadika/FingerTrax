@@ -9,7 +9,7 @@ import { registerstu } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import "./Admin.css";
-
+import axios from "axios";
 import { listStuUsers } from "../../actions/userActions";
 import { listDepartments } from "../../actions/depActions";
 
@@ -31,17 +31,31 @@ const Student = () => {
   const [image, setimage] = useState(
     ""
   );
+  const [departments, setDepartments] = useState([]);
+  const [stuusers, setStuusers] = useState([]);
+
   useEffect(() => {
-    dispatch(listDepartments());
-    dispatch(listStuUsers());
-  }, [dispatch]);
+    axios
+    .get('http://localhost:8070/api/departments/getalldep')
+    .then((response) => {
+      setDepartments(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching departments', error);
+    });
+  }, [departments]);
 
+  useEffect(() => {
+    axios
+    .get('http://localhost:8070/api/users/getstuusers')
+    .then((response) => {
+      setStuusers(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching Students', error);
+    });
+  }, [stuusers]);
 
-  const departmentList = useSelector((state) => state.depList);
-  const { deploading, deperror, departments } = departmentList;
-  
-  const stuuserList = useSelector((state) => state.stuuserList);
-  const {stuloading, stuerror, stuusers} = stuuserList;
 
   
 
@@ -71,19 +85,69 @@ const Student = () => {
   }
   const enrollFingerprint = async () => {
     try {
-      
+      // Fetch existing student users from MongoDB
+      const existingUsersResponse = await axios.get('http://localhost:8070/api/users/getstuusers');
+      const existingUsers = existingUsersResponse.data;
+      console.log(existingUsers);
+  
+      // Extract existing fingerprint IDs from fetched users
+      const existingFingerprintIDs = existingUsers.map((user) => user.fingerprintID);
+      console.log(existingFingerprintIDs);
+  
+      // Check if entered fingerprint ID already exists
+      if (existingFingerprintIDs.includes(fingerprintID)) {
+        setMessage("Fingerprint ID already exists!");
+        return;
+      }
+  
+      // If fingerprint ID does not exist, proceed to enroll in Firebase
       set(ref(fireDb, 'FingerprintData/'), {
         stuRegNo: regNo,
         stuFingerprintID: fingerprintID
-      })
+      });
       set(ref(fireDb, 'State/'), {
         arduinoState: "1"
-      })
-      
+      });
+  
       setMessage("Fingerprint enrolled successfully!");
+      const enrollFingerprint = async () => {
+  try {
+    // Fetch existing student users from MongoDB
+    const existingUsersResponse = await axios.get('http://localhost:8070/api/users/getstuusers');
+    const existingUsers = existingUsersResponse.data;
+
+    // Extract existing fingerprint IDs from fetched users
+    const existingFingerprintIDs = existingUsers.map((user) => user.fingerprintID);
+
+    // Check if entered fingerprint ID already exists
+    if (existingFingerprintIDs.includes(fingerprintID)) {
+      setMessage("Fingerprint ID already exists!");
       setTimeout(() => {
         setMessage(null);
       }, 3000);
+      return;
+    }
+
+    // If fingerprint ID does not exist, proceed to enroll in Firebase
+    set(ref(fireDb, 'FingerprintData/'), {
+      stuRegNo: regNo,
+      stuFingerprintID: fingerprintID
+    });
+    set(ref(fireDb, 'State/'), {
+      arduinoState: "1"
+    });
+
+    setMessage("Fingerprint enrolled successfully!");
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  } catch (error) {
+    setMessage("Failed to enroll fingerprint!");
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  }
+};
     } catch (error) {
       setMessage("Failed to enroll fingerprint!");
       setTimeout(() => {
@@ -206,21 +270,16 @@ const Student = () => {
                     placeholder="Select department"
                     style={{ width: '300px' }}
                   >
-                    {deploading? (
-                      <Loading/>
-                    ) : deperror ? (
-                      <ErrorMessage message={deperror} />
-                    ) : (
-                      departments.map((department, depindex) => (
+                    {departments.map((department) => (
                         <Select.Option
-                          key={depindex}
+                          key={department._id}
                           value={department.depName}
                         >
                           {department.depName}
                         </Select.Option>
                       ))
 
-                    )}
+                    }
                     
                   </Select>
                 </div>
@@ -294,12 +353,7 @@ const Student = () => {
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Students</h3>
-          {stuloading ? (
-            <Loading />
-          ) : stuerror ? (
-            <ErrorMessage message={stuerror} />
-          ) : (
-            <div className='table-design'> 
+          {<div className='table-design'> 
             <table className="table">
               <thead style={{backgroundColor:'#dfeaf5'}}>
                 <tr>
@@ -311,8 +365,8 @@ const Student = () => {
                 </tr>
               </thead>
               <tbody>
-                {stuusers.map((student, index) => (
-                  <tr key={index}>
+                {stuusers.map((student) => (
+                  <tr key={student._id}>
                     <td>{student.fullName}</td>
                     <td>{student.userName}</td>
                     <td>{student.regNo}</td>
@@ -323,7 +377,7 @@ const Student = () => {
               </tbody>
             </table>
             </div>
-          )}
+          }
         </div>
       </div>
     </div>
