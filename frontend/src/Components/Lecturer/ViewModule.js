@@ -6,7 +6,8 @@ import dayjs from 'dayjs';
 import React, { useState } from "react";
 import { BiDotsVerticalRounded, BiTachometer, BiUserCheck, BiUserX } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
-
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import {db} from '../../firebase';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const today = dayjs();
