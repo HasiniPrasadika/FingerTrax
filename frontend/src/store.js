@@ -6,8 +6,6 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateReducer,
-  lecuserListReducer,
-  stuuserListReducer
 } from "./reducers/userReducer";
 import {
   moduleCreateReducer,
@@ -19,8 +17,6 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userUpdate: userUpdateReducer,
   lecUserRegister: userRegisterReducer,
-  lecuserList: lecuserListReducer,
-  stuuserList: stuuserListReducer,
   stuUserRegister: userRegisterReducer,
   modAdd: moduleCreateReducer,
   modList: modListReducer,
