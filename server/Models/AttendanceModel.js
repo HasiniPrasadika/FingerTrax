@@ -10,7 +10,9 @@ const attendanceSchema = new mongoose.Schema({
     fingerprintID: String,
   }],
   moduleCode: String,
-  lectureTime: Number,
+  lectureHours: endTime - startTime,
+  startTime: Date,
+  endTime: Date,
   date: Date,
   // other attendance details like fingerprint ID, etc.
 });

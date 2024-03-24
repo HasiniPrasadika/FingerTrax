@@ -2,7 +2,15 @@ const Module = require("../Models/ModuleModel");
 const asyncHandler = require("express-async-handler");
 
 const createModule = asyncHandler(async (req, res) => {
-  const { modCode, modName, enrolKey, semester, lectureHours } = req.body;
+  const {
+    modCode,
+    modName,
+    enrolKey,
+    modCoordinator,
+    semester,
+    lecHours,
+    department,
+  } = req.body;
 
   const modExists = await Module.findOne({ modCode });
 
@@ -14,8 +22,10 @@ const createModule = asyncHandler(async (req, res) => {
     modCode,
     modName,
     enrolKey,
+    modCoordinator,
     semester,
-    lectureHours,
+    lecHours,
+    department,
   });
 
   if (module) {
@@ -24,8 +34,10 @@ const createModule = asyncHandler(async (req, res) => {
       modCode: module.modCode,
       modName: module.modName,
       enrolKey: module.enrolKey,
+      modCoordinator: module.modCoordinator,
       semester: module.semester,
-      lectureHours: module.lectureHours,
+      lecHours: module.lecHours,
+      department: module.department,
     });
   } else {
     console.error("Error adding module:", error);
@@ -34,8 +46,15 @@ const createModule = asyncHandler(async (req, res) => {
 });
 
 const getModules = asyncHandler(async (req, res) => {
-    const modules = await Module.find();
-    res.json(modules);
-  });
+  const modules = await Module.find();
+  res.json(modules);
+});
 
-module.exports = { createModule, getModules};
+const getOwnModules = asyncHandler(async (req, res) => {
+  // Assuming you have a User model defined with Mongoose
+  const { modCoordinator } = req.body;
+  const ownmodules = await User.find({ modCoordinator: modCoordinator });
+  res.json(ownmodules);
+});
+
+module.exports = { createModule, getModules, getOwnModules };

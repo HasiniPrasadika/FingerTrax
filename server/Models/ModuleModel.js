@@ -14,14 +14,20 @@ const moduleSchema = new mongoose.Schema({
   },
   enrolKey: {
     type: String,
+    unique: true,
   },
   modCoordinator: {
     type: String,
   },
-  lectureHours: {
-    type: String,
+  lecHours: {
+    type: Number,
+    default: 0
   },
-  depCode: {
+  conductedLectureHours: {
+    type: Number,
+    default: 0
+  },
+  department: {
     type: String,
   },
   lecturers: [{
