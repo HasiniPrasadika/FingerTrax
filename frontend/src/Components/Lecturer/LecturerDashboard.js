@@ -1,22 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import "../Lecturer/Lecturer.css";
 import { FaRegChartBar } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
-import Loading from "../../Components/Loading";
-import { listModules } from "../../actions/modActions";
+
+import axios from "axios";
 
 const DashboardL = () => {
-  const dispatch = useDispatch();
-  const modulesList = useSelector((state) => state.modList);
-  const { loading, error, modules } = modulesList;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const [modules, setModules] = useState([]);
 
   useEffect(() => {
-    dispatch(listModules());
-  }, [dispatch]);
+    axios
+      .get("http://localhost:8070/api/modules/getallmod")
+      .then((response) => {
+        const filteredModules = response.data.filter(
+          (module) => module.modCoordinator === userInfo.userName
+        );
+        setModules(filteredModules);
+      })
+      .catch((error) => {
+        console.error("Error fetching modules", error);
+      });
+  }, [modules]);
 
   return (
     <div className="dashboard">
@@ -55,44 +65,39 @@ const DashboardL = () => {
           </label>
         </div>
         <div className="module-container">
-          {loading ? (
-            <Loading />
-          ) : error ? (
-            <ErrorMessage message={error} />
-          ) : (
-            modules.map((module, index) => (
-              <Link to="/lecturer_module_view">
-                <div className="status-box" key={index}>
-                  <div
-                    className="row"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginLeft: "25px",
-                    }}
-                  >
-                    <div className="module-icon">
-                      <FaRegChartBar />
-                    </div>
-                    <div className="module-name">
-                      <p>
-                        {module.modCode} <br />
-                        {module.modName}
-                      </p>
-                    </div>
-                    <div className="student-count">
-                      <p style={{ fontWeight: "bold" }}>
-                        {module.noOfStu}
-                        <br />
-                        Students
-                      </p>
-                    </div>
+          {modules.map((module, index) => (
+            
+            <Link to='/lecturer_module_view' state={{module: module}}>
+              <div className="status-box" key={index}>
+                <div
+                  className="row"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft: "25px",
+                  }}
+                >
+                  <div className="module-icon">
+                    <FaRegChartBar />
+                  </div>
+                  <div className="module-name">
+                    <p>
+                      {module.modCode} <br />
+                      {module.modName}
+                    </p>
+                  </div>
+                  <div className="student-count">
+                    <p style={{ fontWeight: "bold" }}>
+                      {module.noOfStu}
+                      <br />
+                      Students
+                    </p>
                   </div>
                 </div>
-              </Link>
-            ))
-          )}
-
+              </div>
+            </Link>
+            
+          ))}
         </div>
       </div>
     </div>
