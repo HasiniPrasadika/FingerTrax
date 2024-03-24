@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserModel.js");
 const generateToken = require("../util/SecretToken.js");
 const cloudinary = require("../util/Cloudinary.js");
+const { unsubscribe } = require("../Routes/AuthRoute.js");
 
 
 //@description     Auth the user
@@ -19,6 +20,7 @@ const authUser = asyncHandler(async (req, res) => {
       password: user.password,
       role: user.role,
       image: user.image,
+      fullName: user.fullName,
       token: generateToken(user._id),
     });
   } else {
@@ -195,7 +197,14 @@ const getStuUsers = asyncHandler(async (req, res) => {
   res.json(stuusers);
 });
 
-module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers };
+const getCurrentUser = asyncHandler(async (req, res) => {
+  // Assuming you have a User model defined with Mongoose
+  const { userName } = req.body;
+  const currentuser = await User.findOne({ userName: userName });
+  res.json(currentuser);
+});
+
+module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser };
 
 
 
