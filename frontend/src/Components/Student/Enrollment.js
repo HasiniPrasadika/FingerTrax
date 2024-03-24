@@ -1,7 +1,23 @@
-import React from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaCaretRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
+import { Link } from 'react-router-dom';
 
 const StudentEnrollment = () => {
+
+    const [departments, setDepartments] = useState([]);
+    useEffect(() => {
+        axios
+        .get('http://localhost:8070/api/departments/getalldep')
+        .then((response) => {
+          setDepartments(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching departments', error);
+        });
+      }, []);
+    
     return (
         <div className='en-container'>
             <div className='enrollment-container-one'>
@@ -13,41 +29,15 @@ const StudentEnrollment = () => {
                         <span style={{ opacity: '0.8', padding: '5px', fontSize: '12px' }}><GoTriangleRight /> Enrollment</span>
                     </div>
                     <div className='form-container'>
-                        <form>
-                            <div className="form-group" style={{ color:'#012970', marginBottom: 10, marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
-                                <h5>Module Selection</h5>
+                        <div>
+                            <h5>Department</h5>
+                            {departments.map((department)=>(
+                                <div className='department-button row' key={department._id}>
+                                <div className='department-icon'><FaCaretRight /></div>
+                                <div><Link to="/student_gotosemesters" state={{department:department}} className='department-link'> {department.depName}</Link></div>
                             </div>
-                            <div className="form-row" style={{ marginBottom: 10 }}>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="department">Department</label>
-                                    <select id="department" className="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="module">Module</label>
-                                    <select id="module" className="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="semester">Semester</label>
-                                    <select id="semester" className="form-control">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
-                                </div>
-                                
-                            </div>
-                            <div className="form-group">
-                                    <button type="submit" className="btn btn-primary" style={{ marginRight: '25px', marginLeft: '5px' }}>Select</button>
-                                    <button type="reset" className="btn btn-primary" style={{ backgroundColor: 'gray' }}>Reset</button>
-                                </div>
-                        </form>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

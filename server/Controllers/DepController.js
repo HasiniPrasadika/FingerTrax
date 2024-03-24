@@ -37,7 +37,18 @@ const getDepartments = asyncHandler(async (req, res) => {
   res.json(departments);
 });
 
-module.exports = {addDepartment, getDepartments};
+// Get one department
+
+const getOneDepartment = asyncHandler(async (req, res) => {
+  const {depCode} = req.body;
+
+    const oneDepartment = await Module.findOne({depcode: depCode});
+    res.json(oneDepartment);
+});
+
+
+
+module.exports = {addDepartment, getDepartments,getOneDepartment};
 
 
 
