@@ -33,9 +33,26 @@ const createModule = asyncHandler(async (req, res) => {
   }
 });
 
+//Get All Module
 const getModules = asyncHandler(async (req, res) => {
+  
     const modules = await Module.find();
     res.json(modules);
   });
 
-module.exports = { createModule, getModules};
+  // Get module by depCode & semester
+const getModulesByDepcode = asyncHandler(async (req, res) => {
+  const { depCode, semester } = req.body; 
+
+  try {
+      const depmodules = await Module.find({ depcode: depCode, semester: semester });
+      res.json(depmodules);
+  } catch (error) {
+      console.error("Error fetching modules by depCode and semester:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
+module.exports = { createModule, getModules, getModulesByDepcode};

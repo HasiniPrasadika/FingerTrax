@@ -14,6 +14,8 @@ import LectureHeader from "./Components/Lecturer/LectureHeader";
 import LectureProfile from "./Components/Lecturer/LectureProfile";
 import LectureSidebar from "./Components/Lecturer/LectureSidebar";
 import DashboardL from "./Components/Lecturer/LecturerDashboard";
+import EnrollSemester from "./Components/Student/EnrollSemester";
+import Modules from "./Components/Student/Modules";
 import DashboardS from "./Components/Student/StudentDashboard";
 
 import AbsenceAppicationView from "./Components/Lecturer/AbsenceApplicationView";
@@ -84,22 +86,15 @@ const App = () => {
 
         <Route path="/studentdashboard" element={<DashboardS />} />
         <Route path="/student_enrollment" element={<StudentEnrollment />} />
-        <Route
-          path="/student_absence_application"
-          element={<AbsenceApplication />}
-        />
+        <Route path="/student_absence_application" element={<AbsenceApplication />} />
         <Route path="/student_profile" element={<StudentProfile />} />
-        <Route
-          path="/student-attendance-record"
-          element={<AttendanceRecord />}
-        />
+        <Route path="/student-attendance-record" element={<AttendanceRecord />} />
+        <Route path="/student_gotosemesters" element={<EnrollSemester />} />
+        <Route path = "/student_module" element ={<Modules/>}/>
 
         <Route path="/lecturedashboard" element={<DashboardL />} />
         <Route path="/lecture_create_module" element={<CreateModule />} />
-        <Route
-          path="/lecture_Absence_applications"
-          element={<AbsenceAppicationView />}
-        />
+        <Route path="/lecture_Absence_applications" element={<AbsenceAppicationView />} />
         <Route path="/lecture_module_access" element={<ModuleAccess />} />
         <Route path="/lecturer_module_view" element={<ModuleDetails />} />
         <Route path="/lecture_profile_update" element={<LectureProfile />} />
