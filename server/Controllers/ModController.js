@@ -1,3 +1,4 @@
+const ModuleModel = require("../Models/ModuleModel");
 const Module = require("../Models/ModuleModel");
 const asyncHandler = require("express-async-handler");
 
@@ -59,20 +60,26 @@ const getOwnModules = asyncHandler(async (req, res) => {
   res.json(ownmodules);
 });
 
-  // Get module by depCode & semester
-const getModulesByDepcode = asyncHandler(async (req, res) => {
-  const { depCode } = req.body; 
+// Enroll Module
 
-  try {
-      const depmodules = await Module.find({ depcode: depCode });
-      res.json(depmodules);
-  } catch (error) {
-      console.error("Error fetching modules by depCode and semester:", error);
-      res.status(500).json({ message: "Internal Server Error" });
-  }
+const enrollModule = asyncHandler(async(req,res)=>{
+
+  const moduleId = req.params.id;
+  const {noOfStu, students} = req.body;
+
+  const updateModule = {
+    noOfStu, students
+  };
+
+  await ModuleModel.findByIdAndUpdate(moduleId,updateModule).then((updatedModule)=>{
+    res.status(200).send({status:"module enroll",updatedModule})
+  }).catch((err)=>{
+    console.error(err);
+  })
 });
 
 
 
-module.exports = { createModule, getModules, getModulesByDepcode, getOwnModules};
+
+module.exports = { createModule, getModules,  getOwnModules,enrollModule};
 
