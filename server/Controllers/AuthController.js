@@ -21,6 +21,7 @@ const authUser = asyncHandler(async (req, res) => {
       role: user.role,
       image: user.image,
       fullName: user.fullName,
+      regNo: user.regNo,
       token: generateToken(user._id),
     });
   } else {

@@ -15,7 +15,6 @@ const EnrollSemester = () => {
         semester: (index + 1).toString()
       }));
 
-console.log(semesterLinks);
     return (
         <div className='en-container'>
             <div className='enrollment-container-one'>
