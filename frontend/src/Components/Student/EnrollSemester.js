@@ -12,7 +12,7 @@ const EnrollSemester = () => {
 
     const semesterLinks = Array.from({ length: noSemester }, (_, index) => ({ 
         depCode: department.depCode, 
-        semester: index + 1 
+        semester: (index + 1).toString()
       }));
 
 console.log(semesterLinks);
