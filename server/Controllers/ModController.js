@@ -61,10 +61,10 @@ const getOwnModules = asyncHandler(async (req, res) => {
 
   // Get module by depCode & semester
 const getModulesByDepcode = asyncHandler(async (req, res) => {
-  const { depCode, semester } = req.body; 
+  const { depCode } = req.body; 
 
   try {
-      const depmodules = await Module.find({ depcode: depCode, semester: semester });
+      const depmodules = await Module.find({ depcode: depCode });
       res.json(depmodules);
   } catch (error) {
       console.error("Error fetching modules by depCode and semester:", error);

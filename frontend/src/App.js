@@ -10,22 +10,23 @@ import Dashboard from "./Components/Admin/AdminDashboard";
 import AdminHeader from "./Components/Admin/AdminHeader";
 import AdminSidebar from "./Components/Admin/AdminSidebar";
 
+import AbsenceAppicationView from "./Components/Lecturer/AbsenceApplicationView";
+import CreateModule from "./Components/Lecturer/CreateModule";
 import LectureHeader from "./Components/Lecturer/LectureHeader";
 import LectureProfile from "./Components/Lecturer/LectureProfile";
 import LectureSidebar from "./Components/Lecturer/LectureSidebar";
 import DashboardL from "./Components/Lecturer/LecturerDashboard";
-import EnrollSemester from "./Components/Student/EnrollSemester";
-import Modules from "./Components/Student/Modules";
-import DashboardS from "./Components/Student/StudentDashboard";
-
-import AbsenceAppicationView from "./Components/Lecturer/AbsenceApplicationView";
-import CreateModule from "./Components/Lecturer/CreateModule";
 import ModuleAccess from "./Components/Lecturer/ModuleAccess";
 import ModuleDetails from "./Components/Lecturer/ViewModule";
+
 import AbsenceApplication from "./Components/Student/AbsenceApplication";
 import AttendanceRecord from "./Components/Student/AttendanceRecord";
+import EnrollModule from "./Components/Student/EnrollModule";
+import EnrollSemester from "./Components/Student/EnrollSemester";
 import StudentEnrollment from "./Components/Student/Enrollment";
+import Modules from "./Components/Student/Modules";
 import StudentProfile from "./Components/Student/Profile";
+import DashboardS from "./Components/Student/StudentDashboard";
 import StudentHeader from "./Components/Student/StudentHeader";
 import StudentSidebar from "./Components/Student/StudentSidebar";
 
@@ -91,6 +92,7 @@ const App = () => {
         <Route path="/student-attendance-record" element={<AttendanceRecord />} />
         <Route path="/student_gotosemesters" element={<EnrollSemester />} />
         <Route path = "/student_module" element ={<Modules/>}/>
+        <Route path ="/student_enroll_module" element={<EnrollModule/>}/>
 
         <Route path="/lecturedashboard" element={<DashboardL />} />
         <Route path="/lecture_create_module" element={<CreateModule />} />
