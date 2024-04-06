@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const EnrollModule = () => {
 
@@ -10,19 +10,24 @@ const EnrollModule = () => {
 
     
     const [enrollKey, setEnrollKey] = useState();
-    
+    const navigate = useNavigate;
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
     console.log(module.students[0]);
 
-    const stuReg = userInfo.userName;
+    useEffect(() => {
+        if (module.students.some(student => student.regNo === userInfo.regNo)) {
+            navigate('/studentdashboard')
+            return;
+        }
+      }, []);
 
     const enrollHandler = () => {
         if (enrollKey === module.enrolKey) {
             const noOfStu = module.noOfStu + 1;
-            const updatedStudents = [...module.students, { regNo: userInfo.userName }];
+            const updatedStudents = [...module.students, { regNo: userInfo.regNo }];
     
             axios.put(`http://localhost:8070/api/modules/enrollmodule/${module._id}`, {
                 noOfStu,

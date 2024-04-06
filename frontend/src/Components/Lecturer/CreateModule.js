@@ -1,11 +1,11 @@
+import { Select } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { GoTriangleRight } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
-import axios from "axios";
-import { Select } from "antd";
 
 const CreateModule = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -162,11 +162,11 @@ const CreateModule = () => {
             <label htmlFor="semester" className="col-sm-4 col-form-label">
               Semester
             </label>
-            <Select
+            <Select 
               value={semester}
               onChange={(value) => setSemester(value)}
               placeholder="Select semester"
-              style={{ width: "300px" }}
+              style={{ height:'35px' , width:'485px', marginLeft:'15px'}}
             >
               <Select.Option value="1">Semester 1</Select.Option>
               <Select.Option value="2">Semester 2</Select.Option>
@@ -209,7 +209,7 @@ const CreateModule = () => {
               value={department}
               onChange={(value) => setDepartment(value)}
               placeholder="Select department"
-              style={{ width: "300px" }}
+              style={{ height:'35px' , width:'485px', marginLeft:'15px'}}
             >
               {departments.map((department) => (
                 <Select.Option key={department._id} value={department.depCode}>
@@ -233,18 +233,20 @@ const CreateModule = () => {
               type="submit"
               className="btn btn-primary"
               style={{ marginRight: "25px", marginLeft: "5px" }}
+              onClick={submitHandler}
             >
               Submit
             </button>
-          </div>
-        </form>
-        <button
+            <button
           className="btn btn-primary"
           style={{ backgroundColor: "gray" }}
           onClick={resetHandler}
         >
           Reset
         </button>
+          </div>
+        </form>
+        
       </div>
       <br />
       <div>

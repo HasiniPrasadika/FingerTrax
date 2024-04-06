@@ -32,7 +32,7 @@ const EnrollSemester = () => {
                             {semesterLinks.map((semesterObject, index) => ( 
                                  <div className='department-button row'>
                                  <div className='department-icon'><FaCaretRight /></div>
-                                 <div><Link key={index} to="/student_module" state={{semesterObject: semesterObject}}>Semester {semesterObject.semester} </Link> 
+                                 <div><Link key={index} to="/student_module" state={{semesterObject: semesterObject}} style={{color:"white"}}>Semester {semesterObject.semester} </Link> 
                                  
                             </div>
                              </div>
