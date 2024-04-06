@@ -1,11 +1,10 @@
 import { Select } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
-import { registerlec } from "../../actions/userActions";
 import ErrorMessage from "../ErrorMessage";
 import "./Admin.css";
-import axios from "axios";
 
 const Lecture = () => {
   const dispatch = useDispatch();
@@ -128,7 +127,7 @@ const Lecture = () => {
         </div>
         <div className="lecture-details">
           <div className="lecture-photo-area">
-            <h3 style={{ marginBottom: "30px" }}>Add a Lecturer</h3>
+            <h3 style={{ marginBottom: "30px" , marginTop:"50px"}}>Add a Lecturer</h3>
             <div className="profile-photo-preview">
               <div style={{ position: "relative", display: "inline-block" }}>
                 <img
@@ -175,23 +174,25 @@ const Lecture = () => {
                     />
                   </div>
                 </div>
-                <div className="form-group" style={{ marginBottom: 10 }}>
-                  <label>Department Name</label>
+                <div className="form-group " >
+                  <label>Department Name</label><br/>
+                  <div >
                   <Select
                     value={depName}
                     onChange={(value) => setdepName(value)}
                     placeholder="Select department"
-                    style={{ width: "300px" }}
+                    style={{ width: "520px" , height:'40px'}}
                   >
                     {departments.map((department) => (
                       <Select.Option
                         key={department._id}
                         value={department.depName}
-                      >
+                        style={{ width: "520px" ,height:'40px'}}>
                         {department.depName}
                       </Select.Option>
                     ))}
                   </Select>
+                  </div>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
                   <label>Registration Number</label>
@@ -213,6 +214,7 @@ const Lecture = () => {
                     className="form-control"
                     placeholder="Name"
                     onChange={handleImage}
+                    style={{marginBottom:'30px'}}
                   />
                 </div>
                 {/* <div className="form-group">
@@ -226,22 +228,23 @@ const Lecture = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    style={{ marginRight: "25px", marginLeft: "5px" }}
+                    style={{ marginRight: "25px", marginLeft: "5px" , width:'75px'}}
+                    onClick={submitHandler}
                   >
                     Submit
                   </button>
-                  
-                </div>
-              </div>
-            </form>
-            <button
+                  <button
+                    
                     type="submit"
                     className="btn btn-primary"
-                    style={{ backgroundColor: "gray" }}
+                    style={{ backgroundColor: "gray",  marginRight: "25px",  width:'75px'}}
                     onClick={resetHandler}
                   >
                     Reset
                   </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
         <div className="lecturer-list">

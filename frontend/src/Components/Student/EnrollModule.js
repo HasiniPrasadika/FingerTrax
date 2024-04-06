@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ErrorMessage from "../ErrorMessage";
 
 
+
 const EnrollModule = () => {
 
     const {state} = useLocation();
@@ -13,7 +14,9 @@ const EnrollModule = () => {
     const [message, setMessage] = useState(null);
     
     const [enrollKey, setEnrollKey] = useState();
+
     const navigate = useNavigate();
+
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
@@ -28,11 +31,19 @@ const EnrollModule = () => {
     }, []);
 
 
+    useEffect(() => {
+        if (module.students.some(student => student.regNo === userInfo.regNo)) {
+            navigate('/studentdashboard')
+            return;
+        }
+      }, []);
+
+
       const enrollHandler = (module) => {
         
         if (enrollKey === module.enrolKey) {
             const noOfStu = module.noOfStu + 1;
-            const updatedStudents = [...module.students, { regNo: userInfo.userName }];
+            const updatedStudents = [...module.students, { regNo: userInfo.regNo }];
     
             axios.put(`http://localhost:8070/api/modules/enrollmodule/${module._id}`, {
                 noOfStu,

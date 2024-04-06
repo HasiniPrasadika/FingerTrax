@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
 import { login } from "../actions/userActions";
-import { toast } from "react-toastify";
-import axios from "axios";
-import Loading from "../Components/Loading";
 import "./Login.css";
 
 const Login = () => {
@@ -100,7 +97,7 @@ const Login = () => {
             </div>
             <button type="submit">Login</button>
             <span style={{ color: "blue" }}>
-              Forgot password?<Link to={"/signup"}>Login</Link>
+              Forgot password?<Link to={"/signup"} style={{color:'gray'}}> Signup</Link>
             </span>
           </form>
         </div>
