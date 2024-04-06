@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 const depRoute = require("./Routes/DepRoute");
 const modRoute = require("./Routes/ModRoute");
+const attRoute = require("./Routes/AttRoutes");
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json({ limit: '50mb' })); // Adjust the limit as needed
@@ -36,7 +37,7 @@ app.use(express.json());
 app.use("/api/users", authRoute);
 app.use("/api/departments", depRoute);
 app.use("/api/modules", modRoute);
-
+app.use("/api/attendance", attRoute);
 
 
 app.listen(PORT, () => {

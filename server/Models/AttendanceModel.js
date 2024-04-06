@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 
 const attendanceSchema = new mongoose.Schema({
-  attendanceID: {
-    type: String,
-    unique: true,
-
-  },
+  
   students: [{
     fingerprintID: String,
   }],
   moduleCode: String,
-  lectureHours: endTime - startTime,
+  lectureHours: Number,
   startTime: Date,
   endTime: Date,
   date: Date,

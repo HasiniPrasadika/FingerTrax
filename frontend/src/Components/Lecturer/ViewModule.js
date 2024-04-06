@@ -15,6 +15,10 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useLocation } from "react-router-dom";
+import ErrorMessage from "../../Components/ErrorMessage";
+import axios from "axios";
+import { fireDb } from "../../firebase";
+import { ref, set, get, child } from "firebase/database";
 
 const today = dayjs();
 
@@ -28,6 +32,8 @@ const ModuleDetails = () => {
   const [date, setDate] = useState(today);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [fireData, setfireData] = useState(null);
 
   const handleCalendarChange = (date) => {
     setDate(date);
@@ -39,6 +45,71 @@ const ModuleDetails = () => {
   };
   const handleStartTimeChange = (startTime) => {
     setStartTime(startTime);
+  };
+
+  const handleStartLec = (e) => {
+    try {
+      e.preventDefault();
+      const lectureHours = (endTime - startTime) / 3600000;
+      axios
+        .post("http://localhost:8070/api/attendance/addattendance", {
+          moduleCode,
+          startTime,
+          endTime,
+          date,
+          lectureHours,
+        })
+
+        .then((response) => {
+          if (response != null) {
+            setMessage("Module Added successfully!");
+            console.log(response);
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+            set(ref(fireDb, "State/"), {
+              arduinoState: "3",
+            });
+            setMessage("Getting Attendance");
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+          } else {
+            setMessage("Module Adding Unsuccessful!");
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding attendance", error);
+        });
+    } catch (error) {
+      setMessage("Failed to add attendance");
+    }
+  };
+
+  const handleEndLec = async () => {
+    try {
+    
+    const snapshot = await get(child(fireDb, "Attendance"));
+    if (snapshot.exists()) {
+      const attendanceData = snapshot.val();
+      console.log("Attendance Data:", attendanceData);
+      // Process the attendance data as needed
+    } else {
+      console.log("No attendance data available");
+    }
+    set(ref(fireDb, "State/"), {
+      arduinoState: "0",
+    });
+    setMessage("Stopped Getting Attendance");
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  } catch (error) {
+    console.error("Error retrieving attendance data:", error);
+  }
   };
 
   return (
@@ -220,7 +291,12 @@ const ModuleDetails = () => {
                 </LocalizationProvider>
               </div>
               <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-                <button className="btn btn-primary">Start</button>
+                <button onClick={handleStartLec} className="btn btn-primary">
+                  Start
+                </button>
+                <button onClick={handleEndLec} className="btn btn-primary">
+                  End
+                </button>
               </div>
             </div>
           </div>
@@ -268,3 +344,27 @@ const ModuleDetails = () => {
 };
 
 export default ModuleDetails;
+
+/*
+import { collection, getDocs } from "firebase/firestore";
+import {db} from '../firebase';
+Import { useState } from ‘react’;
+ 
+   const [todos, setTodos] = useState([]);
+ 
+    const fetchPost = async () => {
+       
+        await getDocs(collection(db, "todos"))
+            .then((querySnapshot)=>{               
+                const newData = querySnapshot.docs
+                    .map((doc) => ({...doc.data(), id:doc.id }));
+                setTodos(newData);                
+                console.log(todos, newData);
+            })
+       
+    }
+   
+    useEffect(()=>{
+        fetchPost();
+    }, [])
+ */
