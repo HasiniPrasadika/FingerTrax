@@ -1,9 +1,12 @@
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import axios from "axios";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import { child, get, ref, set } from "firebase/database";
+import React, { useState } from "react";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
@@ -11,14 +14,9 @@ import {
   BiUserX,
 } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
-import { collection, getDocs, addDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLocation } from "react-router-dom";
-import ErrorMessage from "../../Components/ErrorMessage";
-import axios from "axios";
 import { fireDb } from "../../firebase";
-import { ref, set, get, child } from "firebase/database";
 
 const today = dayjs();
 
@@ -223,6 +221,58 @@ const ModuleDetails = () => {
                 <br />
                 Reports
               </h6>
+              <div className="module-form-report">
+
+              <div className="row">
+              <p style={{color:'gray', marginLeft:'15px'}}> Date : 18/12/2023</p>
+              <button className="btn btn-primary" style={{marginLeft:'330px'}}>
+              <PiDownloadSimpleBold style={{fontSize:'18px'}} /> Download 
+              </button>
+              </div>
+              
+              <table class="table table-bordered" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Reg No.</th>
+      <th scope="col">Name</th>
+      <th scope="col">Lecture Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>EG/2020/4018</td>
+      <td>Kavindi L.K.D.</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>EG/2020/4055</td>
+      <td>Madhushika G.H.D.</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>EG/2020/4065</td>
+      <td>Madhushika G.K.H.P.</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>EG/2020/4066</td>
+      <td>Madhumali H.K.</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th scope="row">5</th>
+      <td>EG/2020/4066</td>
+      <td>Mallawaarachchi M.R.I.G.</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
             </div>
           </div>
         </div>
@@ -291,7 +341,7 @@ const ModuleDetails = () => {
                 </LocalizationProvider>
               </div>
               <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-                <button onClick={handleStartLec} className="btn btn-primary">
+                <button onClick={handleStartLec} className="btn btn-primary" style={{marginRight:'10px'}}>
                   Start
                 </button>
                 <button onClick={handleEndLec} className="btn btn-primary">

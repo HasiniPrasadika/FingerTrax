@@ -49,7 +49,7 @@ const Modules = () => {
                             {modules.map((module, index) => ( 
                                  <div className='department-button row'>
                                  <div className='department-icon'><FaCaretRight /></div>
-                                 <div><Link key={index} to="/student_enroll_module" state={{module: module}}>{module.modCode} {module.modName} </Link> 
+                                 <div><Link key={index} to="/student_enroll_module" state={{module: module}} style={{color:'white'}}>{module.modCode} {module.modName} </Link> 
                                   </div>
                              </div>
                              )) }

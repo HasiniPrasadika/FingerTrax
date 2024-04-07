@@ -31,12 +31,12 @@ const EnrollModule = () => {
     }, []);
 
 
-    useEffect(() => {
-        if (module.students.some(student => student.regNo === userInfo.regNo)) {
-            navigate('/studentdashboard')
-            return;
-        }
-      }, []);
+    // useEffect(() => {
+    //     if (module.students.some(student => student.regNo === userInfo.regNo)) {
+    //         navigate('/studentdashboard')
+    //         return;
+    //     }
+    //   }, []);
 
 
       const enrollHandler = (module) => {

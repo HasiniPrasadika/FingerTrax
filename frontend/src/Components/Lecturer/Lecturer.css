@@ -274,6 +274,19 @@ body {
 
 }
 
+.module-form-report{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    background-color: #e8f4ff;
+    width: auto;
+    height: auto;
+    margin: 15px 20px 20px 20px;
+    border-radius: 15px;
+    padding: 20px;
+
+}
+
 .table-design{
     margin-left: 10px;
     margin-right: 10px;

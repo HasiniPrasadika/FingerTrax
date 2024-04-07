@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
 import { login } from "../actions/userActions";
 import "./Login.css";
@@ -97,7 +97,7 @@ const Login = () => {
             </div>
             <button type="submit">Login</button>
             <span style={{ color: "blue" }}>
-              Forgot password?<Link to={"/signup"} style={{color:'gray'}}> Signup</Link>
+              Forgot password?
             </span>
           </form>
         </div>
