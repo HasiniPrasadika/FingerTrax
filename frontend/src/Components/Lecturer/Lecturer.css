@@ -183,10 +183,11 @@ body {
 }
 /*module Access*/
 .topic-style{
-    margin: 0px 0px 0px 25px;
+    margin: 0px 0px 15px 25px;
     color: #072f75;
     font-weight: bold;
     font-size: larger;
+
 }
 
 .path-style{
@@ -268,6 +269,19 @@ body {
     width: auto;
     height: auto;
     margin: 15px 70px 20px 70px;
+    border-radius: 15px;
+    padding: 20px;
+
+}
+
+.module-form-report{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    background-color: #e8f4ff;
+    width: auto;
+    height: auto;
+    margin: 15px 20px 20px 20px;
     border-radius: 15px;
     padding: 20px;
 

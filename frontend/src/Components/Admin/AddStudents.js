@@ -1,11 +1,12 @@
-import { GoTriangleRight } from "react-icons/go";
 import { Select } from "antd";
-import React, { useState, useEffect } from "react";
-import ErrorMessage from "../ErrorMessage";
-import "./Admin.css";
 import axios from "axios";
 import { ref, set } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { GoTriangleRight } from "react-icons/go";
+import { LuFingerprint } from "react-icons/lu";
 import { fireDb } from "../../firebase";
+import ErrorMessage from "../ErrorMessage";
+import "./Admin.css";
 
 const Student = () => {
   const [userName, setuserName] = useState("");
@@ -170,13 +171,13 @@ const Student = () => {
                 />
               </div>
             </div>
-            <div>
+            <div >
               <button
                 onClick={enrollFingerprint}
-                style={{ marginBottom: "25px", marginTop: "50px" }}
+                style={{ marginBottom: "25px", marginTop: "50px", marginLeft:'5px' }}
                 className="btn btn-primary"
               >
-                Enroll Fingerprint
+                <LuFingerprint style={{fontSize:'20px'}}/>  Enroll Fingerprint
               </button>
             </div>
           </div>
@@ -227,17 +228,18 @@ const Student = () => {
                   </div>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
-                  <label>Department Name</label>
+                  <label>Department Name</label><br/>
                   <Select
                     value={depName}
                     onChange={(value) => setdepName(value)}
                     placeholder="Select department"
-                    style={{ width: "300px" }}
+                    style={{ width: "520px" , height:'40px'}}
                   >
                     {departments.map((department) => (
                       <Select.Option
                         key={department._id}
                         value={department.depName}
+                        style={{ width: "520px" , height:'40px'}}
                       >
                         {department.depName}
                       </Select.Option>
@@ -294,20 +296,24 @@ const Student = () => {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    style={{ marginRight: "25px", marginLeft: "5px" }}
+                    style={{ marginRight: "25px", marginLeft: "5px" , width:'75px'}}
+                    onClick={submitHandler}
                   >
                     Submit
+                  </button>
+                  <button
+                    
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ backgroundColor: "gray",  marginRight: "25px",  width:'75px'}}
+                    onClick={resetHandler}
+                  >
+                    Reset
                   </button>
                 </div>
               </div>
             </form>
-            <button
-              className="btn btn-primary"
-              style={{ backgroundColor: "gray" }}
-              onClick={resetHandler}
-            >
-              Reset
-            </button>
+            
           </div>
         </div>
         <div className="lecturer-list">

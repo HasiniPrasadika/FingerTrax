@@ -12,10 +12,9 @@ const EnrollSemester = () => {
 
     const semesterLinks = Array.from({ length: noSemester }, (_, index) => ({ 
         depCode: department.depCode, 
-        semester: index + 1 
+        semester: (index + 1).toString()
       }));
 
-console.log(semesterLinks);
     return (
         <div className='en-container'>
             <div className='enrollment-container-one'>
@@ -33,7 +32,7 @@ console.log(semesterLinks);
                             {semesterLinks.map((semesterObject, index) => ( 
                                  <div className='department-button row'>
                                  <div className='department-icon'><FaCaretRight /></div>
-                                 <div><Link key={index} to="/student_module" state={{semesterObject: semesterObject}}>Semester {semesterObject.semester} </Link> 
+                                 <div><Link key={index} to="/student_module" state={{semesterObject: semesterObject}} style={{color:"white"}}>Semester {semesterObject.semester} </Link> 
                                  
                             </div>
                              </div>

@@ -1,15 +1,15 @@
-import { Form } from "antd";
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../Admin/Admin.css";
 
 const AttendanceRecord = () => {
-  const [form] = Form.useForm();
-
+ 
+  const {state} =useLocation();
+  const module = state.module;
+  
   const [progressValue, setProgressValue] = useState(0);
   const progressEndValue = 80;
-
   useEffect(() => {
     const progressInterval = setInterval(() => {
       if (progressValue < progressEndValue) {
@@ -29,28 +29,22 @@ const AttendanceRecord = () => {
           </span>
         </div>
         <div>
-          <Link
-            to="/studentdashboard"
-            style={{
-              opacity: "0.8",
-              padding: "5px",
-              paddingRight: "0px",
+          <Link to="/studentdashboard" style={{opacity: "0.8", padding: "5px",paddingRight: "0px",
               fontSize: "12px",
               color: "black",
-            }}
-          >
+            }}>
             <GoTriangleRight /> Dashboard/
           </Link>
           <span
             style={{ padding: "2px", fontSize: "12px", fontWeight: "bold" }}
           >
-            EE5301 Discreate Mathematics{" "}
+            {module.modCode} {module.modName}
           </span>
         </div>
         <div className="att-details">
           <div className="attendance-square">
             <div style={{ fontWeight: "bold", fontSize: "14px" }}>
-              Discreate Mathematics
+              {module.modName}
             </div>
             <div
               className="attendance-circle"
@@ -69,9 +63,7 @@ const AttendanceRecord = () => {
       </div>
 
       <div className="attendance-list">
-        <h3
-          style={{ marginBottom: "20px", color: "#012970", marginLeft: "5px" }}
-        >
+        <h3>
           Attendance Record
         </h3>
         <div className="table-design">

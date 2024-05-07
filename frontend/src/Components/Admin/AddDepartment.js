@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../../Components/ErrorMessage";
-import axios from "axios";
 
 const Department = () => {
   const [depCode, setdepCode] = useState("");
@@ -137,23 +137,20 @@ const Department = () => {
                 />
               </div>
             </div>
-            <div className="form-group row">
+            <div className="form-group row" style={{marginTop:'40px'}}>
               <div className="col-sm-10 ">
               
-                <button  type="submit" className="btn btn-primary">
+                <button  type="submit" className="btn btn-primary" onClick={submitHandler} style={{width:"75px"}}>
                   Add
                 </button>
-                
+                <span style={{margin:'15px'}}>
+                <button className="btn btn-primary" onClick={resetHandler} style={{width:"75px", backgroundColor:'gray'}}>
+                  Reset
+          </button>
+          </span>
               </div>
             </div>
           </form>
-          
-          <button className="btn btn-primary" onClick={resetHandler} style={{marginLeft:'10px'}}>
-                  Reset
-          </button>
-
-          
-          
         </div>
       </div>
     </div>

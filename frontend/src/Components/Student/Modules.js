@@ -9,23 +9,22 @@ const Modules = () => {
     const {state} = useLocation();
     const semesterObject = state.semesterObject;
 
-    
-
-
     const [modules, setModules] = useState([]);
     const depcode = semesterObject.depCode;
-    const sem = semesterObject.semester;
-    console.log(depcode);
-    console.log(sem);
+    const sem = semesterObject.semester.toString();
     
-    
+  
 
     useEffect(() => {
         // Make API call to fetch modules based on depCode and semester
         axios
-          .post(`http://localhost:8070/api/modules/getmodulesbydepcode`, {depcode, sem})
+        .get("http://localhost:8070/api/modules/getallmod")
           .then((response) => {
-            setModules(response.data);
+            const filteredModules = response.data.filter(
+              (module) => module.department === depcode && module.semester === sem
+            );
+            setModules(filteredModules);
+            
           })
           .catch((error) => {
             console.error("Error fetching modules", error);
@@ -50,8 +49,8 @@ const Modules = () => {
                             {modules.map((module, index) => ( 
                                  <div className='department-button row'>
                                  <div className='department-icon'><FaCaretRight /></div>
-                                 <div><Link key={index} to="home" state={module}>Semester {module.modCode},{module.modName} </Link> 
-                            </div>
+                                 <div><Link key={index} to="/student_enroll_module" state={{module: module}} style={{color:'white'}}>{module.modCode} {module.modName} </Link> 
+                                  </div>
                              </div>
                              )) }
                            
