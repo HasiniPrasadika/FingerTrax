@@ -17,6 +17,8 @@ import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLocation } from "react-router-dom";
 import { fireDb } from "../../firebase";
+import { ref, set, get, child, onValue } from "firebase/database";
+
 
 const today = dayjs();
 
@@ -32,6 +34,7 @@ const ModuleDetails = () => {
   const [endTime, setEndTime] = useState(null);
   const [message, setMessage] = useState(null);
   const [fireData, setfireData] = useState(null);
+  const [attendanceData, setAttendanceData] = useState(null);
 
   const handleCalendarChange = (date) => {
     setDate(date);
@@ -89,25 +92,24 @@ const ModuleDetails = () => {
 
   const handleEndLec = async () => {
     try {
-    
-    const snapshot = await get(child(fireDb, "Attendance"));
-    if (snapshot.exists()) {
-      const attendanceData = snapshot.val();
-      console.log("Attendance Data:", attendanceData);
-      // Process the attendance data as needed
-    } else {
-      console.log("No attendance data available");
+      const attData = ref(fireDb, "Attendance/");
+
+      onValue(attData, (snapshot) => {
+        const attenData = snapshot.val();
+        setAttendanceData(attenData);
+        console.log(attendanceData);
+      });
+
+      set(ref(fireDb, "State/"), {
+        arduinoState: "0",
+      });
+      setMessage("Stopped Getting Attendance");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+    } catch (error) {
+      console.error("Error retrieving attendance data:", error);
     }
-    set(ref(fireDb, "State/"), {
-      arduinoState: "0",
-    });
-    setMessage("Stopped Getting Attendance");
-    setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  } catch (error) {
-    console.error("Error retrieving attendance data:", error);
-  }
   };
 
   return (
@@ -146,11 +148,6 @@ const ModuleDetails = () => {
                   <div className="count-of-stu">
                     <h3>{module.noOfStu}</h3>
                   </div>
-                  {/* <div>
-                                        <h6 style={{ color: 'green' }}>
-                                            12%<span style={{ color: "gray", fontSize: "12px" }}> increase</span>
-                                        </h6>
-                                    </div> */}
                 </div>
               </div>
             </div>
@@ -394,27 +391,3 @@ const ModuleDetails = () => {
 };
 
 export default ModuleDetails;
-
-/*
-import { collection, getDocs } from "firebase/firestore";
-import {db} from '../firebase';
-Import { useState } from ‘react’;
- 
-   const [todos, setTodos] = useState([]);
- 
-    const fetchPost = async () => {
-       
-        await getDocs(collection(db, "todos"))
-            .then((querySnapshot)=>{               
-                const newData = querySnapshot.docs
-                    .map((doc) => ({...doc.data(), id:doc.id }));
-                setTodos(newData);                
-                console.log(todos, newData);
-            })
-       
-    }
-   
-    useEffect(()=>{
-        fetchPost();
-    }, [])
- */
