@@ -1,5 +1,6 @@
 const ModuleModel = require("../Models/ModuleModel");
 const Module = require("../Models/ModuleModel");
+const User = require("../Models/UserModel")
 const asyncHandler = require("express-async-handler");
 
 const createModule = asyncHandler(async (req, res) => {
@@ -76,10 +77,44 @@ const enrollModule = asyncHandler(async(req,res)=>{
   }).catch((err)=>{
     console.error(err);
   })
+
+});
+
+const getEnrollStudents = asyncHandler(async(req,res)=>{
+
+    
+    const {modCode} = req.body;
+
+    // Find the module by its code
+    const module = await Module.findOne({ modCode });
+
+    if (!module) {
+      return res.status(404).json({ message: 'Module not found'});
+    }
+
+    // Get array of students' registration numbers from the module
+    const regNos = module.students.map(student => student.regNo);
+
+    // Find students in the User collection with these registration numbers
+    const students = await User.find({ regNo: { $in: regNos } });
+
+    // Create an array with registration numbers and corresponding fingerprint IDs
+    const regNosAndFingerprintIDs = students.map(student => ({
+      regNo: student.regNo,
+      name: student.fullName,
+      fingerprintID: student.fingerprintID,
+      attendanceData: false,
+
+    }));
+
+    res.json(regNosAndFingerprintIDs);
+  
 });
 
 
 
 
-module.exports = { createModule, getModules,  getOwnModules,enrollModule};
+
+
+module.exports = { createModule, getModules,  getOwnModules,enrollModule,getEnrollStudents};
 

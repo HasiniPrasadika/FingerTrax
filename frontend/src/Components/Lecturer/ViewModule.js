@@ -5,8 +5,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
-import { child, get, ref, set } from "firebase/database";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
@@ -17,28 +16,52 @@ import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLocation } from "react-router-dom";
 import { fireDb } from "../../firebase";
-import { ref, set, get, child, onValue } from "firebase/database";
-
+import { ref, set, onValue } from "firebase/database";
+import ErrorMessage from "../ErrorMessage";
 
 const today = dayjs();
 
 const isInCurrentMonth = (date) => date.get("month") === dayjs().get("month");
 
 const ModuleDetails = () => {
+  const [isDisplay, setIsDisplay] = useState(false);
   const { state } = useLocation();
   const module = state.module;
+  const moduleCod = module.modCode;
   const [showCalendar, setShowCalendar] = useState(false);
   const [moduleCode, setModuleCode] = useState(module.modCode);
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [message, setMessage] = useState(null);
-  const [fireData, setfireData] = useState(null);
-  const [attendanceData, setAttendanceData] = useState(null);
+  const [attendanceData, setAttendanceData] = useState();
+  const [enrolledStudents, setEnrolledStudents] = useState();
+  const [lectureHours, setLectureHours] = useState();
 
   const handleCalendarChange = (date) => {
     setDate(date);
     setShowCalendar(false);
+  };
+  const createReport = (e) => {
+    //get the all enrolled students by id
+    try {
+      axios
+        .post("http://localhost:8070/api/modules/getenrollstu", {
+          modCode: moduleCod,
+        })
+        .then((response) => {
+          const enrolledStu = response.data;
+          setEnrolledStudents(enrolledStu);
+        })
+        .catch((error) => {
+          console.error("Error fetching students", error);
+        });
+    } catch (error) {
+      setMessage("Failed to get students");
+    }
+    //cut the id part from the attendance data array
+    //compare the two arrays and get the absent and present
+    //display it in the report
   };
 
   const handleEndTimeChange = (endTime) => {
@@ -51,32 +74,91 @@ const ModuleDetails = () => {
   const handleStartLec = (e) => {
     try {
       e.preventDefault();
-      const lectureHours = (endTime - startTime) / 3600000;
+      const lectureHour = (endTime - startTime) / 3600000;
+      setLectureHours(lectureHour);
+      if (date == null && startTime == null && endTime == null) {
+        setMessage("Please set information to start the lecture!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (startTime === null && endTime === null) {
+        setMessage("Please pick a time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (startTime === null) {
+        setMessage("Please pick a start time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (endTime == null) {
+        setMessage("Please pick a end time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (date == null) {
+        setMessage("Please pick a date!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
+        set(ref(fireDb, "State/"), {
+          arduinoState: "3",
+        });
+        setMessage("Getting attendance!");
+      }
+    } catch (error) {
+      setMessage("Failed to start the lecture!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+    }
+  };
+
+  const handleEndLec = (e) => {
+    try {
+      const attData = ref(fireDb, "Attendance/");
+      
+
+      onValue(attData, (snapshot) => {
+        const attenData = snapshot.val();
+        console.log(attenData);
+      setAttendanceData(attenData);
+      console.log(attendanceData);
+      });
+      
+      createReport();
+      // Update enrolledStudents with attendance status
+      const updatedEnrolledStudents = enrolledStudents.map((student) => ({
+        ...student,
+        attendanceData: Object.values(attendanceData).includes(
+          student.fingerprintID
+        ),
+      }));
+
+      // Update the enrolledStudents state with the updated data
+      setEnrolledStudents(updatedEnrolledStudents);
+      console.log(updatedEnrolledStudents);
+      console.log(enrolledStudents);
+      setIsDisplay(true);
       axios
         .post("http://localhost:8070/api/attendance/addattendance", {
+          enrolledStudents,
           moduleCode,
           startTime,
           endTime,
           date,
           lectureHours,
         })
-
         .then((response) => {
           if (response != null) {
-            setMessage("Module Added successfully!");
+            setMessage("Attendance Added successfully!");
             console.log(response);
             setTimeout(() => {
               setMessage(null);
             }, 3000);
-            set(ref(fireDb, "State/"), {
-              arduinoState: "3",
-            });
-            setMessage("Getting Attendance");
-            setTimeout(() => {
-              setMessage(null);
-            }, 3000);
           } else {
-            setMessage("Module Adding Unsuccessful!");
+            setMessage("Attendance Adding Unsuccessful!");
             setTimeout(() => {
               setMessage(null);
             }, 3000);
@@ -85,20 +167,6 @@ const ModuleDetails = () => {
         .catch((error) => {
           console.error("Error adding attendance", error);
         });
-    } catch (error) {
-      setMessage("Failed to add attendance");
-    }
-  };
-
-  const handleEndLec = async () => {
-    try {
-      const attData = ref(fireDb, "Attendance/");
-
-      onValue(attData, (snapshot) => {
-        const attenData = snapshot.val();
-        setAttendanceData(attenData);
-        console.log(attendanceData);
-      });
 
       set(ref(fireDb, "State/"), {
         arduinoState: "0",
@@ -125,6 +193,7 @@ const ModuleDetails = () => {
           <GoTriangleRight />
           Dashboard / {module.modCode} {module.modName}
         </p>
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
       </div>
       <div className="second-container">
         <div className="second-column-frist-container">
@@ -219,57 +288,50 @@ const ModuleDetails = () => {
                 Reports
               </h6>
               <div className="module-form-report">
-
-              <div className="row">
-              <p style={{color:'gray', marginLeft:'15px'}}> Date : 18/12/2023</p>
-              <button className="btn btn-primary" style={{marginLeft:'330px'}}>
-              <PiDownloadSimpleBold style={{fontSize:'18px'}} /> Download 
-              </button>
+                <div className="row">
+                  <p style={{ color: "gray", marginLeft: "15px" }}>
+                    {" "}
+                    Date : 18/12/2023
+                  </p>
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginLeft: "330px" }}
+                  >
+                    <PiDownloadSimpleBold style={{ fontSize: "18px" }} />{" "}
+                    Download
+                  </button>
+                </div>
+                {
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Reg No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Attendance</th>
+                      </tr>
+                    </thead>
+                    {isDisplay === true && enrolledStudents ? (
+                      <tbody>
+                        {enrolledStudents.map((student, index) => (
+                          <tr key={index}>
+                            <th scope="row">{index}</th>
+                            <td>{student.regNo}</td>
+                            <td>{student.fingerprintID}</td>
+                            <td>
+                              {student.attendanceData == true
+                                ? "present"
+                                : "absent"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    ) : (
+                      <tbody></tbody>
+                    )}
+                  </table>
+                }
               </div>
-              
-              <table class="table table-bordered" >
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Reg No.</th>
-      <th scope="col">Name</th>
-      <th scope="col">Lecture Hours</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>EG/2020/4018</td>
-      <td>Kavindi L.K.D.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>EG/2020/4055</td>
-      <td>Madhushika G.H.D.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>EG/2020/4065</td>
-      <td>Madhushika G.K.H.P.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>EG/2020/4066</td>
-      <td>Madhumali H.K.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">5</th>
-      <td>EG/2020/4066</td>
-      <td>Mallawaarachchi M.R.I.G.</td>
-      <td>2</td>
-    </tr>
-  </tbody>
-</table>
-</div>
             </div>
           </div>
         </div>
@@ -337,8 +399,13 @@ const ModuleDetails = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
+
               <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-                <button onClick={handleStartLec} className="btn btn-primary" style={{marginRight:'10px'}}>
+                <button
+                  onClick={handleStartLec}
+                  className="btn btn-primary"
+                  style={{ marginRight: "10px" }}
+                >
                   Start
                 </button>
                 <button onClick={handleEndLec} className="btn btn-primary">

@@ -2,15 +2,17 @@ const Attendance = require("../Models/AttendanceModel");
 const asyncHandler = require("express-async-handler");
 
 const createAttendance = asyncHandler(async (req, res) => {
-  const { moduleCode, startTime, endTime, date, lectureHours } = req.body;
+  const { moduleCode, startTime, endTime, date, lectureHours, enrolledStudents } = req.body;
 
 
   const attendance = await Attendance.create({
+
     moduleCode,
     lectureHours,
     startTime,
     endTime,
     date,
+    enrolledStudents: enrolledStudents,
   });
 
   if (attendance) {
@@ -21,6 +23,7 @@ const createAttendance = asyncHandler(async (req, res) => {
       startTime: attendance.startTime,
       endTime: attendance.endTime,
       date: attendance.date,
+      enrolledStudents: attendance.enrolledStudents,
     });
   } else {
     console.error("Error adding attendance:", error);
