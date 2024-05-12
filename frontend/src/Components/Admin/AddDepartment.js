@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../../Components/ErrorMessage";
-
+import SuccessMessage from "../../Components/SuccessMessage";
 const Department = () => {
   const [depCode, setdepCode] = useState("");
   const [depName, setdepName] = useState("");
   const [noOfStu, setnoOfStu] = useState("");
   const [noOfLec, setnoOfLec] = useState("");
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
     
   const submitHandler = (e) => {   
     
@@ -18,9 +19,9 @@ const Department = () => {
     .post("http://localhost:8070/api/departments/adddep",{ depCode, depName, noOfStu, noOfLec })
     .then((response) => {
       if(response != null){
-        setMessage("Department Added successfully!");
+        setSMessage("Department Added successfully!");
       setTimeout(() => {
-        setMessage(null);
+        setSMessage(null);
       }, 3000);
       }
       else{
@@ -64,6 +65,7 @@ const Department = () => {
         </div>
         <div className="dep-details">
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
           <form onSubmit={submitHandler} className="form-style">
             <div className="form-group row">
               <label
