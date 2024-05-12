@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
 import "./Admin.css";
 
 const Lecture = () => {
@@ -18,6 +19,7 @@ const Lecture = () => {
   const [departments, setDepartments] = useState([]);
   const [lecusers, setLecusers] = useState([]);
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
 
   useEffect(() => {
@@ -85,9 +87,9 @@ const Lecture = () => {
         .post("http://localhost:8070/api/users/reglec", requestData)
         .then((response) => {
           if (response != null) {
-            setMessage("Lecturer Added successfully!");
+            setSMessage("Lecturer Added successfully!");
             setTimeout(() => {
-              setMessage(null);
+              setSMessage(null);
             }, 3000);
           } else {
             setMessage("Lecturer Adding Unsuccessful!");
@@ -144,6 +146,7 @@ const Lecture = () => {
           </div>
           <div>
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
 
             <form onSubmit={submitHandler}>
               <div>

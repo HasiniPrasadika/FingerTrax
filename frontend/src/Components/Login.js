@@ -96,9 +96,9 @@ const Login = () => {
               />
             </div>
             <button type="submit">Login</button>
-            <span style={{ color: "blue" }}>
+            {/* <span style={{ color: "blue" }}>
               Forgot password?
-            </span>
+            </span> */}
           </form>
         </div>
       </div>

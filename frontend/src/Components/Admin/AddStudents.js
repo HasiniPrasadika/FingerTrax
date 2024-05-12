@@ -6,6 +6,7 @@ import { GoTriangleRight } from "react-icons/go";
 import { LuFingerprint } from "react-icons/lu";
 import { fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
 import "./Admin.css";
 
 const Student = () => {
@@ -21,6 +22,7 @@ const Student = () => {
   const [departments, setDepartments] = useState([]);
   const [stuusers, setStuusers] = useState([]);
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
 
   useEffect(() => {
@@ -91,9 +93,9 @@ const Student = () => {
         arduinoState: "1",
       });
 
-      setMessage("Fingerprint enrolled successfully!");
+      setSMessage("Fingerprint enrolled successfully!");
       setTimeout(() => {
-        setMessage(null);
+        setSMessage(null);
       }, 3000);
     } catch (error) {
       setMessage("Failed to enroll fingerprint!");
@@ -120,9 +122,9 @@ const Student = () => {
         })
         .then((response) => {
           if (response != null) {
-            setMessage("Student Added successfully!");
+            setSMessage("Student Added successfully!");
             setTimeout(() => {
-              setMessage(null);
+              setSMessage(null);
             }, 3000);
           } else {
             setMessage("Student Adding Unsuccessful!");
@@ -183,6 +185,7 @@ const Student = () => {
           </div>
           <div>
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
             <form onSubmit={submitHandler}>
               <div>
                 <div className="form-group" style={{ marginBottom: 10 }}>

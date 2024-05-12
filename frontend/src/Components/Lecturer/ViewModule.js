@@ -5,8 +5,10 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
-import { child, get, ref, set } from "firebase/database";
-import React, { useState } from "react";
+import "dayjs/locale/en";
+import React, { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
@@ -17,25 +19,155 @@ import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLocation } from "react-router-dom";
 import { fireDb } from "../../firebase";
+import { ref, set, onValue } from "firebase/database";
+import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
 
 const today = dayjs();
 
 const isInCurrentMonth = (date) => date.get("month") === dayjs().get("month");
 
 const ModuleDetails = () => {
+  const [isDisplay, setIsDisplay] = useState(false);
+  const [isDailyDisplay, setIsDailyDisplay] = useState(false);
   const { state } = useLocation();
   const module = state.module;
+  const moduleCod = module.modCode;
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showDailyCalendar, setShowDailyCalendar] = useState(false);
   const [moduleCode, setModuleCode] = useState(module.modCode);
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [message, setMessage] = useState(null);
-  const [fireData, setfireData] = useState(null);
+  const [smessage, setSMessage] = useState(null);
+  const [attendanceData, setAttendanceData] = useState();
+  const [enrolledStudents, setEnrolledStudents] = useState([]);
+  const [lectureHours, setLectureHours] = useState();
+  const [res, setRes] = useState();
+  const [daily, setDaily] = useState(null);
+  const [dailyAttendance, setDailyAttendance] = useState();
 
   const handleCalendarChange = (date) => {
     setDate(date);
+    setDaily(date);
     setShowCalendar(false);
+  };
+  const handleDailyCalendarChange = (date) => {
+    setDaily(date);
+    setShowDailyCalendar(false);
+  };
+  const handleDailyAttendance = () => {
+    try {
+      axios
+        .post("http://localhost:8070/api/attendance/dailyattendance", {
+          moduleCode: moduleCod,
+          date: daily,
+        })
+        .then((response) => {
+          console.log(response.data);
+          setDailyAttendance(response.data.enrolledStudents);
+          setIsDisplay(false);
+          setIsDailyDisplay(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching attendance", error);
+        });
+    } catch (error) {
+      setMessage("Failed to get attendance");
+    }
+  };
+
+  const generatePDF = () => {
+    try {
+      axios
+        .post("http://localhost:8070/api/attendance/dailyattendance", {
+          moduleCode: moduleCod,
+          date : daily ? daily : date,
+        })
+        .then((response) => {
+          console.log(response.data);
+          setRes(response.data.enrolledStudents);
+          const doc = new jsPDF();
+
+          // Set document properties
+          doc.setFontSize(12);
+
+          // Add header section with module information
+          doc.text(`Module Code: ${module.modCode}`, 10, 10);
+          doc.text(`Module Name: ${module.modName}`, 10, 20);
+          doc.text(`Date: ${date}`, 10, 30);
+          doc.text(`Lecture Hours: ${lectureHours}`, 10, 40);
+
+          // Define table headers and rows
+          const headers = ["Name", "Registration Number", "Attendance State"];
+          const data = res.map((student) => [
+            student.name,
+            student.regNo,
+            student.attendanceData ? "Present" : "Absent",
+          ]);
+
+          // Add table with autoTable plugin
+          doc.autoTable({
+            head: [headers],
+            body: data,
+            startY: 50, // Starting y position for table
+            margin: { top: 10 },
+            styles: { fontSize: 12, cellPadding: 2, textColor: [0, 0, 0] },
+            columnStyles: { 0: { fontStyle: "bold" } }, // Style the first column (Name) as bold
+            headStyles: { fillColor: [165, 223, 255] }, // Header background color
+            theme: "striped", // Apply striped rows theme
+            didDrawCell: (data) => {
+              // Add borders to all cells
+              doc.setLineWidth(0.1);
+              doc.line(
+                data.cell.x,
+                data.cell.y,
+                data.cell.x,
+                data.cell.y + data.cell.height
+              ); // Vertical line
+              doc.line(
+                data.cell.x,
+                data.cell.y,
+                data.cell.x + data.cell.width,
+                data.cell.y
+              ); // Horizontal line
+            },
+          });
+
+          // Save the PDF
+          doc.save(`${moduleCode}_Attendance_Report.pdf`);
+        })
+        .catch((error) => {
+          console.error("Error fetching attendance", error);
+        });
+    } catch (error) {
+      console.error("Error fetching attendance", error);
+    }
+
+    // Create a new jsPDF instance
+  };
+
+  const createReport = (e) => {
+    //get the all enrolled students by id
+    try {
+      axios
+        .post("http://localhost:8070/api/modules/getenrollstu", {
+          modCode: moduleCod,
+        })
+        .then((response) => {
+          const enrolledStu = response.data;
+          setEnrolledStudents(enrolledStu);
+        })
+        .catch((error) => {
+          console.error("Error fetching students", error);
+        });
+    } catch (error) {
+      setMessage("Failed to get students");
+    }
+    //cut the id part from the attendance data array
+    //compare the two arrays and get the absent and present
+    //display it in the report
   };
 
   const handleEndTimeChange = (endTime) => {
@@ -48,66 +180,127 @@ const ModuleDetails = () => {
   const handleStartLec = (e) => {
     try {
       e.preventDefault();
-      const lectureHours = (endTime - startTime) / 3600000;
-      axios
-        .post("http://localhost:8070/api/attendance/addattendance", {
-          moduleCode,
-          startTime,
-          endTime,
-          date,
-          lectureHours,
-        })
-
-        .then((response) => {
-          if (response != null) {
-            setMessage("Module Added successfully!");
-            console.log(response);
-            setTimeout(() => {
-              setMessage(null);
-            }, 3000);
-            set(ref(fireDb, "State/"), {
-              arduinoState: "3",
-            });
-            setMessage("Getting Attendance");
-            setTimeout(() => {
-              setMessage(null);
-            }, 3000);
-          } else {
-            setMessage("Module Adding Unsuccessful!");
-            setTimeout(() => {
-              setMessage(null);
-            }, 3000);
-          }
-        })
-        .catch((error) => {
-          console.error("Error adding attendance", error);
+      const lectureHour = (endTime - startTime) / 3600000;
+      setLectureHours(lectureHour);
+      if (date == null && startTime == null && endTime == null) {
+        setMessage("Please set information to start the lecture!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (startTime === null && endTime === null) {
+        setMessage("Please pick a time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (startTime === null) {
+        setMessage("Please pick a start time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (endTime == null) {
+        setMessage("Please pick a end time!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else if (date == null) {
+        setMessage("Please pick a date!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
+        set(ref(fireDb, "State/"), {
+          arduinoState: "3",
         });
+        setSMessage("Getting attendance!");
+      }
     } catch (error) {
-      setMessage("Failed to add attendance");
+      setMessage("Failed to start the lecture!");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+    }
+  };
+  const handleShowLec = (e) => {
+    try {
+      const attData = ref(fireDb, "Attendance/");
+
+      onValue(attData, (snapshot) => {
+        const attenData = snapshot.val(); // Update attendanceData inside the callback
+        createReport();
+        // Perform operations dependent on attendanceData here
+        const updatedEnrolledStudents = enrolledStudents.map((student) => ({
+          ...student,
+          attendanceData: Object.values(attenData).includes(
+            student.fingerprintID
+          ),
+        }));
+        setRes(updatedEnrolledStudents);
+        setIsDailyDisplay(false);
+        setIsDisplay(true);
+        console.log(res);
+      });
+    } catch (error) {
+      console.error("Error retrieving attendance data:", error);
     }
   };
 
-  const handleEndLec = async () => {
+  const handleEndLec = (e) => {
     try {
-    
-    const snapshot = await get(child(fireDb, "Attendance"));
-    if (snapshot.exists()) {
-      const attendanceData = snapshot.val();
-      console.log("Attendance Data:", attendanceData);
-      // Process the attendance data as needed
-    } else {
-      console.log("No attendance data available");
+      const attData = ref(fireDb, "Attendance/");
+
+      onValue(attData, (snapshot) => {
+        const attenData = snapshot.val(); // Update attendanceData inside the callback
+        createReport();
+        // Perform operations dependent on attendanceData here
+        const updatedEnrolledStudents = enrolledStudents.map((student) => ({
+          ...student,
+          attendanceData: Object.values(attenData).includes(
+            student.fingerprintID
+          ),
+        }));
+        setRes(updatedEnrolledStudents);
+        setIsDailyDisplay(false);
+        setIsDisplay(true);
+        console.log(res);
+
+        axios
+          .post("http://localhost:8070/api/attendance/addattendance", {
+            enrolledStudents: updatedEnrolledStudents, // Pass updatedEnrolledStudents here
+            moduleCode,
+            startTime,
+            endTime,
+            date,
+            lectureHours,
+          })
+          .then((response) => {
+            if (response.data && response.data.error) {
+              // Attendance adding unsuccessful due to existing attendance for the date
+              setMessage(
+                "Attendance Adding Unsuccessful: Attendance for this date already exists"
+              );
+            } else {
+              // Attendance added successfully
+              setSMessage("Attendance Added successfully!");
+            }
+            setTimeout(() => {
+              setSMessage(null);
+            }, 3000);
+          })
+          .catch((error) => {
+            console.error("Error adding attendance", error);
+          });
+
+        set(ref(fireDb, "State/"), {
+          arduinoState: "0",
+        });
+        setSMessage("Stopped Getting Attendance");
+        setTimeout(() => {
+          setSMessage(null);
+        }, 3000);
+      });
+    } catch (error) {
+      console.error("Error retrieving attendance data:", error);
     }
-    set(ref(fireDb, "State/"), {
-      arduinoState: "0",
-    });
-    setMessage("Stopped Getting Attendance");
-    setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  } catch (error) {
-    console.error("Error retrieving attendance data:", error);
-  }
   };
 
   return (
@@ -123,6 +316,10 @@ const ModuleDetails = () => {
           <GoTriangleRight />
           Dashboard / {module.modCode} {module.modName}
         </p>
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && (
+          <SuccessMessage variant="success">{smessage}</SuccessMessage>
+        )}
       </div>
       <div className="second-container">
         <div className="second-column-frist-container">
@@ -146,11 +343,6 @@ const ModuleDetails = () => {
                   <div className="count-of-stu">
                     <h3>{module.noOfStu}</h3>
                   </div>
-                  {/* <div>
-                                        <h6 style={{ color: 'green' }}>
-                                            12%<span style={{ color: "gray", fontSize: "12px" }}> increase</span>
-                                        </h6>
-                                    </div> */}
                 </div>
               </div>
             </div>
@@ -222,57 +414,66 @@ const ModuleDetails = () => {
                 Reports
               </h6>
               <div className="module-form-report">
-
-              <div className="row">
-              <p style={{color:'gray', marginLeft:'15px'}}> Date : 18/12/2023</p>
-              <button className="btn btn-primary" style={{marginLeft:'330px'}}>
-              <PiDownloadSimpleBold style={{fontSize:'18px'}} /> Download 
-              </button>
+                <div className="row">
+                  <p style={{ color: "gray", marginLeft: "15px" }}>
+                    {/* {" "} */}
+                    Date : {new Date().toLocaleDateString()}
+                  </p>
+                  <button
+                    className="btn btn-primary"
+                    onClick={generatePDF}
+                    style={{ marginLeft: "330px" }}
+                  >
+                    <PiDownloadSimpleBold style={{ fontSize: "18px" }} />{" "}
+                    Download
+                  </button>
+                </div>
+                {
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Reg No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Attendance</th>
+                      </tr>
+                    </thead>
+                    {isDailyDisplay === true && dailyAttendance ? (
+                      <tbody>
+                        {dailyAttendance.map((student, index) => (
+                          <tr key={index}>
+                            <th scope="row">{index}</th>
+                            <td>{student.regNo}</td>
+                            <td>{student.fingerprintID}</td>
+                            <td>
+                              {student.attendanceData == true
+                                ? "present"
+                                : "absent"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    ) : isDisplay === true && res ? (
+                      <tbody>
+                        {res.map((student, index) => (
+                          <tr key={index}>
+                            <th scope="row">{index}</th>
+                            <td>{student.regNo}</td>
+                            <td>{student.fingerprintID}</td>
+                            <td>
+                              {student.attendanceData == true
+                                ? "present"
+                                : "absent"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    ) : (
+                      <tbody></tbody>
+                    )}
+                  </table>
+                }
               </div>
-              
-              <table class="table table-bordered" >
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Reg No.</th>
-      <th scope="col">Name</th>
-      <th scope="col">Lecture Hours</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>EG/2020/4018</td>
-      <td>Kavindi L.K.D.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>EG/2020/4055</td>
-      <td>Madhushika G.H.D.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>EG/2020/4065</td>
-      <td>Madhushika G.K.H.P.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>EG/2020/4066</td>
-      <td>Madhumali H.K.</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">5</th>
-      <td>EG/2020/4066</td>
-      <td>Mallawaarachchi M.R.I.G.</td>
-      <td>2</td>
-    </tr>
-  </tbody>
-</table>
-</div>
             </div>
           </div>
         </div>
@@ -331,21 +532,32 @@ const ModuleDetails = () => {
                         Date
                       </div>
                       <DatePicker
-                        defaultValue={today}
                         value={date}
-                        onChange={handleCalendarChange}
                         views={["year", "month", "day"]}
+                        onChange={handleCalendarChange}
                       />
                     </DemoItem>
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
+
               <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-                <button onClick={handleStartLec} className="btn btn-primary" style={{marginRight:'10px'}}>
+                <button
+                  onClick={handleStartLec}
+                  className="btn btn-primary"
+                  style={{ marginRight: "10px" }}
+                >
                   Start
                 </button>
-                <button onClick={handleEndLec} className="btn btn-primary">
+                <button
+                  onClick={handleEndLec}
+                  className="btn btn-primary"
+                  style={{ marginRight: "10px" }}
+                >
                   End
+                </button>
+                <button onClick={handleShowLec} className="btn btn-primary">
+                  Show
                 </button>
               </div>
             </div>
@@ -361,15 +573,21 @@ const ModuleDetails = () => {
                     </div>
                     <DatePicker
                       defaultValue={today}
-                      shouldDisableMonth={isInCurrentMonth}
                       views={["year", "month", "day"]}
+                      value={daily}
+                      onChange={handleDailyCalendarChange}
                     />
                   </DemoItem>
                 </DemoContainer>
               </LocalizationProvider>
             </div>
             <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-              <button className="btn btn-primary">View</button>
+              <button
+                onClick={handleDailyAttendance}
+                className="btn btn-primary"
+              >
+                View
+              </button>
             </div>
           </div>
           <div className="lecture-details-box">
@@ -394,27 +612,3 @@ const ModuleDetails = () => {
 };
 
 export default ModuleDetails;
-
-/*
-import { collection, getDocs } from "firebase/firestore";
-import {db} from '../firebase';
-Import { useState } from ‘react’;
- 
-   const [todos, setTodos] = useState([]);
- 
-    const fetchPost = async () => {
-       
-        await getDocs(collection(db, "todos"))
-            .then((querySnapshot)=>{               
-                const newData = querySnapshot.docs
-                    .map((doc) => ({...doc.data(), id:doc.id }));
-                setTodos(newData);                
-                console.log(todos, newData);
-            })
-       
-    }
-   
-    useEffect(()=>{
-        fetchPost();
-    }, [])
- */

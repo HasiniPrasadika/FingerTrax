@@ -2,14 +2,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../../Components/ErrorMessage";
-
+import SuccessMessage from "../../Components/SuccessMessage";
 const Department = () => {
   const [depCode, setdepCode] = useState("");
   const [depName, setdepName] = useState("");
   const [noOfStu, setnoOfStu] = useState("");
   const [noOfLec, setnoOfLec] = useState("");
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
     
+
   const submitHandler = (e) => {
     e.preventDefault();
     axios
@@ -20,10 +22,10 @@ const Department = () => {
         noOfLec,
       })
       .then((response) => {
-        setMessage("Department Added successfully!");
-        // setTimeout(() => {
-        //   setMessage(null);
-        // }, 3000);
+        setSMessage("Department Added successfully!");
+        setTimeout(() => {
+          setSMessage(null);
+        }, 3000);
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
@@ -35,6 +37,8 @@ const Department = () => {
           setMessage(null);
         }, 3000);
       });
+
+
   };
   const resetHandler = () => {
     setdepCode("");
@@ -60,6 +64,7 @@ const Department = () => {
         </div>
         <div className="dep-details">
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
           <form onSubmit={submitHandler} className="form-style">
             <div className="form-group row">
               <label
