@@ -15,7 +15,7 @@ const Lecture = () => {
   const [fullName, setfullName] = useState("");
   const [depName, setdepName] = useState("");
   const [regNo, setregNo] = useState("");
-  const [image, setimage] = useState("");
+  const [image, setimage] = useState("/Images/profile.webp");
   const [departments, setDepartments] = useState([]);
   const [lecusers, setLecusers] = useState([]);
   const [message, setMessage] = useState(null);
@@ -70,16 +70,21 @@ const Lecture = () => {
   const submitHandler = (e) => {
     try {
       e.preventDefault();
+      const requestData = {
+        userName,
+        password,
+        role,
+        fullName,
+        depName,
+        regNo,
+      };
+    
+      // Include image in the payload if it's not the default value
+      if (image !== "/Images/profile.webp") {
+        requestData.image = image;
+      }
       axios
-        .post("http://localhost:8070/api/users/reglec", {
-          userName,
-          password,
-          role,
-          fullName,
-          depName,
-          regNo,
-          image,
-        })
+        .post("http://localhost:8070/api/users/reglec", requestData)
         .then((response) => {
           if (response != null) {
             setSMessage("Lecturer Added successfully!");

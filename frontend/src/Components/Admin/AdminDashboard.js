@@ -1,9 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import './Admin.css';
-import axios from "axios";
 
 const Dashboard = () => {
    
@@ -27,7 +27,7 @@ const Dashboard = () => {
           <span style={{opacity:'0.8', marginLeft:'10px', fontSize:'12px'}}><GoTriangleRight />Admin Dashboard </span>
         </div>
         <div className="row">
-          <img src='/Images/logo_ruhuna.jpg'/>
+          <img className="imagelogo" src='/Images/logo_ruhuna.jpg'/>
           <div className='ruhuna-details-font'>
             <p>
               <span style={{fontSize:'50px'}}>Faculty of Engineering</span><br/>
