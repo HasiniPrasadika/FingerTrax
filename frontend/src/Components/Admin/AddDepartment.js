@@ -10,35 +10,31 @@ const Department = () => {
   const [noOfLec, setnoOfLec] = useState("");
   const [message, setMessage] = useState(null);
     
-  const submitHandler = (e) => {   
-    
-    try{
-      e.preventDefault();
-      axios
-    .post("http://localhost:8070/api/departments/adddep",{ depCode, depName, noOfStu, noOfLec })
-    .then((response) => {
-      if(response != null){
+  const submitHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8070/api/departments/adddep", {
+        depCode,
+        depName,
+        noOfStu,
+        noOfLec,
+      })
+      .then((response) => {
         setMessage("Department Added successfully!");
-      setTimeout(() => {
-        setMessage(null);
-      }, 3000);
-      }
-      else{
-        setMessage("Department Adding Unsuccessful!");
-      setTimeout(() => {
-        setMessage(null);
-      }, 3000);
-      }
-    })
-    .catch((error) => {
-      console.error('Error adding departments', error);
-    });
-
-    } catch (error) {
-      setMessage("Failed to add Department!");
-    }
-
-    
+        // setTimeout(() => {
+        //   setMessage(null);
+        // }, 3000);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          setMessage("Department already exists");
+        } else {
+          setMessage("Failed to add Department!");
+        }
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      });
   };
   const resetHandler = () => {
     setdepCode("");

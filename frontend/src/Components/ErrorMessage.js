@@ -4,7 +4,7 @@ import { Alert } from "react-bootstrap";
 const ErrorMessage = ({ variant = "info", children }) => {
   return (
     <Alert variant={variant} style={{ fontSize: 10 }}>
-      <strong>{children}</strong>
+      <strong id="err">{children}</strong>
     </Alert>
   );
 };

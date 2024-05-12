@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { FaRegChartBar } from "react-icons/fa6";
 import { GoTriangleRight } from "react-icons/go";
 import { IoChevronForwardOutline } from "react-icons/io5";
-import "../Lecturer/Lecturer.css";
-import { FaRegChartBar } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ErrorMessage from "../../Components/ErrorMessage";
+import { Link } from "react-router-dom";
+import "../Lecturer/Lecturer.css";
 
 import axios from "axios";
 
@@ -40,7 +39,7 @@ const DashboardL = () => {
           </span>
         </div>
         <div className="row">
-          <img src="/Images/logo_ruhuna.jpg" />
+          <img className="imagelogo" src="/Images/logo_ruhuna.jpg" />
 
           <div className="ruhuna-details-font">
             <p>
