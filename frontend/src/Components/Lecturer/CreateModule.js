@@ -6,6 +6,7 @@ import { GoTriangleRight } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
 
 const CreateModule = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -19,6 +20,7 @@ const CreateModule = () => {
   const [department, setDepartment] = useState("");
   const [departments, setDepartments] = useState([]);
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
@@ -70,9 +72,9 @@ const CreateModule = () => {
         })
         .then((response) => {
           if (response != null) {
-            setMessage("Module Added successfully!");
+            setSMessage("Module Added successfully!");
             setTimeout(() => {
-              setMessage(null);
+              setSMessage(null);
             }, 3000);
           } else {
             setMessage("Module Adding Unsuccessful!");
@@ -111,6 +113,7 @@ const CreateModule = () => {
       </div>
       <div className="module-form">
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
         <form onSubmit={submitHandler} className="form-style">
           <div className="form-group row">
             <label htmlFor="modulecode" className="col-sm-4 col-form-label">
