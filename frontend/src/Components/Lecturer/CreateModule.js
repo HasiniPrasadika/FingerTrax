@@ -22,6 +22,7 @@ const CreateModule = () => {
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
   const [modules, setModules] = useState([]);
+  const [searchModuleCode, setSearchModuleCode] = useState("");
 
   useEffect(() => {
     axios
@@ -37,14 +38,15 @@ const CreateModule = () => {
     axios
       .get("http://localhost:8070/api/modules/getallmod")
       .then((response) => {
-        const filteredModules = response.data.filter(module => module.modCoordinator === userInfo.userName);
-      setModules(filteredModules);
+        const filteredModules = response.data.filter(
+          (module) => module.modCoordinator === userInfo.userName
+        );
+        setModules(filteredModules);
       })
       .catch((error) => {
         console.error("Error fetching modules", error);
       });
   }, [modules]);
-
 
   const submitHandler = (e) => {
     // try{
@@ -99,6 +101,42 @@ const CreateModule = () => {
     setDepartment("");
   };
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchModuleCode(searchTerm);
+
+    if (searchTerm) {
+      const filtered = modules.filter((module) =>
+        module.modCode.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setModules(filtered);
+    } else {
+      setModules(modules);
+    }
+  };
+
+  const deleteModule = (id) => {
+    if (window.confirm("Are you sure you want to delete this module?")) {
+      axios
+        .post("http://localhost:8070/api/modules/moddel", { id }) // Include the id in the URL
+        .then((response) => {
+          setSMessage("Module Deleted successfully!");
+          setTimeout(() => {
+            setSMessage(null);
+          }, 3000);
+          // Update the lecturer list
+          setModules(modules.filter((module) => module._id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting module", error);
+          setMessage("Failed to delete Module!");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+        });
+    }
+  };
+
   return (
     <div className="lecturer-first-row-container">
       <div className="path-style">
@@ -113,7 +151,9 @@ const CreateModule = () => {
       </div>
       <div className="module-form">
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
+        {smessage && (
+          <SuccessMessage variant="success">{smessage}</SuccessMessage>
+        )}
         <form onSubmit={submitHandler} className="form-style">
           <div className="form-group row">
             <label htmlFor="modulecode" className="col-sm-4 col-form-label">
@@ -165,11 +205,11 @@ const CreateModule = () => {
             <label htmlFor="semester" className="col-sm-4 col-form-label">
               Semester
             </label>
-            <Select 
+            <Select
               value={semester}
               onChange={(value) => setSemester(value)}
               placeholder="Select semester"
-              style={{ height:'35px' , width:'485px', marginLeft:'15px'}}
+              style={{ height: "35px", width: "485px", marginLeft: "15px" }}
             >
               <Select.Option value="1">Semester 1</Select.Option>
               <Select.Option value="2">Semester 2</Select.Option>
@@ -192,9 +232,7 @@ const CreateModule = () => {
             </div> */}
           </div>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">
-              Lecturer Hours
-            </label>
+            <label className="col-sm-4 col-form-label">Lecturer Hours</label>
             <div className="col-sm-8">
               <input
                 type="text"
@@ -205,14 +243,12 @@ const CreateModule = () => {
             </div>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">
-              Department
-            </label>
+            <label className="col-sm-4 col-form-label">Department</label>
             <Select
               value={department}
               onChange={(value) => setDepartment(value)}
               placeholder="Select department"
-              style={{ height:'35px' , width:'485px', marginLeft:'15px'}}
+              style={{ height: "35px", width: "485px", marginLeft: "15px" }}
             >
               {departments.map((department) => (
                 <Select.Option key={department._id} value={department.depCode}>
@@ -241,19 +277,29 @@ const CreateModule = () => {
               Submit
             </button>
             <button
-          className="btn btn-primary"
-          style={{ backgroundColor: "gray" }}
-          onClick={resetHandler}
-        >
-          Reset
-        </button>
+            type="reset"
+              className="btn btn-primary"
+              style={{ backgroundColor: "gray" }}
+              onClick={resetHandler}
+            >
+              Reset
+            </button>
           </div>
         </form>
-        
       </div>
       <br />
       <div>
         <h3 className="topic-style">Current Modules</h3>
+        <div style={{ marginBottom: "20px", marginLeft: "20px" }}>
+          <input
+            type="text"
+            placeholder="Search by Module Code"
+            value={searchModuleCode}
+            onChange={handleSearch}
+            className="form-control"
+            style={{ width: "320px" }}
+          />
+        </div>
       </div>
       <div className="table-design">
         <table class="table">
@@ -270,7 +316,7 @@ const CreateModule = () => {
           </thead>
           <tbody>
             {modules.map((module) => (
-                <tr key={module._id}>
+              <tr key={module._id}>
                 <th scope="row"></th>
                 <td>{module.modCode}</td>
                 <td>{module.modName}</td>
@@ -278,15 +324,15 @@ const CreateModule = () => {
                 <td>{module.enrolKey}</td>
                 <td>{module.lecHours}</td>
                 <td>
-                  
-                  <span className="delete-icon">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteModule(module._id)}
+                  >
                     <RiDeleteBin6Line />
-                  </span>
+                  </button>
                 </td>
               </tr>
-
             ))}
-            
           </tbody>
         </table>
       </div>

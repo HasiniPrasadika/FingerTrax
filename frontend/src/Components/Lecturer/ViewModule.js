@@ -324,10 +324,10 @@ const ModuleDetails = () => {
       <div className="second-container">
         <div className="second-column-frist-container">
           <div className="second-column-frist-container-three">
-            <div className="card-box">
+            <div style={{width: 320}} className="card-box">
               <div className="row">
                 <h6 className="box-title">Enrolled Students</h6>
-                <div style={{ marginLeft: "45px" }}>
+                <div style={{ marginLeft: "160px" }}>
                   <BiDotsVerticalRounded
                     onClick={() => setShowCalendar(true)}
                   />
@@ -339,14 +339,14 @@ const ModuleDetails = () => {
                     <BiUserCheck />
                   </div>
                 </div>
-                <div className="column">
+                <div style={{marginTop: "15px"}} className="column">
                   <div className="count-of-stu">
                     <h3>{module.noOfStu}</h3>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card-box">
+            {/* <div className="card-box">
               <div className="row">
                 <h6 className="box-title">Absence</h6>
                 <div style={{ marginLeft: "40px" }}>
@@ -376,11 +376,11 @@ const ModuleDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="card-box">
+            </div> */}
+            <div style={{width: 320}} className="card-box">
               <div className="row">
                 <h6 className="box-title">Total Lecture Hours</h6>
-                <div style={{ marginLeft: "3px", marginTop: "3px" }}>
+                <div style={{ marginLeft: "150px", marginTop: "3px" }}>
                   <BiDotsVerticalRounded />
                 </div>
               </div>

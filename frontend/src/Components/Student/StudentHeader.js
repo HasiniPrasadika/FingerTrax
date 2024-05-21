@@ -13,11 +13,7 @@ const StudentHeader = () => {
         <span className="admin-name">
           {userInfo ? userInfo.fullName : "Admin Name"}
         </span>
-        <img
-          src={userInfo ? userInfo.image : "/Images/profile.webp"}
-          alt="Admin"
-          className="admin-image"
-        />
+        <img src={"/Images/1.jpeg"} alt="Admin" className="admin-image" />
       </div>
     </div>
   );

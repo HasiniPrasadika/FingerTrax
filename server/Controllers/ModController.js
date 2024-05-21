@@ -111,10 +111,25 @@ const getEnrollStudents = asyncHandler(async(req,res)=>{
   
 });
 
+const deleteModule = asyncHandler(async (req, res) => {
+  
+  const module = await Module.findById(req.body.id);
+  
+
+  if (module) {
+    
+    await module.deleteOne();
+    res.json({ message: "Module removed" });
+  } else {
+    res.status(404);
+    throw new Error("Module not found");
+  }
+})
 
 
 
 
 
-module.exports = { createModule, getModules,  getOwnModules,enrollModule,getEnrollStudents};
+
+module.exports = { createModule, getModules, deleteModule, getOwnModules,enrollModule,getEnrollStudents};
 
