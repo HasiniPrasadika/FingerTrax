@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const {createAttendance, getDailyAttendance} = require('../Controllers/attendanceController')
+const {createAttendance, getDailyAttendance, getMyAttendance} = require('../Controllers/attendanceController')
 
 router.post("/addattendance", createAttendance);
 router.post("/dailyattendance", getDailyAttendance);
+router.post("/getmyattendance", getMyAttendance);
 
 module.exports = router;
 

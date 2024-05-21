@@ -278,7 +278,7 @@ const CreateModule = () => {
                 <td>{module.enrolKey}</td>
                 <td>{module.lecHours}</td>
                 <td>
-                  <FiEdit />
+                  
                   <span className="delete-icon">
                     <RiDeleteBin6Line />
                   </span>

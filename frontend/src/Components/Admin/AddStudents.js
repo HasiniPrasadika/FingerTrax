@@ -2,8 +2,10 @@ import { Select } from "antd";
 import axios from "axios";
 import { ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
+import { FaTrashAlt,FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { LuFingerprint } from "react-icons/lu";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
@@ -21,9 +23,15 @@ const Student = () => {
   const [image, setimage] = useState("");
   const [departments, setDepartments] = useState([]);
   const [stuusers, setStuusers] = useState([]);
+  const [filteredStuusers, setFilteredStuusers] = useState([]);
+  const [searchRegNo, setSearchRegNo] = useState("");
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
   const [imageMessage, setimageMessage] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredStuusers.length / itemsPerPage);
 
   useEffect(() => {
     axios
@@ -41,13 +49,12 @@ const Student = () => {
       .get("http://localhost:8070/api/users/getstuusers")
       .then((response) => {
         setStuusers(response.data);
+        setFilteredStuusers(response.data);
       })
       .catch((error) => {
         console.error("Error fetching Students", error);
       });
-  }, [stuusers]);
-
-  
+  }, []);
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -62,20 +69,17 @@ const Student = () => {
       setimage(reader.result);
     };
   };
+
   const enrollFingerprint = async () => {
     try {
-      // Fetch existing student users from MongoDB
       const existingUsersResponse = await axios.get(
         "http://localhost:8070/api/users/getstuusers"
       );
       const existingUsers = existingUsersResponse.data;
-
-      // Extract existing fingerprint IDs from fetched users
       const existingFingerprintIDs = existingUsers.map(
         (user) => user.fingerprintID
       );
 
-      // Check if entered fingerprint ID already exists
       if (existingFingerprintIDs.includes(fingerprintID)) {
         setMessage("Fingerprint ID already exists!");
         setTimeout(() => {
@@ -84,7 +88,6 @@ const Student = () => {
         return;
       }
 
-      // If fingerprint ID does not exist, proceed to enroll in Firebase
       set(ref(fireDb, "FingerprintData/"), {
         stuRegNo: regNo,
         stuFingerprintID: fingerprintID,
@@ -151,6 +154,56 @@ const Student = () => {
     setimage("/Images/profile.webp");
   };
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchRegNo(searchTerm);
+
+    if (searchTerm) {
+      const filtered = stuusers.filter((student) =>
+        student.regNo.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredStuusers(filtered);
+    } else {
+      setFilteredStuusers(stuusers);
+    }
+  };
+  const deleteStudent = (id) => {
+    if (window.confirm("Are you sure you want to delete this student?")) {
+      
+      axios
+        .post("http://localhost:8070/api/users/myd", {id}) // Include the id in the URL
+        .then((response) => {
+          setSMessage("Student Deleted successfully!");
+          setTimeout(() => {
+            setSMessage(null);
+          }, 3000);
+          // Update the lecturer list
+          setStuusers(stuusers.filter((student) => student._id !== id));
+          setFilteredStuusers(filteredStuusers.filter((student) => student._id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting lecturer", error);
+          setMessage("Failed to delete Lecturer!");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+        });
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const paginatedLecturers = filteredStuusers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="lecture-container" style={{ overflowX: "auto" }}>
       <div className="lecture-second-container" style={{ overflowX: "auto" }}>
@@ -173,13 +226,13 @@ const Student = () => {
                 />
               </div>
             </div>
-            <div >
+            <div>
               <button
                 onClick={enrollFingerprint}
-                style={{ marginBottom: "25px", marginTop: "50px", marginLeft:'5px' }}
+                style={{ marginBottom: "25px", marginTop: "50px", marginLeft: '5px' }}
                 className="btn btn-primary"
               >
-                <LuFingerprint style={{fontSize:'20px'}}/>  Enroll Fingerprint
+                <LuFingerprint style={{ fontSize: '20px' }} /> Enroll Fingerprint
               </button>
             </div>
           </div>
@@ -231,18 +284,18 @@ const Student = () => {
                   </div>
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
-                  <label>Department Name</label><br/>
+                  <label>Department Name</label><br />
                   <Select
                     value={depName}
                     onChange={(value) => setdepName(value)}
                     placeholder="Select department"
-                    style={{ width: "520px" , height:'40px'}}
+                    style={{ width: "520px", height: '40px' }}
                   >
                     {departments.map((department) => (
                       <Select.Option
                         key={department._id}
                         value={department.depName}
-                        style={{ width: "520px" , height:'40px'}}
+                        style={{ width: "520px", height: '40px' }}
                       >
                         {department.depName}
                       </Select.Option>
@@ -255,7 +308,7 @@ const Student = () => {
                     type="text"
                     value={fingerprintID}
                     className="form-control"
-                    placeholder="Name"
+                    placeholder="Fingerprint ID"
                     onChange={(e) => setfingerprintID(e.target.value)}
                   />
                 </div>
@@ -265,88 +318,101 @@ const Student = () => {
                     type="text"
                     value={batch}
                     className="form-control"
-                    placeholder="Name"
+                    placeholder="Batch"
                     onChange={(e) => setbatch(e.target.value)}
                   />
                 </div>
                 <div className="form-group" style={{ marginBottom: 10 }}>
-                  {imageMessage && (
-                    <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
-                  )}
-                  <label>Upload Profile Picture</label>
+                  <label>Profile Photo</label>
                   <input
                     type="file"
                     className="form-control"
-                    placeholder="Name"
                     onChange={handleImage}
                   />
                 </div>
-                {/* <div className="form-group">
-                  <label htmlFor="inputState">Department</label>
-                  <select id="inputState" className="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div> */}
-                {/* <div className="form-group">
-                  <label htmlFor="inputState">Module</label>
-                  <select id="inputState" className="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div> */}
-                <div className="form-row">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ marginRight: "25px", marginLeft: "5px" , width:'75px'}}
-                    onClick={submitHandler}
-                  >
-                    Submit
-                  </button>
-                  <button
-                    
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ backgroundColor: "gray",  marginRight: "25px",  width:'75px'}}
-                    onClick={resetHandler}
-                  >
-                    Reset
-                  </button>
-                </div>
+                {imageMessage && (
+                  <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
+                )}
+                <button type="submit" className="btn btn-primary">
+                  Save
+                </button>
+                <button
+                  type="reset"
+                  className="btn btn-secondary ml-2"
+                  onClick={resetHandler}
+                >
+                  Reset
+                </button>
               </div>
             </form>
-            
           </div>
         </div>
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Students</h3>
-          {
-            <div className="table-design">
-              <table className="table">
-                <thead style={{ backgroundColor: "#dfeaf5" }}>
-                  <tr>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Registration Number</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Batch</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stuusers.map((student) => (
-                    <tr key={student._id}>
-                      <td>{student.fullName}</td>
-                      <td>{student.userName}</td>
-                      <td>{student.regNo}</td>
-                      <td>{student.depName}</td>
-                      <td>{student.batch}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          }
+          <div style={{ marginBottom: "20px" }}>
+            <input
+              type="text"
+              placeholder="Search by Registration Number eg: stuxxx"
+              value={searchRegNo}
+              onChange={handleSearch}
+              className="form-control"
+              style={{ width: "320px" }}
+            />
+          </div>
+          <div className="table-design">
+          <table className="table">
+            <thead style={{ backgroundColor: "#dfeaf5" }}>
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Registration Number</th>
+                <th scope="col">Department</th>
+                <th scope="col">Batch</th>
+                <th scope="col">Fingerprint ID</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedLecturers.map((student) => (
+                <tr key={student.regNo}>
+                  <td>{student.fullName}</td>
+                  <td>{student.regNo}</td>
+                  <td>{student.depName}</td>
+                  <td>{student.batch}</td>
+                  <td>{student.fingerprintID}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteStudent(student._id)}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          </div>
+          <div className="pagination" style={{marginLeft: "10px"}}>
+            <button
+              className="btn btn-primary"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
+              <FaChevronLeft />
+            </button>
+            <span style={{ margin: "0 10px" }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-primary"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>

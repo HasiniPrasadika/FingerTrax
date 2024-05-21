@@ -205,7 +205,25 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   res.json(currentuser);
 });
 
-module.exports = { authUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser };
+const deleteLecUser = asyncHandler(async (req, res) => {
+  
+  const user = await User.findById(req.body.id);
+  
+
+  if (user) {
+    if (user.image && user.image.public_id) {
+      
+      await cloudinary.uploader.destroy(user.image.public_id); // Delete image from cloudinary
+    }
+    await user.deleteOne();
+    res.json({ message: "Lecturer removed" });
+  } else {
+    res.status(404);
+    throw new Error("Lecturer not found");
+  }
+})
+
+module.exports = { authUser,deleteLecUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser };
 
 
 
