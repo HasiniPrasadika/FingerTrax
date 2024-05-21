@@ -1,14 +1,15 @@
+import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaTrashAlt ,FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
 import "./Admin.css";
 
 const Lecture = () => {
-  const dispatch = useDispatch();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
   const [role, setrole] = useState("lecturer");
@@ -18,9 +19,13 @@ const Lecture = () => {
   const [image, setimage] = useState("/Images/profile.webp");
   const [departments, setDepartments] = useState([]);
   const [lecusers, setLecusers] = useState([]);
+  const [filteredLecusers, setFilteredLecusers] = useState([]);
+  const [searchRegNo, setSearchRegNo] = useState("");
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
-  const [imageMessage, setimageMessage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredLecusers.length / itemsPerPage);
 
   useEffect(() => {
     axios
@@ -33,16 +38,19 @@ const Lecture = () => {
       });
   }, [departments]);
 
+  
+
   useEffect(() => {
     axios
       .get("http://localhost:8070/api/users/getlecusers")
       .then((response) => {
         setLecusers(response.data);
+        setFilteredLecusers(response.data);
       })
       .catch((error) => {
         console.error("Error fetching Lecturers", error);
       });
-  }, [lecusers]);
+  }, []);
 
   const lecUserRegister = useSelector((state) => state.lecUserRegister);
   const { loading, error, userInfo } = lecUserRegister;
@@ -50,7 +58,6 @@ const Lecture = () => {
   const handleImage = (e) => {
     const file = e.target.files[0];
     setFileToBase(file);
-    console.log(file);
   };
 
   const setFileToBase = (file) => {
@@ -60,6 +67,7 @@ const Lecture = () => {
       setimage(reader.result);
     };
   };
+
   const resetHandler = () => {
     setfullName("");
     setregNo("");
@@ -67,6 +75,7 @@ const Lecture = () => {
     setpassword("");
     setimage("/Images/profile.webp");
   };
+
   const submitHandler = (e) => {
     try {
       e.preventDefault();
@@ -105,23 +114,58 @@ const Lecture = () => {
       setMessage("Failed to add Lecturer!");
     }
 
-    // try{
-    //   e.preventDefault();
-    //   dispatch(
-    //     registerlec(userName, password, role, fullName, depName, regNo, image)
-    //   );
-    //   setMessage("Lecturer Added successfully!");
-    //   setTimeout(() => {
-    //     setMessage(null);
-    //   }, 3000);
-
-    // } catch (error) {
-    //   setMessage("Failed to add Lecturer!");
-    //   setTimeout(() => {
-    //     setMessage(null);
-    //   }, 3000);
-    // }
   };
+
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchRegNo(searchTerm);
+
+    if (searchTerm) {
+      const filtered = lecusers.filter((lecturer) =>
+        lecturer.regNo.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredLecusers(filtered);
+    } else {
+      setFilteredLecusers(lecusers);
+    }
+  };
+
+  const deleteLecturer = (id) => {
+    if (window.confirm("Are you sure you want to delete this lecturer?")) {
+      
+      axios
+        .post("http://localhost:8070/api/users/myd", {id}) // Include the id in the URL
+        .then((response) => {
+          setSMessage("Lecturer Deleted successfully!");
+          setTimeout(() => {
+            setSMessage(null);
+          }, 3000);
+          // Update the lecturer list
+          setLecusers(lecusers.filter((lecturer) => lecturer._id !== id));
+          setFilteredLecusers(filteredLecusers.filter((lecturer) => lecturer._id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting lecturer", error);
+          setMessage("Failed to delete Lecturer!");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+        });
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const paginatedLecturers = filteredLecusers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="lecture-container">
@@ -134,7 +178,7 @@ const Lecture = () => {
         </div>
         <div className="lecture-details">
           <div className="lecture-photo-area">
-            <h3 style={{ marginBottom: "30px" , marginTop:"50px"}}>Add a Lecturer</h3>
+            <h3 style={{ marginBottom: "30px", marginTop: "50px" }}>Add a Lecturer</h3>
             <div className="profile-photo-preview">
               <div style={{ position: "relative", display: "inline-block" }}>
                 <img
@@ -202,51 +246,33 @@ const Lecture = () => {
                   </Select>
                   </div>
                 </div>
-                <div className="form-group" style={{ marginBottom: 10 }}>
+                <div className="form-group">
                   <label>Registration Number</label>
                   <input
                     type="text"
                     value={regNo}
                     className="form-control"
-                    placeholder="Name"
+                    placeholder="Registration Number"
                     onChange={(e) => setregNo(e.target.value)}
                   />
                 </div>
-                <div className="form-group" style={{ marginBottom: 10 }}>
-                  {imageMessage && (
-                    <ErrorMessage variant="danger">{imageMessage}</ErrorMessage>
-                  )}
-                  <label>Upload Profile Picture</label>
+                <div className="form-group">
+                  <label>Profile Image</label>
                   <input
                     type="file"
-                    className="form-control"
-                    placeholder="Name"
+                    className="form-control-file"
                     onChange={handleImage}
-                    style={{marginBottom:'30px'}}
                   />
                 </div>
-                {/* <div className="form-group">
-                  <label htmlFor="inputState">Department</label>
-                  <select id="inputState" className="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div> */}
-                <div className="form-row">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ marginRight: "25px", marginLeft: "5px" , width:'75px'}}
-                    onClick={submitHandler}
-                  >
+                <div style={{ marginTop: "30px", marginBottom: "20px" }}>
+                  <button type="submit" className="btn btn-primary">
                     Submit
                   </button>
                   <button
-                    
-                    type="submit"
-                    className="btn btn-primary"
-                    style={{ backgroundColor: "gray",  marginRight: "25px",  width:'75px'}}
+                    type="reset"
+                    className="btn btn-secondary"
                     onClick={resetHandler}
+                    style={{ marginLeft: "20px" }}
                   >
                     Reset
                   </button>
@@ -255,33 +281,71 @@ const Lecture = () => {
             </form>
           </div>
         </div>
+        <hr />
         <div className="lecturer-list">
           <h3 style={{ marginBottom: "20px" }}>List of Lecturers</h3>
+          <div style={{ marginBottom: "20px" }}>
+            <input
+              type="text"
+              placeholder="Search by Registration Number eg: lecxxx"
+              value={searchRegNo}
+              onChange={handleSearch}
+              className="form-control"
+              style={{ width: "320px" }}
+            />
+          </div>
+          <div className="table-design">
+          <table className="table">
+            <thead style={{ backgroundColor: "#dfeaf5" }}>
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Department</th>
+                <th scope="col">Username</th>
+                <th scope="col">Registration Number</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedLecturers.map((lecuser) => (
+                <tr key={lecuser._id}>
+                  <td>{lecuser.fullName}</td>
+                  <td>{lecuser.depName}</td>
+                  <td>{lecuser.userName}</td>
+                  <td>{lecuser.regNo}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteLecturer(lecuser._id)}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-          {
-            <div className="table-design">
-              <table className="table">
-                <thead style={{ backgroundColor: "#dfeaf5" }}>
-                  <tr>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Registration Number</th>
-                    <th scope="col">Department</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {lecusers.map((lecturer) => (
-                    <tr key={lecturer._id}>
-                      <td>{lecturer.fullName}</td>
-                      <td>{lecturer.userName}</td>
-                      <td>{lecturer.regNo}</td>
-                      <td>{lecturer.depName}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          }
+          </div>
+          <div className="pagination" style={{marginLeft: "10px"}}>
+            <button
+              className="btn btn-primary"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
+              <FaChevronLeft />
+            </button>
+            <span style={{ margin: "0 10px" }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-primary"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>

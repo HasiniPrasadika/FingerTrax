@@ -50,4 +50,13 @@ const getDailyAttendance = asyncHandler(async (req, res) => {
 
   res.json(dailyAttendance);
 });
-module.exports = { createAttendance, getAttendance, getDailyAttendance };
+const getMyAttendance = asyncHandler(async (req, res) => {
+  const { moduleCode } = req.body;
+
+  // Assuming you have a Attendance model defined with Mongoose
+  const myAttendance = await Attendance.find({ moduleCode: moduleCode});
+
+  res.json(myAttendance);
+});
+
+module.exports = { createAttendance, getAttendance, getDailyAttendance ,getMyAttendance};

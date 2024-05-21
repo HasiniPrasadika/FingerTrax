@@ -1,24 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "../Admin/Admin.css";
+import axios from "axios";
 
 const AttendanceRecord = () => {
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
  
   const {state} =useLocation();
   const module = state.module;
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
   
+  const [attendedLectureHours, setAttendedLectureHours] = useState(0);
   const [progressValue, setProgressValue] = useState(0);
-  const progressEndValue = 80;
-  useEffect(() => {
-    const progressInterval = setInterval(() => {
-      if (progressValue < progressEndValue) {
-        setProgressValue(progressValue + 1);
-      }
-    }, 50);
+  
 
-    return () => clearInterval(progressInterval);
-  }, [progressValue, progressEndValue]);
+  useEffect(() => {
+    const fetchAttendanceRecords = async () => {
+      try {
+        const response = await axios.post("http://localhost:8070/api/attendance/getmyattendance",{
+          moduleCode: module.modCode
+        });
+        setAttendanceRecords(response.data);
+      } catch (error) {
+        console.error("Error fetching attendance records", error);
+      }
+    };
+
+    fetchAttendanceRecords();
+  }, []);
+
+  useEffect(() => {
+    if (attendanceRecords.length > 0) {
+      const totalAttendedHours = attendanceRecords.reduce((total, record) => {
+        const student = record.enrolledStudents.find(student => student.regNo === userInfo.regNo);
+        return total + (student && student.attendanceData ? record.lectureHours : 0);
+      }, 0);
+      setAttendedLectureHours(totalAttendedHours);
+
+      const percentage = (totalAttendedHours / module.conductedLectureHours) * 100;
+      setProgressValue(Math.round(percentage));
+    }
+  }, [attendanceRecords, module.conductedLectureHours, userInfo.regNo]);
 
   return (
     <div className="att-container">
@@ -56,8 +82,9 @@ const AttendanceRecord = () => {
             >
               <div className="value-container">{progressValue}%</div>
             </div>
-            <div>Lecture Hours: 20</div>
-            <div>Total Lecture Hours: 25</div>
+            <div>Conducted Lecture Hours: {module.conductedLectureHours}</div>
+            <div>Total Lecture Hours: {module.lecHours}</div>
+            <div>Attended Lecture Hours: {attendedLectureHours}</div>
           </div>
         </div>
       </div>
@@ -78,27 +105,18 @@ const AttendanceRecord = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>2024/01/03</td>
-                <td>8.30am - 10.30am</td>
-                <td>2</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>2024/01/07</td>
-                <td>8.30am - 10.30am</td>
-                <td>2</td>
-                <td>Yes</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>2024/01/08</td>
-                <td>8.30am - 09.30am</td>
-                <td>1</td>
-                <td>No</td>
-              </tr>
+            {attendanceRecords.map((record, index) => {
+                const student = record.enrolledStudents.find(student => student.regNo === userInfo.regNo);
+                return (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{new Date(record.date).toLocaleDateString()}</td>
+                    <td>{new Date(record.startTime).toLocaleTimeString()} - {new Date(record.endTime).toLocaleTimeString()}</td>
+                    <td>{record.lectureHours}</td>
+                    <td>{student && student.attendanceData ? "Yes" : "No"}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
