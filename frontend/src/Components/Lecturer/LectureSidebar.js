@@ -32,7 +32,7 @@ const LectureSidebar = ({ children }) => {
     },
     {
       path: "/lecture_Absence_applications",
-      name: "Absence Applications",
+      name: "Absence Letters",
       icon: <PiStudentBold />,
     },
     {

@@ -6,14 +6,14 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
   BiUserCheck,
-  BiUserX,
+  
 } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
@@ -25,7 +25,7 @@ import SuccessMessage from "../../Components/SuccessMessage";
 
 const today = dayjs();
 
-const isInCurrentMonth = (date) => date.get("month") === dayjs().get("month");
+
 
 const ModuleDetails = () => {
   const [isDisplay, setIsDisplay] = useState(false);
@@ -41,7 +41,6 @@ const ModuleDetails = () => {
   const [endTime, setEndTime] = useState(null);
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
-  const [attendanceData, setAttendanceData] = useState();
   const [enrolledStudents, setEnrolledStudents] = useState([]);
   const [lectureHours, setLectureHours] = useState();
   const [res, setRes] = useState();
@@ -324,10 +323,10 @@ const ModuleDetails = () => {
       <div className="second-container">
         <div className="second-column-frist-container">
           <div className="second-column-frist-container-three">
-            <div className="card-box">
+            <div style={{width: 320}} className="card-box">
               <div className="row">
                 <h6 className="box-title">Enrolled Students</h6>
-                <div style={{ marginLeft: "45px" }}>
+                <div style={{ marginLeft: "160px" }}>
                   <BiDotsVerticalRounded
                     onClick={() => setShowCalendar(true)}
                   />
@@ -339,14 +338,14 @@ const ModuleDetails = () => {
                     <BiUserCheck />
                   </div>
                 </div>
-                <div className="column">
+                <div style={{marginTop: "15px"}} className="column">
                   <div className="count-of-stu">
                     <h3>{module.noOfStu}</h3>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card-box">
+            {/* <div className="card-box">
               <div className="row">
                 <h6 className="box-title">Absence</h6>
                 <div style={{ marginLeft: "40px" }}>
@@ -376,11 +375,11 @@ const ModuleDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="card-box">
+            </div> */}
+            <div style={{width: 320}} className="card-box">
               <div className="row">
                 <h6 className="box-title">Total Lecture Hours</h6>
-                <div style={{ marginLeft: "3px", marginTop: "3px" }}>
+                <div style={{ marginLeft: "150px", marginTop: "3px" }}>
                   <BiDotsVerticalRounded />
                 </div>
               </div>

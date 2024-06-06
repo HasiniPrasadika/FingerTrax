@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {createModule, getModules, getOwnModules, enrollModule,getEnrollStudents} = require("../Controllers/ModController")
+const {createModule, getModules,deleteModule, getOwnModules, enrollModule,getEnrollStudents} = require("../Controllers/ModController")
 
 
 
@@ -10,6 +10,7 @@ router.get("/getallmod", getModules);
 router.post("/ownmodules", getOwnModules);
 router.put("/enrollmodule/:id", enrollModule);
 router.post("/getenrollstu", getEnrollStudents);
+router.post("/moddel", deleteModule);
 
 
 

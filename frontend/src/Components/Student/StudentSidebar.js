@@ -32,7 +32,7 @@ const StudentSidebar = ({ children }) => {
     },
     {
       path: "/student_absence_application",
-      name: "Absence Application",
+      name: "Absence Letters",
       icon: <IoDocumentText />
     },
     {
