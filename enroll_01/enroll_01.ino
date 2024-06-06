@@ -212,7 +212,7 @@ void loop()
 
     finger.getTemplateCount();
 
-    if (finger.templateCount > 0) {
+    while (finger.templateCount != 0) {
       display.clearDisplay();
 
       // Display Text
@@ -241,7 +241,9 @@ void loop()
 
       getFingerprintIDez(); 
 
-    } else{
+    } 
+    /*
+    while (finger.templateCount == 0){
       display.println("Sensor doesn't contain any fingerprint data");
       display.display();
       delay(2000);
@@ -256,13 +258,21 @@ void loop()
       delay(500);
             
       Firebase.RTDB.setString(&fbdo, "/State/arduinoState", "0");
-    }  
+    }
+    */  
      
   }   
   else if(stateValue == "0")
   {
     display.println("Exit");  
-    display.display();      
+    display.display();  
+
+    display.clearDisplay();
+
+    // Display Text
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);    
   } 
 }
 
@@ -415,10 +425,14 @@ int getFingerprintID() {
   for(int i=0; i<numPresentID; i++)
   {
     String path = "/Attendance/" + String(attendanceArr[i]);
-    String data = "Present";
+    String data = String(attendanceArr[i]);
 
     if(Firebase.RTDB.setString(&fbdo, (const char*)path.c_str(), (const char*)data.c_str()))
-    {      
+    { 
+      display.println(String(attendanceArr[i]) + "is Sign now.");
+      display.display();      
+      delay(2000);
+
     }else{
       display.print("Fail to mark attendance for ID. ");
       display.display();

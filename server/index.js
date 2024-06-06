@@ -9,9 +9,11 @@ const depRoute = require("./Routes/DepRoute");
 const modRoute = require("./Routes/ModRoute");
 const attRoute = require("./Routes/AttRoutes");
 const bodyParser = require('body-parser');
+const absRoute = require("./Routes/AbsRoute");
 
 app.use(bodyParser.json({ limit: '50mb' })); // Adjust the limit as needed
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
 
 const PORT = process.env.PORT || 8070;
 const URL = process.env.MONGODB_URL;
@@ -38,6 +40,7 @@ app.use("/api/users", authRoute);
 app.use("/api/departments", depRoute);
 app.use("/api/modules", modRoute);
 app.use("/api/attendance", attRoute);
+app.use("/api/absenceletters", absRoute);
 
 
 app.listen(PORT, () => {
