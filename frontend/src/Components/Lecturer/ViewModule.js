@@ -6,14 +6,14 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
   BiUserCheck,
-  BiUserX,
+  
 } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
@@ -25,7 +25,7 @@ import SuccessMessage from "../../Components/SuccessMessage";
 
 const today = dayjs();
 
-const isInCurrentMonth = (date) => date.get("month") === dayjs().get("month");
+
 
 const ModuleDetails = () => {
   const [isDisplay, setIsDisplay] = useState(false);
@@ -41,7 +41,6 @@ const ModuleDetails = () => {
   const [endTime, setEndTime] = useState(null);
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
-  const [attendanceData, setAttendanceData] = useState();
   const [enrolledStudents, setEnrolledStudents] = useState([]);
   const [lectureHours, setLectureHours] = useState();
   const [res, setRes] = useState();
