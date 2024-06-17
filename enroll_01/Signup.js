@@ -2,9 +2,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Loading from "../Components/Loading";
-import ErrorMessage from "../Components/ErrorMessage";
-import { register } from "../actions/userActions";
+import ErrorMessage from "../frontend/src/Components/ErrorMessage";
+import { register } from "../frontend/src/actions/userActions";
 import { ToastContainer, toast } from "react-toastify";
 
 const Signup = () => {
@@ -99,7 +98,7 @@ const Signup = () => {
       <h2>Signup Account</h2>
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {loading && <Loading />}
+       
       <form onSubmit={submitHandler}>
         <div>
           <label htmlFor="username">Username</label>

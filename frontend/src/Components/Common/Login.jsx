@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ErrorMessage from "../Components/ErrorMessage";
-import { login } from "../actions/userActions";
-import "./Login.css";
+import ErrorMessage from "../ErrorMessage";
+import { login } from "../../actions/userActions";
+import "./Common_Styles/Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,16 +18,17 @@ const Login = () => {
   useEffect(() => {
     if (userInfo) {
       switch (userInfo.role) {
-        case 'admin':
-          navigate('/admindashboard');
+        case "admin":
+          navigate("/dashboard/admin_dashboard");
           break;
-        case 'lecturer':
-          navigate('/lecturedashboard');
+        case "student":
+          navigate("/dashboard/student_dashboard");
           break;
-        case 'student':
-          navigate('/studentdashboard');
+        case "lecturer":
+          navigate("/dashboard/lecturer_dashboard");
           break;
         default:
+          navigate("/dashboard");
           break;
       }
     }
@@ -36,21 +37,7 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(userName, password));
-    
   };
-
-  // Function to handle input change
-  
-
-  // Function to handle form submission
-  
-  // Function to handle success toast and redirection based on user role
-  
-
-  // Function to handle error toast
-  
-  // Function to display toast messages
- 
 
   return (
     <div className="login-container">
@@ -71,7 +58,7 @@ const Login = () => {
         </div>
 
         <div className="form_container">
-        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+          {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
           <form onSubmit={submitHandler}>
             <div>
               <label htmlFor="username">Username</label>
@@ -81,7 +68,7 @@ const Login = () => {
                 value={userName}
                 placeholder="Enter your username"
                 onChange={(e) => setuserName(e.target.value)}
-                required // Adding required attribute
+                required
               />
             </div>
             <div>
@@ -92,13 +79,10 @@ const Login = () => {
                 value={password}
                 placeholder="Enter your password"
                 onChange={(e) => setpassword(e.target.value)}
-                required // Adding required attribute
+                required
               />
             </div>
             <button type="submit">Login</button>
-            {/* <span style={{ color: "blue" }}>
-              Forgot password?
-            </span> */}
           </form>
         </div>
       </div>

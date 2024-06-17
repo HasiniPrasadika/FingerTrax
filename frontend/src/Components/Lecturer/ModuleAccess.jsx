@@ -1,17 +1,18 @@
 import React from 'react';
 import { GoTriangleRight } from "react-icons/go";
 import AccessBox from './LecturerAccess';
+import './Lecturer Styles/ModuleAccess.css';
 const ModuleAccess = () => {
     return (
-        <div className="lecturer-first-row-container">
+        <div className="module-access-container">
             
-            <div className="path-style">
+            <div className="access-path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Module Access</p>
             </div>
             
-            <div className="module-form" >
+            <div className="access-module-form" >
             <div>
-                <h3 className='topic-style'>Give Access</h3>
+                <h3 className='access-topic-style'>Give Access</h3>
             </div>
             <form className="form-style" >
             <div class="form-row">
@@ -49,7 +50,7 @@ const ModuleAccess = () => {
             </form>
             
             </div>
-            <div className='module-container'>
+            <div className='access-module-container'>
                 <AccessBox></AccessBox>
                 <AccessBox></AccessBox>
                 <AccessBox></AccessBox>

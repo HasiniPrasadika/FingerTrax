@@ -1,66 +1,8 @@
-* {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-}
 
-body {
-    background-color: #E7E7E9;
-
-}
-
-/* Sidebar */
-.sidebar {
-    width: 200px;
-    background: #003566;
-    height: 600px;
-    transition: all 0.5s;
-    border-radius: 15px 15px 15px 15px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 7px;
-}
-
-.top_section {
-    display: flex;
-    align-items: center;
-    padding: 10px 5px 5px 5px;
-}
-
-.bars {
-    display: flex;
-    font-size: 25px;
-    margin-left: 20px;
-}
-
-.link {
-    display: flex;
-    color: #fff;
-    padding: 10px 15px;
-    gap: 15px;
-    transition: all 0.5s;
-}
-
-.link:hover {
-    background: lightskyblue;
-    color: #000;
-    transition: all 0.5s;
-}
-
-.active {
-    background: lightskyblue;
-    color: #000;
-}
-
-.icon,
-.link_text {
-    font-size: 20px;
-}
 
 
 /* Header */
-.header {
+/* .header {
     width: auto;
     height: 35px;
     background-color: white;
@@ -118,23 +60,13 @@ body {
 
 .dropdown-menu button:hover {
     background-color: #f0f0f0;
-}
+} */
 
 
 /* Dashboard */
-.dashboard {
-    display: grid;
-    grid-template-rows: auto auto auto auto;
-    grid-template-columns: 1fr;
-    background-color: #E7E7E9;
-    height: 93vh;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(207, 208, 230) transparent;
-}
 
-.ruhuna-details {
+
+/* .ruhuna-details {
     display: grid;
     grid-template-columns: 1fr;
     height: 175px;
@@ -159,9 +91,9 @@ body {
     margin: 0px 10px 0px 10px;
     margin-top: 5px;
 
-}
+} */
 
-.student-second-row-container {
+/* .student-second-row-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: minmax(300px auto);
@@ -173,9 +105,9 @@ body {
     width: auto;
     height: 100vh;
     border-radius: 10px;
-}
+} */
 
-.item {
+/* .item {
     background: white;
     padding: 5px;
     border-radius: 20px;
@@ -185,10 +117,10 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0px;
-}
+} */
 
 /*Dashboard Count */
-
+/* 
 .module-box {
     display: flex;
     flex-direction: column;
@@ -197,16 +129,16 @@ body {
     border-radius: 25px 25px 0px 0px;
     height: 120px;
     width: 250px;
-}
+} */
 
-.module-name {
+/* .module-name {
     color: black;
     font-size: 16px;
     cursor: pointer;
     margin: 20px;
     margin-top: 30px;
-}
-
+} */
+/* 
 .module-info {
     display: flex;
     justify-content: center;
@@ -219,13 +151,13 @@ body {
     margin-top: 22px;
     width: 250px;
 
-}
+} */
 
 
 
 /* Enrollment*/
 
-.en-container {
+/* .en-container {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 5px;
@@ -283,9 +215,9 @@ body {
     padding: 20px;
     height: auto;
 
-}
+} */
 
-.module-container {
+/* .module-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
@@ -295,9 +227,9 @@ body {
     border-radius: 15px;
     padding: 10px;
 
-}
+} */
 
-.module-enrollment {
+/* .module-enrollment {
     display: flex;
     flex-direction: column;
 }
@@ -351,7 +283,7 @@ body {
     color: white;
 }
 
-/* Absence Application */
+
 
 .absence-container {
     display: grid;
@@ -422,9 +354,9 @@ body {
     background-color: #f0f0f0;
     border: 1px solid #0F91D2;
 
-}
+} */
 
-.file-border {
+/* .file-border {
     height: 85px;
     width: 300px;
     border: 1px solid #000;
@@ -452,7 +384,7 @@ body {
 }
 
 
-/*Profile*/
+
 
 .profile-container {
     display: grid;
@@ -494,14 +426,14 @@ body {
     overflow: hidden;
     position: relative;
     margin-left: 10px;
-}
+} */
 
 
 
 /* Attendance Record */
 
 
-.attendance-square {
+/* .attendance-square {
     width: 270px;
     height: 270px;
     background-color: white;
@@ -580,9 +512,9 @@ body {
     padding-left: 250px;
     place-items: center;
 
-}
+} */
 
-.attendance-list {
+/* .attendance-list {
     margin-top: 20px;
     padding: 10px;
 
@@ -592,12 +524,12 @@ body {
     margin-bottom: 20px;
     color: #012970;
     margin-left: 5px;
-}
+} */
 
-.table-design {
+/* .table-design {
     margin-left: 10px;
     margin-right: 10px;
-}
+} */
 
 
 
@@ -615,16 +547,16 @@ body {
 
 
 
-.lecturer-list {
+/* .lecturer-list {
     margin-top: 20px;
     padding: 10px;
-}
+} */
 
-.lecture-photo-area {
+/* .lecture-photo-area {
     margin: 25px 0px 0px 100px;
 
-}
-
+} */
+/* 
 .profile-photo-preview {
     width: 150px;
     height: 150px;
@@ -632,15 +564,15 @@ body {
     overflow: hidden;
     position: relative;
     margin-left: 20px;
-}
+} */
 
-.profile-photo-preview img {
+/* .profile-photo-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+} */
 
-.upload-icon {
+/* .upload-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -675,4 +607,4 @@ body {
     position: absolute;
     top: 100%;
     font-size: 12px;
-}
+} */

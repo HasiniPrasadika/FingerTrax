@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
+import './Lecturer Styles/CreateModule.css';
 
 const CreateModule = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -49,17 +50,7 @@ const CreateModule = () => {
   }, [modules]);
 
   const submitHandler = (e) => {
-    // try{
-    //   e.preventDefault();
-    //   dispatch(createModuleAction(modCode, modName, enrolKey, semester, lecHours));
-    //   setMessage("Module Added successfully!");
-    //   setTimeout(() => {
-    //     setMessage(null);
-    //   }, 3000);
-
-    // } catch (error) {
-    //   setMessage("Failed to add Module!");
-    // }
+    
     try {
       e.preventDefault();
       axios
@@ -138,7 +129,7 @@ const CreateModule = () => {
   };
 
   return (
-    <div className="lecturer-first-row-container">
+    <div className="create-module-container">
       <div className="path-style">
         <br />
         <p style={{ opacity: 0.8 }}>

@@ -1,20 +1,21 @@
 import React from 'react';
 import { BsCheckSquareFill, BsFillXSquareFill } from "react-icons/bs";
 import { GoTriangleRight } from "react-icons/go";
+import './Lecturer Styles/AbsenceLetter.css';
  
-const AbsenceAppicationView = () => {
+const AbsenceLetter = () => {
     return (
-        <div className="lecturer-first-row-container">
+        <div className="absence-letter-container">
             
-            <div className="path-style">
+            <div className="absence-path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Absence Appication</p>
             </div>
             <div>
-                <h3 className='topic-style'>Absence Records</h3>
+                <h3 className='absence-topic-style'>Absence Records</h3>
             </div>
             
-            <div className='table-design'>
-            <table class="table">
+            <div className='absence-table-design'>
+            <table class="absence-table">
                 <thead style={{backgroundColor:'#dfeaf5'}}>
                     <tr>
                     
@@ -75,4 +76,4 @@ const AbsenceAppicationView = () => {
     );
 };
 
-export default AbsenceAppicationView;
+export default AbsenceLetter;

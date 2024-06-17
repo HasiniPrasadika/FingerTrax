@@ -1,17 +1,7 @@
-*{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-}
 
-body {
-    background-color: #E7E7E9;
-
-    
-}
 
 /* Sidebar */
-.sidebar-container{
+/* .sidebar-container{
     width: 5%;
 }
 
@@ -25,7 +15,7 @@ body {
     top: 0;
     left: 0;
     margin: 7px;
-    overflow: hidden; /* Prevent zoom effect */
+    overflow: hidden; 
 }
 
 .top_section {
@@ -62,9 +52,9 @@ body {
 .icon,
 .link_text {
     font-size: 20px;
-}
+} */
 
-/* Header */
+/* Header
 .header {
     width: 78%;
     height: 7vh;
@@ -124,24 +114,12 @@ body {
 
 .dropdown-menu button:hover {
     background-color: #f0f0f0;
-}
+} */
 
 /* Dashboard */
 
-.dashboard-container {
 
-    display: block;
-    grid-template-rows: auto auto auto auto;
-    grid-template-columns: 1fr;
-    background-color: transparent;
-    margin-left: 21%;
-    height: 93vh;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(207, 208, 230) transparent;
-}
-
+/* 
 .ruhuna-details {
     display: grid;
     width: 100%;
@@ -192,7 +170,7 @@ body {
     grid-template-columns: 1fr;
 }
 
-/*Dashboard Count*/
+
 
 .count-container{
     display: grid;
@@ -234,7 +212,6 @@ body {
 
 }
 
-/* Lecture*/
 .lecture-container{
     display: grid;
     grid-template-columns: 1fr ;
@@ -337,9 +314,9 @@ body {
     .table-design{
         margin-left: 10px;
         margin-right: 10px;
-    }
+    } */
 /*Department*/
-    .dep-container{
+    /* .dep-container{
         display: grid;
         grid-template-columns: 1fr ;
         grid-gap: 20px;
@@ -374,4 +351,4 @@ body {
     .form-style{
         display: block;
         margin:  15px 50px 20px 50px;
-    }
+    } */

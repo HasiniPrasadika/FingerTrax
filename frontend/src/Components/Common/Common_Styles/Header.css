@@ -1,0 +1,121 @@
+
+.header {
+  width: 99%;
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  height: 40px;
+  margin: 1.4% 0.5% 0% 0.5%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.menu-icon {
+  position: relative;
+  margin: 1%;
+  padding: 0;
+  align-items: center;
+  display: none;
+}
+.button-icon {
+  background-color: inherit;
+  color: rgb(76, 76, 76);
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.button-icon:focus {
+  outline: none;
+  box-shadow: none;
+}
+.button-icon:hover {
+  outline: none;
+  box-shadow: none;
+}
+.button-icon:active {
+  border: none;
+}
+.user-detail {
+  position: relative;
+  margin: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+}
+.user-name {
+  position: relative;
+  display: flex;
+  font-size: 2vh;
+  background-color: white;
+}
+.user-image {
+  width: 32px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+  padding: 0px 5px 0px 5px;
+  background-color: white;
+}
+.dropdown {
+  position: absolute; /* Absolute positioning */
+  top: 40px; /* Adjust based on the height of the header */
+  left: 0;
+  background-color: #003566;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 20000; /* Ensure it appears above other elements */
+  width: 40vw; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-text {
+  position: relative;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: white;
+  font-size: 4vw;
+}
+.dropdown-text:hover {
+  background-color: #f0f0f0;
+  color: black;
+  border-radius: 5px;
+}
+@media (max-width: 768px) {
+  .header {
+    justify-content: space-between;
+    height: 50px;
+  }
+  .menu-icon {
+    display: flex;
+    margin: 3vw;
+  }
+  .header {
+    margin: 1%;
+    width: 98%;
+    background-color: #003566;
+  }
+  .button-icon{
+    color: white;
+    position: relative;
+    display: flex;
+  }
+  .icon{
+    font-size: 6vw;
+  }
+  .user-name{
+    color: white;
+    background-color: #003566;
+  }
+  .user-detail{
+    background-color: #003566;
+  }
+  .user-image{
+    background-color: #003566;
+  }
+}

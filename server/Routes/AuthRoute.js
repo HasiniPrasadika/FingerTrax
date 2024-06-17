@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authUser,deleteLecUser, registerAdminUser, registerLecUser, registerStuUser, updateUserProfile, getLecUsers, getStuUsers, getCurrentUser } = require("../Controllers/AuthController.js");
+const { authUser,deleteLecUser, registerAdminUser, registerLecUser, registerStuUser, updateUserProfile, getLecUsers, getStuUsers, getCurrentUser, updateLecturer, updateStudent } = require("../Controllers/AuthController.js");
 const { protect } = require("../Middlewares/AuthMiddleware.js");
 
 router.post("/regadmin", registerAdminUser);
@@ -12,7 +12,8 @@ router.get("/getlecusers", getLecUsers);
 router.get("/getstuusers", getStuUsers);
 router.post("/currentuser", getCurrentUser);
 router.post("/myd", deleteLecUser);
-
+router.put("/updateuser/:id", updateLecturer);
+router.put("/updatestuuser/:id", updateStudent);
 module.exports = router;
 
 

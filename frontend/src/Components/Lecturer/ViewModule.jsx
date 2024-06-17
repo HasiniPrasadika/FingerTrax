@@ -6,7 +6,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
@@ -27,12 +27,13 @@ const today = dayjs();
 
 
 
-const ModuleDetails = () => {
+const ViewModule = () => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [isDailyDisplay, setIsDailyDisplay] = useState(false);
-  const { state } = useLocation();
-  const module = state.module;
-  const moduleCod = module.modCode;
+  const location = useLocation();
+    const { module } = location.state || {};
+    
+   const moduleCod = module.modCode;
   const [showCalendar, setShowCalendar] = useState(false);
   const [showDailyCalendar, setShowDailyCalendar] = useState(false);
   const [moduleCode, setModuleCode] = useState(module.modCode);
@@ -46,6 +47,8 @@ const ModuleDetails = () => {
   const [res, setRes] = useState();
   const [daily, setDaily] = useState(null);
   const [dailyAttendance, setDailyAttendance] = useState();
+
+ 
 
   const handleCalendarChange = (date) => {
     setDate(date);
@@ -301,9 +304,13 @@ const ModuleDetails = () => {
       console.error("Error retrieving attendance data:", error);
     }
   };
+  if (!module) {
+    return <div>Loading...</div>;
+  }
+  
 
   return (
-    <div className="lecturer-first-row-container">
+    <div className="lecturer-view-module-container">
       <div className="topic-style">
         <p>
           <br />
@@ -610,4 +617,4 @@ const ModuleDetails = () => {
   );
 };
 
-export default ModuleDetails;
+export default ViewModule;

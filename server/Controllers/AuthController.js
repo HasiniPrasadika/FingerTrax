@@ -68,6 +68,7 @@ const registerAdminUser = asyncHandler(async (req, res) => {
 //@access          Public
 const registerLecUser = asyncHandler(async (req, res) => {
   const { userName, password, fullName, depName, image, regNo } = req.body;
+  
 
   const userExists = await User.findOne({ userName });
 
@@ -75,9 +76,17 @@ const registerLecUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User already exists");
   }
-  const result = await cloudinary.uploader.upload(image, {
-    folder: "users"
-  })
+  let result = {
+    public_id: "",
+    url: "/Images/profile.webp" // Default image URL
+  };
+  if (image) {
+    result = await cloudinary.uploader.upload(image, {
+      folder: "users"
+    });
+  }
+  
+ 
   const user = await User.create({
     userName,
     password,
@@ -110,6 +119,64 @@ const registerLecUser = asyncHandler(async (req, res) => {
   }
 });
 
+const updateLecturer = asyncHandler(async (req, res) => {
+  const lecID  = req.params.id;
+  const { userName, fullName, depName, image, regNo, password } = req.body;
+
+  const user = await User.findById(lecID);
+
+ 
+
+  if (!user) {
+    res.status(404);
+    throw new Error("Lecturer not found");
+  }
+
+  // Check if the username already exists for a different user
+  const userExists = await User.findOne({ userName, _id: { $ne: lecID } });
+  if (userExists) {
+    res.status(400);
+    throw new Error("Username already exists");
+  }
+
+
+
+  let imageData = user.image;
+  if (image && image !== user.image.url) {
+    // Delete the existing image from Cloudinary
+    if (user.image.public_id) {
+      await cloudinary.uploader.destroy(user.image.public_id);
+    }
+    
+    // Upload the new image to Cloudinary
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "users",
+    });
+    imageData = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
+  user.userName = userName;
+  user.fullName = fullName;
+  user.depName = depName;
+  user.image = imageData;
+  user.regNo = regNo;
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    userName: updatedUser.userName,
+    fullName: updatedUser.fullName,
+    depName: updatedUser.depName,
+    image: updatedUser.image,
+    regNo: updatedUser.regNo,
+    role: updatedUser.role,
+  });
+});
+
 const registerStuUser = asyncHandler(async (req, res) => {
   const { userName, password, fullName, depName, image, regNo, fingerprintID, batch } = req.body;
 
@@ -119,9 +186,15 @@ const registerStuUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User already exists");
   }
-  const result = await cloudinary.uploader.upload(image, {
-    folder: "users"
-  })
+  let result = {
+    public_id: "",
+    url: "/Images/profile.webp" // Default image URL
+  };
+  if (image) {
+    result = await cloudinary.uploader.upload(image, {
+      folder: "users"
+    });
+  }
   const user = await User.create({
     userName,
     password,
@@ -155,6 +228,64 @@ const registerStuUser = asyncHandler(async (req, res) => {
     console.error("Error registering lecturer:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+});
+const updateStudent = asyncHandler(async (req, res) => {
+  const stuID  = req.params.id;
+  const { userName, fullName, depName, image, regNo, batch } = req.body;
+  
+  const user = await User.findById(stuID);
+
+ 
+
+  if (!user) {
+    res.status(404);
+    throw new Error("Student not found");
+  }
+
+  // Check if the username already exists for a different user
+  const userExists = await User.findOne({ userName, _id: { $ne: stuID } });
+  if (userExists) {
+    res.status(400);
+    throw new Error("Username already exists");
+  }
+
+
+
+  let imageData = user.image;
+  if (image && image !== user.image.url) {
+    // Delete the existing image from Cloudinary
+    if (user.image.public_id) {
+      await cloudinary.uploader.destroy(user.image.public_id);
+    }
+    
+    // Upload the new image to Cloudinary
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "users",
+    });
+    imageData = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
+  user.userName = userName;
+  user.fullName = fullName;
+  user.depName = depName;
+  user.image = imageData;
+  user.regNo = regNo;
+  user.batch = batch;
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    userName: updatedUser.userName,
+    fullName: updatedUser.fullName,
+    depName: updatedUser.depName,
+    image: updatedUser.image,
+    regNo: updatedUser.regNo,
+    role: updatedUser.role,
+  });
 });
 
 // @desc    GET user profile
@@ -223,7 +354,7 @@ const deleteLecUser = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { authUser,deleteLecUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser };
+module.exports = { authUser,deleteLecUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser, updateLecturer, updateStudent };
 
 
 

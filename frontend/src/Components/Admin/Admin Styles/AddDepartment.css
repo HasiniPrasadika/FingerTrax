@@ -1,0 +1,141 @@
+.department-container {
+  position: relative;
+  width: 99%;
+  border-radius: 10px;
+  margin: 1% 0.5% 0.5% 0.5%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background-color: white;
+}
+.dep-navigate {
+  position: relative;
+  display: flex;
+  opacity: "0.8";
+  margin: 1%;
+  font-size: 2vh;
+  width: 98%;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+}
+.dep-topic {
+  margin: 1% 2% 0% 2%;
+  font-size: 2vw;
+  width: 96%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+
+.dep-details {
+  display: flex;
+  background-color: #e8f4ff;
+  margin: 2%;
+  border-radius: 15px;
+  justify-content: center;
+}
+
+.form-style {
+  display: block;
+  margin: 2% 15% 2% 15%;
+  width: 70%;
+  position: relative;
+}
+.form-group.row{
+  margin: 2%;
+  background-color: #e8f4ff;
+  align-items: center;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  width: 98%;
+}
+.dep-form-hor{
+  position: relative;
+  display: block;
+}
+.form-group.row button{
+  margin: 2% 5% 2% 5%;
+}
+.dep-add-table {
+  width: 100%;
+  margin: 0;
+  position: relative;
+  border-radius: 15px;
+ 
+}
+
+.dep-add-table th,
+.dep-add-table td,
+.dep-add-table tr {
+  padding: 8px;
+  text-align: left;
+}
+
+.dep-table-wrapper {
+  overflow-x: auto;
+  position: relative;
+  background-color: white;
+
+  display: flex;
+  
+  margin: 2%;
+  border-radius: 15px;
+  justify-content: center;
+}
+.btn.btn-danger.dep-del{
+  padding: 6px;
+  background-color: white;
+  color: red;
+  border: 0;
+  margin: 2px;
+}
+.btn.btn-primary.dep-edit{
+  padding: 6px;
+  background-color: white;
+  color: blue;
+  border: 0;
+  margin: 2px;
+}
+.add-dep-del,
+.add-dep-edit {
+  transition: filter 0.3s ease;
+}
+.add-dep-del:hover {
+  filter: drop-shadow(2px 4px 6px red);
+}
+.add-dep-edit:hover {
+  filter: drop-shadow(2px 4px 6px blue);
+}
+
+@media (max-width: 768px) {
+  .department-container {
+    margin: 1%;
+    width: 98%;
+  }
+  .dep-navigate {
+    margin: 2% 2% 0% 2%;
+    width: 96%;
+  }
+  .dep-topic{
+    margin: 1% 4% 0% 4%;
+  font-size: 3vh;
+  width: 92%;
+
+  }
+  .dep-add-table th,
+.dep-add-table td,
+.dep-add-table tr {
+  font-size: 3vw;
+  width: 100px;
+}
+.dep-add-table {
+  width: 600px;
+  margin: 0;
+  border-radius: 15px;
+  position: sticky;
+}
+}
