@@ -17,7 +17,7 @@ const MulterErrorHandler = ( err, req, res, next) => {
 
 
 router.post("/addletter", upload.single("pdf"), MulterErrorHandler, addLetter);
-router.get("/getAbsenceStu", getAbsenceLetter);
+router.get("/getAbsenceStu/:regNo", getAbsenceLetter);
 
 
 module.exports = router;

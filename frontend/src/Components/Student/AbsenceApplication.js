@@ -1,12 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
 
 
+
 const AbsenceApplication = () => {
 
+  //add Absence Letter
   const [absStuName, setabsStuName] = useState("");
   const [absRegNo, setabsRegNo] = useState("");
   const [absModCode, setabsModCode] = useState("");
@@ -87,6 +90,27 @@ const AbsenceApplication = () => {
   const resetFileUpload = () => {
     setletters(null);
   };
+
+
+  // view letters
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const [ viewLetters, setviewLetters] = useState([]);
+
+  useEffect(() => {
+
+    if(userInfo){
+      axios
+      .get(`http://localhost:8070/api/absenceletters/getAbsenceStu/${userInfo.regNo}`)
+      .then((response) => {
+        setviewLetters(response.data);
+      })
+      .catch((error) => {
+        console.error("Error of view absence letters", error);
+      });
+    }
+  }, [userInfo]);
+
 
   return (
     <div className="absence-container">
@@ -248,10 +272,10 @@ const AbsenceApplication = () => {
             </button>
           </div>
         </form>
-
-
-
       </div>
+
+
+
       <div>
         <h3 className="topic-style">Excuse Applications</h3>
       </div>
@@ -269,39 +293,24 @@ const AbsenceApplication = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
+              {viewLetters.map((letter, index) => (
+                <tr key={letter._id}>
+                <th scope="row">{ index + 1 }</th>
 
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
+                <td>{ letter.absModName }</td>
+                <td>{ letter.absDate }</td>
+                <td>{ letter.absLecHours }</td>
                 <td>
+                  <a href={letter.letters.url} target="_blank" rel="noopener noreferrer">
                   <button className="btn btn-primary">View</button>
+                  </a>
                 </td>
                 <td style={{ color: "green" }}>Accepted</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
 
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
-                <td>
-                  <button className="btn btn-primary">View</button>
-                </td>
-                <td style={{ color: "green" }}>Accepted</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
-                <td>
-                  <button className="btn btn-primary">View</button>
-                </td>
-                <td>Pending</td>
-              </tr>
+              ))}
+              
+              
             </tbody>
           </table>
         </div>

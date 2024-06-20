@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const AbsenceLetter = require("../Models/AbsenceModel");
 const cloudinary = require("../util/Cloudinary.js");
-const generateToken = require("../util/SecretToken.js");
 const fs = require("fs");
 const path = require("path");
 const { Error } = require("mongoose");
@@ -76,8 +75,8 @@ const addLetter = asyncHandler(async (req, res) => {
 
 const getAbsenceLetter = asyncHandler (async (req, res) => {
 
-    const {absRegNo} = req.body;
-    const absenceStu = await AbsenceLetter.find({absRegNo: absRegNo}).select('absModName absDate absLecHours letters');
+    const absRegNo = req.params.regNo;
+    const absenceStu = await AbsenceLetter.find({absRegNo}).select('absModName absDate absLecHours letters');
     res.json(absenceStu);   
 
 });
