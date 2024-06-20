@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../util/Multer.js");
 
-const { addLetter, getAbsenceLetter } = require("../Controllers/AbsenceController.js");
+const { addLetter, getAbsenceLetter, getLetterLec } = require("../Controllers/AbsenceController.js");
 
 const MulterErrorHandler = ( err, req, res, next) => {
     if(err){
@@ -12,12 +12,12 @@ const MulterErrorHandler = ( err, req, res, next) => {
     else {
         next();
     }
-
 };
 
 
 router.post("/addletter", upload.single("pdf"), MulterErrorHandler, addLetter);
 router.get("/getAbsenceStu/:regNo", getAbsenceLetter);
+router.get("/lecturer/:regNo/letters", getLetterLec);
 
 
 module.exports = router;

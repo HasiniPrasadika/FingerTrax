@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const AbsenceLetter = require("../Models/AbsenceModel");
+const Module = require("../Models/ModuleModel")
 const cloudinary = require("../util/Cloudinary.js");
 const fs = require("fs");
 const path = require("path");
@@ -73,6 +74,7 @@ const addLetter = asyncHandler(async (req, res) => {
 
 });
 
+// View letter in Stu_Side
 const getAbsenceLetter = asyncHandler (async (req, res) => {
 
     const absRegNo = req.params.regNo;
@@ -81,5 +83,17 @@ const getAbsenceLetter = asyncHandler (async (req, res) => {
 
 });
 
-module.exports = { addLetter, getAbsenceLetter };
+// View letter in Lec_Side
+const getLetterLec = asyncHandler (async (req, res) => {
+    const lecRegNo = req.params.regNo;
+    const modules = await Module.find({modCoordinator: lecRegNo}).select('modCode');
+    const modCodes = modules.map(module => module.modCode);
+
+    const absenceView = await AbsenceLetter.find({absModCode : { $in: modCodes }}).select('absStuName absRegNo absModName absDate absLecHours letters');
+    res.json(absenceView);
+
+});
+
+
+module.exports = { addLetter, getAbsenceLetter, getLetterLec };
 

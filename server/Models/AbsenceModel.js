@@ -20,7 +20,7 @@ const absenceSchema = mongoose.Schema({
         type : String,
         required: true
     },
-
+   
     absDate : {
         type: String,
         required: true
