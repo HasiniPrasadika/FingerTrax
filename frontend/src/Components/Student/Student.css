@@ -66,7 +66,7 @@
 /* Dashboard */
 
 
-/* .ruhuna-details {
+ /* .ruhuna-details {
     display: grid;
     grid-template-columns: 1fr;
     height: 175px;
@@ -91,9 +91,9 @@
     margin: 0px 10px 0px 10px;
     margin-top: 5px;
 
-} */
-
-/* .student-second-row-container {
+}  */
+/* 
+.student-second-row-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: minmax(300px auto);
@@ -105,9 +105,9 @@
     width: auto;
     height: 100vh;
     border-radius: 10px;
-} */
+} 
 
-/* .item {
+ .item {
     background: white;
     padding: 5px;
     border-radius: 20px;
@@ -117,10 +117,10 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0px;
-} */
+} 
 
-/*Dashboard Count */
-/* 
+
+
 .module-box {
     display: flex;
     flex-direction: column;
@@ -129,16 +129,16 @@
     border-radius: 25px 25px 0px 0px;
     height: 120px;
     width: 250px;
-} */
+}
 
-/* .module-name {
+.module-name {
     color: black;
     font-size: 16px;
     cursor: pointer;
     margin: 20px;
     margin-top: 30px;
-} */
-/* 
+} 
+
 .module-info {
     display: flex;
     justify-content: center;
@@ -151,13 +151,13 @@
     margin-top: 22px;
     width: 250px;
 
-} */
+} 
 
 
 
-/* Enrollment*/
 
-/* .en-container {
+
+ .en-container {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 5px;
@@ -215,9 +215,9 @@
     padding: 20px;
     height: auto;
 
-} */
+} 
 
-/* .module-container {
+ .module-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
@@ -227,9 +227,9 @@
     border-radius: 15px;
     padding: 10px;
 
-} */
+} 
 
-/* .module-enrollment {
+ .module-enrollment {
     display: flex;
     flex-direction: column;
 }
@@ -354,9 +354,9 @@
     background-color: #f0f0f0;
     border: 1px solid #0F91D2;
 
-} */
+} 
 
-/* .file-border {
+ .file-border {
     height: 85px;
     width: 300px;
     border: 1px solid #000;
@@ -426,14 +426,14 @@
     overflow: hidden;
     position: relative;
     margin-left: 10px;
-} */
+} 
 
 
 
-/* Attendance Record */
 
 
-/* .attendance-square {
+
+ .attendance-square {
     width: 270px;
     height: 270px;
     background-color: white;
@@ -512,9 +512,9 @@
     padding-left: 250px;
     place-items: center;
 
-} */
+} 
 
-/* .attendance-list {
+.attendance-list {
     margin-top: 20px;
     padding: 10px;
 
@@ -524,9 +524,9 @@
     margin-bottom: 20px;
     color: #012970;
     margin-left: 5px;
-} */
+}
 
-/* .table-design {
+.table-design {
     margin-left: 10px;
     margin-right: 10px;
 } */

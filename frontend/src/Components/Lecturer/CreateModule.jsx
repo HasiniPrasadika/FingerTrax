@@ -3,11 +3,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { GoTriangleRight } from "react-icons/go";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
+import { FaTrashAlt,FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
-import './Lecturer Styles/CreateModule.css';
+import "./Lecturer Styles/CreateModule.css";
+import "../Admin/Admin Styles/AddDepartment.css";
 
 const CreateModule = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -23,7 +25,14 @@ const CreateModule = () => {
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
   const [modules, setModules] = useState([]);
+  const [editMode, setEditMode] = useState(false);
   const [searchModuleCode, setSearchModuleCode] = useState("");
+
+  const [currentModuleId, setCurrentModuleId] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(modules.length / itemsPerPage);
 
   useEffect(() => {
     axios
@@ -47,12 +56,49 @@ const CreateModule = () => {
       .catch((error) => {
         console.error("Error fetching modules", error);
       });
-  }, [modules]);
+  }, []);
 
   const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (!modCode || !modName || !enrolKey || !semester || !lecHours || !department) {
+      setMessage("Please enter all the module details before submitting.");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+      return;
+    }
+
+    if(editMode){
+      axios
+      .put(`http://localhost:8070/api/modules/updatemod/${currentModuleId}`, {
+        modCode,
+        modName,
+        enrolKey,
+        semester,
+        lecHours,
+        department,
+      })
+      .then((response) => {
+        setSMessage("Department updated successfully!");
+        setTimeout(() => {
+          setSMessage(null);
+        }, 3000);
+        resetHandler();
+      })
+      .catch((error) => {
+        setMessage("Failed to update Department!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      });
+
+    }else{
+
+    }
     
     try {
-      e.preventDefault();
+    
       axios
         .post("http://localhost:8070/api/modules/addmod", {
           modCode,
@@ -90,6 +136,18 @@ const CreateModule = () => {
     setLecHours("");
     setSemester("");
     setDepartment("");
+    setEditMode(false);
+    setCurrentModuleId(null);
+  };
+  const editModule = (module) => {
+    setmodCode(module.modCode);
+    setmodName(module.modName);
+    setenrolKey(module.enrolKey);
+    setLecHours(module.lecHours);
+    setSemester(module.semester);
+    setDepartment(module.department);
+    setEditMode(true); // Switch to edit mode
+    setCurrentModuleId(module._id); // Set the ID of the department being edited
   };
 
   const handleSearch = (e) => {
@@ -128,148 +186,183 @@ const CreateModule = () => {
     }
   };
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const paginatedModules = modules.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="create-module-container">
-      <div className="path-style">
-        <br />
-        <p style={{ opacity: 0.8 }}>
+      <div className="dep-navigate">
+        <span>
           <GoTriangleRight />
-          Create Module
-        </p>
+        </span>
+        Create Module
       </div>
-      <div>
-        <h3 className="topic-style">Add Module</h3>
+      <div className="dep-topic">
+        <span>Add Modules</span>
       </div>
-      <div className="module-form">
-        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-        {smessage && (
-          <SuccessMessage variant="success">{smessage}</SuccessMessage>
-        )}
+      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+      {smessage && (
+        <SuccessMessage variant="success">{smessage}</SuccessMessage>
+      )}
+      <div className="dep-details">
         <form onSubmit={submitHandler} className="form-style">
           <div className="form-group row">
-            <label htmlFor="modulecode" className="col-sm-4 col-form-label">
-              Module Code{" "}
+            <label
+              htmlFor="modulecode"
+              className="col-sm-4 col-form-label dep-form-hor"
+            >
+              Module Code :
             </label>
-            <div className="col-sm-8">
+            <div className="col-sm-8 dep-form-hor">
               <input
                 type="text"
-                className="form-control"
+                className="form-control "
                 id="modCode"
                 name="modCode"
                 value={modCode}
+                placeholder="Module Code"
                 onChange={(e) => setmodCode(e.target.value)}
               />
             </div>
           </div>
           <div className="form-group row">
-            <label htmlFor="modulename" className="col-sm-4 col-form-label">
-              Module Name
+            <label
+              htmlFor="modulename"
+              className="col-sm-4 col-form-label dep-form-hor"
+            >
+              Module Name :
             </label>
-            <div className="col-sm-8">
+            <div className="col-sm-8 dep-form-hor">
               <input
                 type="text"
                 className="form-control"
                 id="modName"
                 name="modName"
                 value={modName}
+                placeholder="Module Name"
                 onChange={(e) => setmodName(e.target.value)}
               />
             </div>
           </div>
 
           <div className="form-group row">
-            <label htmlFor="enroll" className="col-sm-4 col-form-label">
-              Enrollment Key
+            <label
+              htmlFor="enroll"
+              className="col-sm-4 col-form-label dep-form-hor"
+            >
+              Enrollment Key :
             </label>
-            <div className="col-sm-8">
+            <div className="col-sm-8 dep-form-hor">
               <input
                 type="text"
                 className="form-control"
                 id="enrolKey"
                 name="enrolKey"
                 value={enrolKey}
+                placeholder="Enrollment Key"
                 onChange={(e) => setenrolKey(e.target.value)}
               />
             </div>
           </div>
           <div className="form-group row">
-            <label htmlFor="semester" className="col-sm-4 col-form-label">
-              Semester
-            </label>
-            <Select
-              value={semester}
-              onChange={(value) => setSemester(value)}
-              placeholder="Select semester"
-              style={{ height: "35px", width: "485px", marginLeft: "15px" }}
+            <label
+              htmlFor="semester"
+              className="col-sm-4 col-form-label dep-form-hor"
             >
-              <Select.Option value="1">Semester 1</Select.Option>
-              <Select.Option value="2">Semester 2</Select.Option>
-              <Select.Option value="3">Semester 3</Select.Option>
-              <Select.Option value="4">Semester 4</Select.Option>
-              <Select.Option value="5">Semester 5</Select.Option>
-              <Select.Option value="6">Semester 6</Select.Option>
-              <Select.Option value="7">Semester 7</Select.Option>
-              <Select.Option value="8">Semester 8</Select.Option>
-            </Select>
-            {/* <div className="col-sm-8">
-              <input
-                type="text"
-                className="form-control"
-                id="semester"
-                name="semester"
+              Semester :
+            </label>
+            <div className="col-sm-8 dep-form-hor">
+              <Select
                 value={semester}
-                onChange={(e) => setSemester(e.target.value)}
-              />
-            </div> */}
+                onChange={(value) => setSemester(value)}
+                placeholder="Select semester"
+                style={{ width: "100%" }}
+              >
+                <Select.Option className="form-control" value="1">
+                  Semester 1
+                </Select.Option>
+                <Select.Option className="form-control" value="2">
+                  Semester 2
+                </Select.Option>
+                <Select.Option className="form-control" value="3">
+                  Semester 3
+                </Select.Option>
+                <Select.Option className="form-control" value="4">
+                  Semester 4
+                </Select.Option>
+                <Select.Option className="form-control" value="5">
+                  Semester 5
+                </Select.Option>
+                <Select.Option className="form-control" value="6">
+                  Semester 6
+                </Select.Option>
+                <Select.Option className="form-control" value="7">
+                  Semester 7
+                </Select.Option>
+                <Select.Option className="form-control" value="8">
+                  Semester 8
+                </Select.Option>
+              </Select>
+            </div>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Lecturer Hours</label>
-            <div className="col-sm-8">
+            <label className="col-sm-4 col-form-label dep-form-hor">
+              Lecture Hours :
+            </label>
+            <div className="col-sm-8 dep-form-hor">
               <input
                 type="text"
                 className="form-control"
                 value={lecHours}
+                placeholder="Lecture Hours"
                 onChange={(e) => setLecHours(e.target.value)}
               />
             </div>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Department</label>
-            <Select
-              value={department}
-              onChange={(value) => setDepartment(value)}
-              placeholder="Select department"
-              style={{ height: "35px", width: "485px", marginLeft: "15px" }}
-            >
-              {departments.map((department) => (
-                <Select.Option key={department._id} value={department.depCode}>
-                  {department.depName}
-                </Select.Option>
-              ))}
-            </Select>
-            {/* <div className="col-sm-8">
-              <input
-                type="text"
-                className="form-control"
-                id="lecHours"
-                name="lecHours"
-                value={lecHours}
-                onChange={(e) => setLecHours(e.target.value)}
-              />
-            </div> */}
+            <label className="col-sm-4 col-form-label dep-form-hor">
+              Department :
+            </label>
+            <div className="col-sm-8 dep-form-hor">
+              <Select
+                value={department}
+                onChange={(value) => setDepartment(value)}
+                placeholder="Select department"
+                style={{ width: "100%" }}
+              >
+                {departments.map((department) => (
+                  <Select.Option
+                    className="form-control"
+                    key={department._id}
+                    value={department.depName}
+                  >
+                    {department.depName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
           </div>
-          <div className="form-row">
+          <div className="form-group row" style={{ justifyContent: "center" }}>
             <button
               type="submit"
-              className="btn btn-primary"
-              style={{ marginRight: "25px", marginLeft: "5px" }}
+              className="btn btn-primary dep-form-hor"
               onClick={submitHandler}
             >
-              Submit
+              {editMode ? "Edit" : "Add"}
             </button>
             <button
-            type="reset"
-              className="btn btn-primary"
+              type="reset"
+              className="btn btn-primary dep-form-hor"
               style={{ backgroundColor: "gray" }}
               onClick={resetHandler}
             >
@@ -278,55 +371,103 @@ const CreateModule = () => {
           </div>
         </form>
       </div>
-      <br />
-      <div>
-        <h3 className="topic-style">Current Modules</h3>
-        <div style={{ marginBottom: "20px", marginLeft: "20px" }}>
-          <input
-            type="text"
-            placeholder="Search by Module Code"
-            value={searchModuleCode}
-            onChange={handleSearch}
-            className="form-control"
-            style={{ width: "320px" }}
-          />
-        </div>
+
+      <div className="dep-topic">
+        <span>List of Modules</span>
       </div>
-      <div className="table-design">
-        <table class="table">
-          <thead style={{ backgroundColor: "#dfeaf5" }}>
+      <div className="dep-topic">
+        <input
+          type="text"
+          placeholder="Search by Module Code"
+          value={searchModuleCode}
+          onChange={handleSearch}
+          className="form-control"
+          style={{ width: "320px" }}
+        />
+      </div>
+
+      <div className="dep-table-wrapper">
+        <table className="dep-add-table">
+          <thead style={{ backgroundColor: "#dfeaf5", borderRadius: 15 }}>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Module Code</th>
-              <th scope="col">Module Name</th>
-              <th scope="col">Semester</th>
-              <th scope="col">Enrollment Key</th>
-              <th scope="col">Lecturer Hours</th>
-              <th scope="col">Action</th>
+              <th scope="col" style={{ width: "5px", textAlign: "center" }}>
+                #
+              </th>
+              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+              Module Code
+              </th>
+              <th scope="col" style={{ width: "25px" }}>
+                Module Name
+              </th>
+              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                Semester
+              </th>
+              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                Enrollment Key
+              </th>
+              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                lecture Hours
+              </th>
+              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
-            {modules.map((module) => (
-              <tr key={module._id}>
-                <th scope="row"></th>
-                <td>{module.modCode}</td>
+            {paginatedModules.map((module, index) => (
+               <tr key={index}>
+                <th style={{ textAlign: "center" }}>{index + 1}</th>
+                <td style={{ textAlign: "center" }}>{module.modCode}</td>
                 <td>{module.modName}</td>
-                <td>{module.semester}</td>
-                <td>{module.enrolKey}</td>
-                <td>{module.lecHours}</td>
-                <td>
-                  <button
-                    className="btn btn-danger"
+                <td style={{ textAlign: "center" }}>{module.semester}</td>
+                <td style={{ textAlign: "center" }}>{module.enrolKey}</td>
+                <td style={{ textAlign: "center" }}>{module.lecHours}</td>
+                <td style={{ textAlign: "center" }}>
+                <button
+                    className="btn btn-danger dep-del"
                     onClick={() => deleteModule(module._id)}
                   >
-                    <RiDeleteBin6Line />
+                    <RiDeleteBin6Line
+                      className="add-dep-del"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </button>
+                  <button
+                    className="btn btn-primary dep-edit"
+                    onClick={() => editModule(module)}
+                  >
+                    <RiEdit2Line
+                      className="add-dep-edit"
+                      style={{ fontSize: "20px" }}
+                    />
                   </button>
                 </td>
-              </tr>
+               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+     
+      <div className="pagination" style={{marginLeft: "10px"}}>
+            <button
+              className="btn btn-primary"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
+              <FaChevronLeft />
+            </button>
+            <span style={{ margin: "0 10px" }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-primary"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
     </div>
   );
 };

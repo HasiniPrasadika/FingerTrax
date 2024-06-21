@@ -31,8 +31,7 @@ const AddLecturer = () => {
   const [currentLecturerID, setCurrentLecturerID] = useState(null);
 
   useEffect(() => {
-    setuserName("");
-    setpassword("");
+   
     axios
       .get("http://localhost:8070/api/departments/getalldep")
       .then((response) => {
@@ -44,8 +43,7 @@ const AddLecturer = () => {
   }, [departments]);
 
   useEffect(() => {
-    setuserName("");
-    setpassword("");
+  
     axios
       .get("http://localhost:8070/api/users/getlecusers")
       .then((response) => {
@@ -293,6 +291,7 @@ const AddLecturer = () => {
                   id="userName"
                   name="userName"
                   value={userName}
+                  placeholder="Userame"
                   onChange={(e) => setuserName(e.target.value)}
                 />
               </div>
@@ -310,6 +309,7 @@ const AddLecturer = () => {
                   className="form-control"
                   id="password"
                   name="password"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setpassword(e.target.value)}
                 />
@@ -355,6 +355,7 @@ const AddLecturer = () => {
                   id="regNo"
                   name="regNo"
                   value={regNo}
+                  placeholder="Registration Number"
                   onChange={(e) => setregNo(e.target.value)}
                 />
               </div>

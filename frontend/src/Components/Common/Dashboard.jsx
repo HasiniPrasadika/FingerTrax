@@ -6,7 +6,7 @@ import { FiLogOut } from "react-icons/fi";
 import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { IoDocumentText } from "react-icons/io5";
 import { PiStudentBold } from "react-icons/pi";
-import {Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { logout } from "../../actions/userActions";
 import Header from "./Header";
 
@@ -22,6 +22,13 @@ import CreateModule from "../Lecturer/CreateModule";
 import AbsenceLetter from "../Lecturer/AbsenceLetter";
 import ModuleAccess from "../Lecturer/ModuleAccess";
 import AddDepartment from "../Admin/AddDepartment";
+import StudentDashboard from "../Student/StudentDashboard";
+import ModuleEnrollment from "../Student/ModuleEnrollment";
+import StudentProfile from "../Student/StudentProfile";
+import AttendanceRecord from "../Student/AttendanceRecord";
+import EnrollSemester from "../Student/EnrollSemester";
+import EnrollModule from "../Student/EnrollModule";
+import Modules from "../Student/Modules";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,22 +74,22 @@ const Dashboard = () => {
       : userInfo.role == "student"
       ? [
           {
-            path: "/student_dashboard",
+            path: "/dashboard/student_dashboard",
             name: "Dashboard",
             icon: <FaTh />,
           },
           {
-            path: "/student_enrollment",
+            path: "/dashboard/student_enrollment",
             name: "Enrollment",
             icon: <MdPeopleAlt />,
           },
           {
-            path: "/student_absence_application",
+            path: "/dashboard/student_absence_letter",
             name: "Absence Letters",
             icon: <IoDocumentText />,
           },
           {
-            path: "/student_profile",
+            path: "/dashboard/student_profile",
             name: "Profile",
             icon: <PiStudentBold />,
           },
@@ -133,23 +140,41 @@ const Dashboard = () => {
             <Header menu={menuItem} />
           </div>
           <div className="main-content">
-
             <Routes>
               {userInfo.role === "admin" && (
                 <>
-                <Route path="/admin_dashboard" element={<AdminDashboard />} />
-                <Route path="/add_department" element={<AddDepartment />} />
-                <Route path="/add_lecturer" element={<AddLecturer />} />
-                <Route path="/add_student" element={<AddStudent />} />
+                  <Route path="/admin_dashboard" element={<AdminDashboard />} />
+                  <Route path="/add_department" element={<AddDepartment />} />
+                  <Route path="/add_lecturer" element={<AddLecturer />} />
+                  <Route path="/add_student" element={<AddStudent />} />
                 </>
-                
               )}
               {userInfo.role === "student" && (
-                <Route path="/student_dashboard" element={<div />} />
+                <>
+                  <Route
+                    path="/student_dashboard"
+                    element={<StudentDashboard />}
+                  />
+                  <Route
+                    path="/student_enrollment"
+                    element={<ModuleEnrollment />}
+                  />
+                  <Route
+                    path="/student_absence_letter"
+                    element={<AbsenceLetter />}
+                  />
+                  <Route path="/student_profile" element={<StudentProfile />} />
+                  <Route path="/view_module/:moduleId" element={<AttendanceRecord />} />
+                  <Route path="/enroll/semester/:departmentID" element={<EnrollSemester />} />
+                  <Route path="//enroll/semester/semester_modules/:semseter" element={<Modules />} />
+                </>
               )}
               {userInfo.role === "lecturer" && (
                 <>
-                  <Route path="/lecturer_dashboard" element={<LecturerDashboard />} />
+                  <Route
+                    path="/lecturer_dashboard"
+                    element={<LecturerDashboard />}
+                  />
                   <Route path="/module/:moduleId" element={<ViewModule />} />
                   <Route path="/create_module" element={<CreateModule />} />
                   <Route path="/absence_letter" element={<AbsenceLetter />} />
@@ -157,7 +182,6 @@ const Dashboard = () => {
                 </>
               )}
               {/* Redirect to respective dashboard by default */}
-              
             </Routes>
           </div>
         </div>

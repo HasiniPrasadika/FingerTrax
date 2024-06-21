@@ -10,6 +10,7 @@ import { fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
 import "./Admin Styles/AddStudent.css";
+import "./Admin Styles/AddLecturer.css";
 
 const AddStudent = () => {
   const [userName, setuserName] = useState("");

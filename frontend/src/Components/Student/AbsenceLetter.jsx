@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
+import "./Student.css";
 
 
-const AbsenceApplication = () => {
+const AbsenceLetter = () => {
 
   const [absStuName, setabsStuName] = useState("");
   const [absRegNo, setabsRegNo] = useState("");
@@ -311,4 +312,4 @@ const AbsenceApplication = () => {
   
 }
 
-export default AbsenceApplication;
+export default AbsenceLetter;

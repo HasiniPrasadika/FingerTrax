@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../Admin/Admin.css";
 import axios from "axios";
+import "./Student.css";
 
 const AttendanceRecord = () => {
 
@@ -55,12 +55,9 @@ const AttendanceRecord = () => {
           </span>
         </div>
         <div>
-          <Link to="/studentdashboard" style={{opacity: "0.8", padding: "5px",paddingRight: "0px",
-              fontSize: "12px",
-              color: "black",
-            }}>
+         
             <GoTriangleRight /> Dashboard/
-          </Link>
+          
           <span
             style={{ padding: "2px", fontSize: "12px", fontWeight: "bold" }}
           >

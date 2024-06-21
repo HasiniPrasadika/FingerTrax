@@ -2,6 +2,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { GoTriangleRight } from "react-icons/go";
+import "./Student.css";
 
  
 const StudentProfile = () => {

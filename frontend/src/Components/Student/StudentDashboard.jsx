@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
 import { MdOutlineArrowCircleRight } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import '../Admin/Admin.css';
+import { Link, useNavigate} from "react-router-dom";
 import './Student.css';
 
 
-const DashboardS = () => {
+
+const StudentDashboard = () => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const [modules, setModules] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -28,6 +29,9 @@ const DashboardS = () => {
         console.error("Error fetching modules", error);
       });
   }, [modules]);
+  const handleModuleClick = (module) => {
+    navigate(`/dashboard/view_module/${module.modCode}`, { state: { module } });
+  };
 
 
   return (
@@ -54,6 +58,7 @@ const DashboardS = () => {
 
     <div className="student-second-row-container">
     {modules.map((module,index)=>(
+        
       <div className="module-box" key={index}>
       <div className="module-name">
         <div style={{ fontWeight: "bold" }}>
@@ -64,19 +69,17 @@ const DashboardS = () => {
         </div>
       </div>
       <div className="module-info">
-        <Link
-          to="/student-attendance-record" state={{module:module}}
-          style={{
-            color: "white",
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-        >
+      <a
+              key={module._id}
+              onClick={() => handleModuleClick(module)}
+                className="status-box"
+                
+              >
           <span style={{ marginRight: "5px" }}>More Info</span>
           <span style={{ fontSize: "20px", marginTop: "5px" }}>
             <MdOutlineArrowCircleRight />
           </span>
-        </Link>
+        </a>
       </div>
     </div>
     ))}
@@ -89,4 +92,4 @@ const DashboardS = () => {
   );
 };
 
-export default DashboardS;
+export default StudentDashboard;

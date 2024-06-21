@@ -1,94 +1,13 @@
 .create-module-container{
     position: relative;
-  width: 99%;
-  border-radius: 10px;
-  margin: 1% 0.5% 0.5% 0.5%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  background-color: white;
-    
-}
-
-.sub-topics{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap:10px;
-    margin: 15px 0px 10px 25px;
-    color: #012970;
-    font-family: 'Poppins', sans-serif;
-} 
-
-.topic-style{
-    margin: 0px 0px 15px 25px;
-    color: #072f75;
-    font-weight: bold;
-    font-size: larger;
-
-}
-
-.path-style{
-    margin-left: 25px;
-    font-size: 12px;
-}
-
- .module-container{
-    background:white;
-    height: auto;
-    width: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    
-} 
-.module-access-box{
+    width: 99%;
+    border-radius: 10px;
+    margin: 1% 0.5% 0.5% 0.5%;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    background-color: rgb(240, 244, 248);
-    margin: 25px;
-    border-radius: 15px;
-    height: auto;
-    width: 90%;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    background-color: white;
+    
 }
 
-.access-lecturer-names{
-    margin: 0px 0px 15px 50px;
-}
-
-.module-form{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    background-color: #e8f4ff;
-    width: auto;
-    height: auto;
-    margin: 15px 70px 20px 70px;
-    border-radius: 15px;
-    padding: 20px;
-
-}
-
-.module-form-report{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    background-color: #e8f4ff;
-    width: auto;
-    height: auto;
-    margin: 15px 20px 20px 20px;
-    border-radius: 15px;
-    padding: 20px;
-
-}
-
-.table-design{
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.delete-icon{
-    font-size: 18px;
-    margin-left: 15px;
-    color: red;
-}

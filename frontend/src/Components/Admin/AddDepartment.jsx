@@ -177,6 +177,7 @@ const AddDepartment = () => {
                 id="departmentCode"
                 name="departmentCode"
                 value={depCode}
+                placeholder="Department Code"
                 onChange={(e) => setdepCode(e.target.value)}
               />
              
@@ -196,6 +197,7 @@ const AddDepartment = () => {
                 id="departmentName"
                 name="departmentName"
                 value={depName}
+                placeholder="Department Name"
                 onChange={(e) => setdepName(e.target.value)}
               />
             </div>
@@ -214,6 +216,7 @@ const AddDepartment = () => {
                 id="numberOfLecturers"
                 name="numberOfLecturers"
                 value={noOfLec}
+                placeholder="Number of Lecturers"
                 onChange={(e) => setnoOfLec(e.target.value)}
               />
             </div>
@@ -231,6 +234,7 @@ const AddDepartment = () => {
                 className="form-control"
                 id="numberOfStudents"
                 name="numberOfStudents"
+                 placeholder="Number of Students"
                 value={noOfStu}
                 onChange={(e) => setnoOfStu(e.target.value)}
               />
