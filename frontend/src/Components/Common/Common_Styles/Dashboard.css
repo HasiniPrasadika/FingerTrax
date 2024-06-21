@@ -12,10 +12,9 @@
   margin: 0;
   padding: 0;
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100%;  
   background-color: rgb(236, 236, 236);
-  height: 80vh;
+
 }
 .dash-content {
   display: flex;
@@ -28,6 +27,7 @@
   align-items: center;
   display: flex;
   width: 20%;
+  height: 100vh;
   position: relative;
   background-color: rgb(236, 236, 236);
 }
@@ -37,12 +37,14 @@
   width: 80%;
   position: relative;
   background-color: rgb(236, 236, 236);
+  height: 100vh;
 }
 .title-bar {
   justify-content: center;
   align-items: center;
   display: flex;
   width: 100%;
+  height: 10%;
   position: relative;
   background-color: rgb(236, 236, 236);
 }
@@ -51,9 +53,13 @@
   align-items: center;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 90%;
   position: relative;
   background-color: rgb(236, 236, 236);
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
 }
 .footer {
   bottom: 0;

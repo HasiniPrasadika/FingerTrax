@@ -1,6 +1,6 @@
 const ModuleModel = require("../Models/ModuleModel");
 const Module = require("../Models/ModuleModel");
-const User = require("../Models/UserModel")
+const User = require("../Models/UserModel");
 const asyncHandler = require("express-async-handler");
 
 const createModule = asyncHandler(async (req, res) => {
@@ -47,28 +47,59 @@ const createModule = asyncHandler(async (req, res) => {
   }
 });
 
+const updateModule = asyncHandler(async (req, res) => {
+  const { modCode, modName, enrolKey, semester, lecHours, department } =
+    req.body;
+  const ModuleId = req.params.id;
+
+  const module = await Module.findById(ModuleId);
+
+  if (module) {
+    module.modCode = modCode;
+    module.modName = modName;
+    module.enrolKey = enrolKey;
+    module.semester = semester;
+    module.lecHours = lecHours;
+    module.department = department;
+
+    const updatedModule = await module.save();
+
+    res.json({
+      _id: updatedModule._id,
+      modCode: updatedModule.modCode,
+      modName: updatedModule.modName,
+      enrolKey: updatedModule.enrolKey,
+      semester: updatedModule.semester,
+      lecHours: updatedModule.lecHours,
+      department: updatedModule.department,
+    });
+  } else {
+    res.status(404);
+    throw new Error("Department not found");
+  }
+});
+
 const getModuleByCode = asyncHandler(async (req, res) => {
-  const { modCode } = req.body;// Assuming modCode is passed as a route parameter
+  const { modCode } = req.body; // Assuming modCode is passed as a route parameter
   try {
     const module = await Module.findOne({ modCode: modCode });
 
     if (!module) {
-      return res.status(404).json({ message: 'Module not found' });
+      return res.status(404).json({ message: "Module not found" });
     }
 
     res.status(200).json(module);
   } catch (error) {
-    console.error('Error fetching module:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error fetching module:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 //Get All Module
 const getModules = asyncHandler(async (req, res) => {
- 
-    const modules = await Module.find();
-    res.json(modules);
-  });
+  const modules = await Module.find();
+  res.json(modules);
+});
 
 const getOwnModules = asyncHandler(async (req, res) => {
   // Assuming you have a User model defined with Mongoose
@@ -79,73 +110,70 @@ const getOwnModules = asyncHandler(async (req, res) => {
 
 // Enroll Module
 
-const enrollModule = asyncHandler(async(req,res)=>{
-
+const enrollModule = asyncHandler(async (req, res) => {
   const moduleId = req.params.id;
-  const {noOfStu, students} = req.body;
+  const { noOfStu, students } = req.body;
 
   const updateModule = {
-    noOfStu, students
+    noOfStu,
+    students,
   };
 
-  await ModuleModel.findByIdAndUpdate(moduleId,updateModule).then((updatedModule)=>{
-    res.status(200).send({status:"module enroll",updatedModule})
-  }).catch((err)=>{
-    console.error(err);
-  })
-
+  await ModuleModel.findByIdAndUpdate(moduleId, updateModule)
+    .then((updatedModule) => {
+      res.status(200).send({ status: "module enroll", updatedModule });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
-const getEnrollStudents = asyncHandler(async(req,res)=>{
+const getEnrollStudents = asyncHandler(async (req, res) => {
+  const { modCode } = req.body;
 
-    
-    const {modCode} = req.body;
+  // Find the module by its code
+  const module = await Module.findOne({ modCode });
 
-    // Find the module by its code
-    const module = await Module.findOne({ modCode });
+  if (!module) {
+    return res.status(404).json({ message: "Module not found" });
+  }
 
-    if (!module) {
-      return res.status(404).json({ message: 'Module not found'});
-    }
+  // Get array of students' registration numbers from the module
+  const regNos = module.students.map((student) => student.regNo);
 
-    // Get array of students' registration numbers from the module
-    const regNos = module.students.map(student => student.regNo);
+  // Find students in the User collection with these registration numbers
+  const students = await User.find({ regNo: { $in: regNos } });
 
-    // Find students in the User collection with these registration numbers
-    const students = await User.find({ regNo: { $in: regNos } });
+  // Create an array with registration numbers and corresponding fingerprint IDs
+  const regNosAndFingerprintIDs = students.map((student) => ({
+    regNo: student.regNo,
+    name: student.fullName,
+    fingerprintID: student.fingerprintID,
+    attendanceData: false,
+  }));
 
-    // Create an array with registration numbers and corresponding fingerprint IDs
-    const regNosAndFingerprintIDs = students.map(student => ({
-      regNo: student.regNo,
-      name: student.fullName,
-      fingerprintID: student.fingerprintID,
-      attendanceData: false,
-
-    }));
-
-    res.json(regNosAndFingerprintIDs);
-  
+  res.json(regNosAndFingerprintIDs);
 });
 
 const deleteModule = asyncHandler(async (req, res) => {
-  
   const module = await Module.findById(req.body.id);
-  
 
   if (module) {
-    
     await module.deleteOne();
     res.json({ message: "Module removed" });
   } else {
     res.status(404);
     throw new Error("Module not found");
   }
-})
+});
 
-
-
-
-
-
-module.exports = { createModule, getModules, deleteModule, getOwnModules,enrollModule,getEnrollStudents, getModuleByCode};
-
+module.exports = {
+  createModule,
+  getModules,
+  deleteModule,
+  getOwnModules,
+  enrollModule,
+  getEnrollStudents,
+  getModuleByCode,
+  updateModule,
+};

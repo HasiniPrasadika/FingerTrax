@@ -80,25 +80,20 @@ const CreateModule = () => {
         department,
       })
       .then((response) => {
-        setSMessage("Department updated successfully!");
+        setSMessage("Module updated successfully!");
         setTimeout(() => {
           setSMessage(null);
         }, 3000);
         resetHandler();
       })
       .catch((error) => {
-        setMessage("Failed to update Department!");
+        setMessage("Failed to update Module!");
         setTimeout(() => {
           setMessage(null);
         }, 3000);
       });
 
     }else{
-
-    }
-    
-    try {
-    
       axios
         .post("http://localhost:8070/api/modules/addmod", {
           modCode,
@@ -125,9 +120,10 @@ const CreateModule = () => {
         .catch((error) => {
           console.error("Error adding module", error);
         });
-    } catch (error) {
-      setMessage("Failed to add Module!");
+
     }
+    
+    
   };
   const resetHandler = () => {
     setmodCode("");
