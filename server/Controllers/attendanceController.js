@@ -1,15 +1,33 @@
 const Attendance = require("../Models/AttendanceModel");
 const asyncHandler = require("express-async-handler");
+const ModuleModel = require("../Models/ModuleModel");
 
 const createAttendance = asyncHandler(async (req, res) => {
   const { moduleCode, startTime, endTime, date, lectureHours, enrolledStudents } = req.body;
 
   const existingAttendance = await Attendance.findOne({ moduleCode, date });
 
+  
+
   if (existingAttendance) {
     // Attendance already exists for the given moduleCode and date
     return res.status(400).json({ message: "Attendance for this date already exists" });
   }
+  const module = await ModuleModel.findOne({ modCode: moduleCode });
+
+  if (!module) {
+    return res.status(404).json({ message: "Module not found" });
+  }
+
+  // Calculate new conducted lecture hours
+  const newConductedLectureHours = module.conductedLectureHours + lectureHours;
+
+  // Update the module with new conducted lecture hours
+  const updatedModule = await ModuleModel.findOneAndUpdate(
+    { modCode: moduleCode },
+    { $set: { conductedLectureHours: newConductedLectureHours } },
+    { new: true }
+  );
 
 
   const attendance = await Attendance.create({

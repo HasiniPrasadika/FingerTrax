@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import { Provider } from "react-redux";
-import './index.css';
 import store from "./store";
 import { loadUser } from './actions/userActions';
 

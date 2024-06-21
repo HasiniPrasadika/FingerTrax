@@ -13,6 +13,11 @@ const attendanceSchema = new mongoose.Schema({
   startTime: Date,
   endTime: Date,
   date: Date,
+  pdf: {
+    fileName: String,
+    url: String    
+    
+  },
   // other attendance details like fingerprint ID, etc.
 });
 

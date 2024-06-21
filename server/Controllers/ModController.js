@@ -47,6 +47,22 @@ const createModule = asyncHandler(async (req, res) => {
   }
 });
 
+const getModuleByCode = asyncHandler(async (req, res) => {
+  const { modCode } = req.body;// Assuming modCode is passed as a route parameter
+  try {
+    const module = await Module.findOne({ modCode: modCode });
+
+    if (!module) {
+      return res.status(404).json({ message: 'Module not found' });
+    }
+
+    res.status(200).json(module);
+  } catch (error) {
+    console.error('Error fetching module:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 //Get All Module
 const getModules = asyncHandler(async (req, res) => {
  
@@ -131,5 +147,5 @@ const deleteModule = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { createModule, getModules, deleteModule, getOwnModules,enrollModule,getEnrollStudents};
+module.exports = { createModule, getModules, deleteModule, getOwnModules,enrollModule,getEnrollStudents, getModuleByCode};
 

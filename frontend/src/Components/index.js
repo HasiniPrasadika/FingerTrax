@@ -1,2 +1,2 @@
-export {default as Login} from './Login'
-export {default as Signup} from './Signup'
+export {default as Login} from './Common/Login'
+export {default as Signup} from '../../../enroll_01/Signup'

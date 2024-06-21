@@ -1,0 +1,27 @@
+.absence-letter-container{
+    position: relative;
+  width: 99%;
+  border-radius: 10px;
+  margin: 1% 0.5% 0.5% 0.5%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background-color: white;
+    
+}
+.absence-path-style{
+    margin-left: 25px;
+    font-size: 12px;
+}
+.absence-topic-style{
+    margin: 0px 0px 15px 25px;
+    color: #072f75;
+    font-weight: bold;
+    font-size: larger;
+
+}
+.absence-table-design{
+    margin-left: 10px;
+    margin-right: 10px;
+}
