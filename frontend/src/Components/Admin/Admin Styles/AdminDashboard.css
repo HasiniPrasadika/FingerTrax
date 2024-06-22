@@ -9,11 +9,11 @@
   z-index: 1000;
   background-color: rgb(236, 236, 236);
 }
+
 .ruhuna-details {
   position: relative;
   display: flex;
   width: 99%;
-  /* height: 30%; */
   border-radius: 10px;
   background-color: white;
   margin: 1% 0.5% 0.5% 0.5%;
@@ -22,16 +22,18 @@
   justify-content: left;
   align-items: center;
 }
+
 .ruhuna-details span {
   position: relative;
   display: flex;
   opacity: "0.8";
   margin: 1vh;
-  font-size: 2vh;
+  font-size: 11px;
   width: 98%;
   align-items: center;
   background-color: rgb(255, 255, 255);
 }
+
 .row {
   position: relative;
   display: flex;
@@ -40,40 +42,44 @@
   align-items: center;
   background-color: white;
 }
+
 .ruhuna-details img {
   position: relative;
   display: flex;
-  width: 8%;
+  max-width: 70px;
   height: auto;
   margin: 0.5%;
   background-color: white;
 }
+
 .ruhuna-details-font {
   position: relative;
   display: flex;
   flex-direction: column;
   margin: 0%;
-  width: 90%;
+  width: 80%;
   background-color: white;
 }
+
 .ruhuna-details-font .faculty {
   position: relative;
-  font-size: 3vw;
+  font-size: 36px;
   color: #012970;
   font-family: "Poppins", sans-serif;
   margin-left: 5%;
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
-  width: 95%;
+
 }
+
 .ruhuna-details-font .campus {
   position: relative;
-  font-size: 2vw;
+  font-size: 26px;
   color: #012970;
   font-family: "Poppins", sans-serif;
   margin-left: 5%;
-  width: 95%;
+
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -87,7 +93,7 @@
   width: 100%;
   margin: 0%;
   padding: 0;
-  
+
 }
 
 .item {
@@ -100,17 +106,19 @@
   width: 49%;
   margin: 0.5%;
 }
+
 .dep-name {
   font-weight: light;
   margin: 3%;
-  font-size: 2vh;
+  font-size: 11px;
   align-items: center;
   position: relative;
   display: flex;
   background-color: white;
 }
+
 .dep-name span {
-  font-size: 2vh;
+  font-size: 11px;
   background-color: white;
 }
 
@@ -120,9 +128,7 @@
   position: relative;
   display: flex;
   grid-gap: 0px;
-  height: 85%;
-  margin: 2%;
-  width: 96%;
+  margin: 0px 20px 20px 20px;
   justify-content: space-around;
   align-items: center;
   background-color: white;
@@ -131,10 +137,10 @@
 .lecture {
   position: relative;
   display: flex;
-  width: 30%;
-  height: 90%;
-  padding: 5%;
-  margin: 0%;
+  width: 120px;
+  height: 120px;
+  padding: 10px;
+  margin: 0px;
   background-color: #e8f4ff;
   text-align: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -146,10 +152,10 @@
 .student {
   position: relative;
   display: flex;
-  width: 30%;
-  height: 90%;
-  padding: 5%;
-  margin: 0%;
+  width: 120px;
+  height: 120px;
+  padding: 10px;
+  margin: 0px;
   background-color: #e8f4ff;
   text-align: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -157,72 +163,140 @@
   justify-content: center;
   align-items: center;
 }
+
 .mem-icon {
   position: relative;
   display: flex;
-  font-size: 4vw;
+  font-size: 38px;
   opacity: 0.9;
   background-color: #e8f4ff;
 }
+
 .mem-topic {
-  font-size: 1vw;
+  font-size: 16px;
   background-color: #e8f4ff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 920px){
+.item{
+  width: 98%;
+}
+.lecture{
+  width: 150px;
+  height: 150px;
+}
+.student{
+  width: 150px;
+  height: 150px;
+}
+}
+
+@media (max-width: 770px) {
   .ruhuna-details {
     margin: 1%;
     width: 98%;
   }
+
   .ruhuna-details span {
     margin: 2% 2% 0% 2%;
     width: 96%;
   }
-  .row {
-    margin: 3% 10% 3% 10%;
-    width: 80%;
-    position: relative;
-    display: flex;
-  }
-  .ruhuna-details img {
-    width: 15%;
-  }
-  .ruhuna-details-font {
-    width: 84%;
-  }
-  .ruhuna-details-font .faculty {
-    font-size: 5vw;
-  }
-  .ruhuna-details-font .campus {
-    font-size: 4vw;
-  }
+
   .item {
     display: grid;
     width: 98%;
     margin: 2%;
   }
-  .dep-name{
-
-     margin:4% 4% 0% 4%;
-     font-size:1.8vh;
-     align-items: center;
-     position: relative;
-     display: flex;
-}
-.count{
-  margin-bottom: 12%;
-}
-
-.mem-icon {
-  position: relative;
-  display: flex;
-  font-size: 10vw;
-  opacity: 0.9;
-}
-.mem-topic {
-  font-size: 3vw;
-}
-
-
 
 }
+
+@media (max-width: 920px){
+  .item{
+    width: 98%;
+  }
+  .lecture{
+    width: 150px;
+    height: 150px;
+  }
+  .student{
+    width: 150px;
+    height: 150px;
+  }
+  }
+  
+  @media (max-width: 530px) {
+    .ruhuna-details-font .faculty {
+      font-size: 32px;
+
+   }
+   .ruhuna-details-font .campus {
+    font-size: 22px;
+  
+   }
+   .ruhuna-details img {
+   
+    max-width: 50px;
+    
+    
+  }}
+  
+
+  @media (max-width: 471px) {
+    .ruhuna-details-font .faculty {
+      font-size: 28px;
+
+   }
+   .ruhuna-details-font .campus {
+    font-size: 18px;
+  
+   }
+ 
+  }
+  
+  @media (max-width: 380px) {
+    .lecture{
+      width: 120px;
+      height: 120px;
+    }
+    .student{
+      width: 120px;
+      height: 120px;
+    }
+ 
+  }
+  @media (max-width: 320px) {
+    .count {
+     flex-direction: column;
+     gap: 10px;
+    }
+
+    .lecture{
+      width: 150px;
+      height: 150px;
+    }
+    .student{
+      width: 150px;
+      height: 150px;
+    }
+
+    .row {
+     flex-direction: column;
+    }
+    .ruhuna-details-font{
+      width: 100%;
+      margin-left: 0px;
+margin-right: 0px;
+    }
+    .ruhuna-details-font .faculty{
+      font-size: 18px;
+      justify-content: center;
+
+    }
+    .ruhuna-details-font .campus{
+      font-size: 8px;
+      justify-content: center;
+
+    }
+     
+ 
+  }
