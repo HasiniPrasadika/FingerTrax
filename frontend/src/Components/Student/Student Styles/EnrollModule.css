@@ -1,0 +1,19 @@
+.en-self-topic{
+    margin: 1% 2% 0% 2%;
+  font-size: 1.5vw;
+  width: 96%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+    
+}
+.enroll-key-box {
+  
+    padding: 20px;
+    margin: 1% 2% 1% 2%;
+    height: 150px;
+    width: 350px;
+    
+}

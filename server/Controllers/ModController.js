@@ -15,6 +15,11 @@ const createModule = asyncHandler(async (req, res) => {
   } = req.body;
 
   const modExists = await Module.findOne({ modCode });
+  const coordinatorUser = await User.findOne({ userName: modCoordinator });
+  if (!coordinatorUser) {
+    res.status(404);
+    throw new Error("Module Coordinator not found");
+  }
 
   if (modExists) {
     res.status(404);
@@ -24,7 +29,11 @@ const createModule = asyncHandler(async (req, res) => {
     modCode,
     modName,
     enrolKey,
-    modCoordinator,
+    modCoordinator: {
+      regNo: coordinatorUser.regNo,
+      userName: coordinatorUser.userName,
+      fullName: coordinatorUser.fullName,
+    },
     semester,
     lecHours,
     department,
@@ -167,6 +176,56 @@ const deleteModule = asyncHandler(async (req, res) => {
   }
 });
 
+const giveAccessToLecturer = asyncHandler(async (req, res) => {
+  const { modCode, modName, regNo, modCoordinate } = req.body;
+  
+
+  try {
+    // Check if the module exists
+   
+
+    const module = await Module.findOne({ modCode, modName });
+
+    if (!module) {
+      return res.status(404).json({ message: "Module not found" });
+    }
+    if (module.modCoordinator.userName !== modCoordinate) {
+      return res.status(403).json({ message: "You don't have the access to give access" });
+    }
+
+    // Check if the lecturer is already in the module's lecturer list
+    const lecturerExists = module.lecturers.some(
+      (lecturer) => lecturer.regNo === regNo
+    );
+
+    if (lecturerExists) {
+      return res.status(400).json({ message: "Lecturer already has access" });
+    }
+
+    // Get user details from the User collection
+    const user = await User.findOne({ regNo });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Add lecturer details to the module's lecturer list
+    module.lecturers.push({
+      userName: user.userName,
+      fullName: user.fullName,
+      regNo: user.regNo,
+    });
+
+    // Save the updated module
+    await module.save();
+
+    res.status(200).json({ message: "Access granted successfully", module });
+  } catch (error) {
+    console.error("Error granting access:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = {
   createModule,
   getModules,
@@ -176,4 +235,5 @@ module.exports = {
   getEnrollStudents,
   getModuleByCode,
   updateModule,
+  giveAccessToLecturer,
 };

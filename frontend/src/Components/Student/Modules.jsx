@@ -2,65 +2,54 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaCaretRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "./Student Styles/ModuleEnrollment.css";
 
 const Modules = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const modules = state.modules;
+  const handleModuleClick = (module) => {
+    navigate(
+      `/dashboard/enroll/semester/semester_modules/module/${module.modCode}`,
+      { state: { module } }
+    );
+  };
 
-    const {state} = useLocation();
-    const semesterObject = state.semesterObject;
-
-    const [modules, setModules] = useState([]);
-    const depcode = semesterObject.depCode;
-    const sem = semesterObject.semester.toString();
-    
-  
-
-    useEffect(() => {
-        // Make API call to fetch modules based on depCode and semester
-        axios
-        .get("http://localhost:8070/api/modules/getallmod")
-          .then((response) => {
-            const filteredModules = response.data.filter(
-              (module) => module.department === depcode && module.semester === sem
-            );
-            setModules(filteredModules);
-            
-          })
-          .catch((error) => {
-            console.error("Error fetching modules", error);
-          });
-      }, [semesterObject]);
-
-    
   return (
-    <div className='en-container'>
-            <div className='enrollment-container-one'>
-                <div className='enrollment-second-container'>
-                    <div>
-                        <span style={{ padding: '5px', fontSize: '18px', color: '#4154F1' }}>Enrollment</span>
-                    </div>
-                    <div>
-                        <Link to="/student_enrollment" style={{ opacity: '0.8', padding: '5px', fontSize: '12px' }}><GoTriangleRight /> Enrollment</Link>
-                        <span style={{ opacity: '0.8', padding: '5px', fontSize: '12px' }}>/ Enrollment</span>
-                    </div>
-                    <div className='form-container'>
-                        <div>
-                            <h5>Modules</h5>
-                            {modules.map((module, index) => ( 
-                                 <div className='department-button row'>
-                                 <div className='department-icon'><FaCaretRight /></div>
-                                 <div><Link key={index} to="/student_enroll_module" state={{module: module}} style={{color:'white'}}>{module.modCode} {module.modName} </Link> 
-                                  </div>
-                             </div>
-                             )) }
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+    <div className="en-container">
+      <div className="enrollment-container-one">
+        <div className="en-navigate">
+          <span>
+            <GoTriangleRight />
+          </span>
+          Module Enrollment / Department / Semester / Module
         </div>
-  )
-}
+        <div className="en-topic">
+          <span>Module</span>
+        </div>
 
-export default Modules
+        <div className="en-details">
+          {modules.map((module, index) => (
+            <a
+              key={index}
+              onClick={() => handleModuleClick(module)}
+              style={{ color: "white" }}
+            >
+              <div className="department-button">
+                <div className="department-icon">
+                  <FaCaretRight />
+                </div>
+                <div className="department-icon">
+                  {module.modCode} {module.modName}{" "}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Modules;

@@ -17,7 +17,7 @@ const AbsenceLetter = () => {
       </div>
 
       <div className="dep-table-wrapper">
-        <table class="dep-add-table">
+        <table className="dep-add-table">
           <thead style={{ backgroundColor: "#dfeaf5", borderRadius: 15 }}>
             <tr>
               <th scope="col" style={{ width: "5px", textAlign: "center" }}>
