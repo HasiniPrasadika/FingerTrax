@@ -293,7 +293,8 @@ const AddStudent = () => {
   );
 
   return (
-    <div className="add_student-container" style={{ overflowX: "auto" }}>
+    <div className="addstu">
+      <div className="add_student-container" >
       <div className="lec-navigate">
         <span>
           <GoTriangleRight />
@@ -600,6 +601,7 @@ const AddStudent = () => {
           <FaChevronRight />
         </button>
       </div>
+    </div>
     </div>
   );
 };

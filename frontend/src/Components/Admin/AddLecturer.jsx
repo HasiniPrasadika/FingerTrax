@@ -230,7 +230,8 @@ const AddLecturer = () => {
   );
 
   return (
-    <div className="add_lecturer-container">
+    <div className="addlec">
+      <div className="add_lecturer-container">
       <div className="lec-navigate">
         <span>
           <GoTriangleRight />
@@ -255,7 +256,6 @@ const AddLecturer = () => {
           )}
           <form
             onSubmit={submitHandler}
-            className="form-style"
             style={{ margin: "2% 10% 2% 10%", width: "80%" }}
           >
             <div className="form-group row">
@@ -577,6 +577,7 @@ const AddLecturer = () => {
           <FaChevronRight />
         </button>
       </div>
+    </div>
     </div>
   );
 };
