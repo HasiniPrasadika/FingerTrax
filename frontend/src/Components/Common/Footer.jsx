@@ -14,13 +14,13 @@ function Footer() {
                     </p>
                 </div>
                 <div className='footer_column'>
-                    <h5>CONTACT US</h5>
+                    <h6>CONTACT US</h6>
                     <p>Faculty of Engineering, Hapugala, Galle, Sri Lanka.</p>
                     <p><MdMail /> Email: fingertrax22@gmail.com</p>
                     <p><FaPhoneSquareAlt /> Phone: +(94)0 91 2245765/6</p>
                 </div>
                 <div className='footer_column'>
-                    <h5>FOLLOW US ON</h5>
+                    <h6>FOLLOW US ON</h6>
                     <div className='social_media_links'>
                         <a href='https://www.linkedin.com/company/universityofruhuna/'><FaLinkedin /></a>
                         <a href='https://web.facebook.com/EfacUOR/events/?locale2=fo_FO&paipv=0&eav=Afb67KBTMEQ6u4Q4JZhwBy6g2wgyXnPLLIuBpOA4DDhfdE0N7t2A5X3lx4Ux5lUbXa4&_rdc=1&_rdr'><FaFacebook /></a>
