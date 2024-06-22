@@ -14,13 +14,14 @@
   position: relative;
   width: 100%;  
   background-color: rgb(236, 236, 236);
-
+  
 }
 .dash-content {
   display: flex;
   width: 100%;
   position: relative;
   background-color: rgb(236, 236, 236);
+  
 }
 .left-bar {
   justify-content: center;
@@ -61,15 +62,7 @@
   scrollbar-width: none;
 
 }
-.footer {
-  bottom: 0;
-  width: 100%;
-  background-color: #003566;
-}
-.footer h1 {
-  display: flex;
-  position: relative;
-}
+
 @media (max-width: 770px) {
   
   .dash-container{

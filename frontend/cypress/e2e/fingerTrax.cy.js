@@ -53,7 +53,7 @@ describe('Login Page', () => {
 });
 
 
-// Admin 
+// Admin Dashboard test Cases
 describe('Admin Dashboard', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/admindashboard'); 
@@ -112,16 +112,16 @@ describe('Admin Dashboard', () => {
 });
 
 
-// Lecture 
+// Lecture  Dashboard Test cases
 describe('Lecture Dashboard', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/lecturedashboard');
   });
 
   it('should display the logo and university details', () => {
-    cy.get('.imagelogo').should('be.visible'); // Ensure the logo is visible
-    cy.get('.ruhuna-details-font').contains('Faculty of Engineering'); // Ensure the faculty name is displayed
-    cy.get('.ruhuna-details-font').contains('University of Ruhuna'); // Ensure the university name is displayed
+    cy.get('.imagelogo').should('be.visible'); 
+    cy.get('.ruhuna-details-font').contains('Faculty of Engineering');
+    cy.get('.ruhuna-details-font').contains('University of Ruhuna'); 
   });
 
   // it("should display modules correctly", () => {
