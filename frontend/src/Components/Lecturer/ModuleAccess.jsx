@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { BsDot } from "react-icons/bs";
 import { FaRegChartBar } from "react-icons/fa6";
 const ModuleAccess = () => {
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const [message, setMessage] = useState(null);
@@ -138,6 +139,7 @@ const ModuleAccess = () => {
                   onChange={(e) => setRegNo(e.target.value)}
                 />
               </div>
+
             </div>
 
             <div className="form-row">
@@ -197,9 +199,11 @@ const ModuleAccess = () => {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
+
 };
 
 export default ModuleAccess;

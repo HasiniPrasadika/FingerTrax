@@ -139,6 +139,10 @@
   filter: drop-shadow(2px 4px 6px blue);
 }
 
+.pagination button:hover{
+cursor: pointer;
+}
+
 
 
 
