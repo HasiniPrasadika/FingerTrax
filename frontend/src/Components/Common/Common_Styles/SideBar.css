@@ -1,12 +1,12 @@
 .side-container {
-  position: relative;
-  width: 92%;
-  margin: 2%;
-  background: #003566;  
+  width: 250px;
+  margin: 10px;
+  background: #003566;
   border-radius: 15px;
-  height: 96%;
-  
+  height: 98vh;
+
 }
+
 .top_section {
   position: relative;
   width: 100%;
@@ -15,6 +15,7 @@
   justify-content: left;
   border-radius: 15px;
 }
+
 .top_section img {
   position: relative;
   width: 60%;
@@ -22,6 +23,7 @@
   margin-left: 10%;
   margin-bottom: 10%;
 }
+
 .link {
   display: flex;
   color: #fff;
@@ -30,11 +32,12 @@
   margin-left: 10%;
   margin-bottom: 10%;
   position: relative;
-  width: 80%;
+  
   justify-content: left;
   align-items: center;
   cursor: pointer;
 }
+
 .link:hover {
   background: lightskyblue;
   color: #000;
@@ -45,21 +48,21 @@
   background: lightskyblue;
   color: #000;
 }
+
 .link_text {
   display: flex;
   position: relative;
-  font-size: 1.3vw;
+  font-size: 20px;
   margin: 5%;
-  
-  
+
+
 }
 
 .icon {
   display: flex;
   position: relative;
-  font-size: 1.6vw;
+  font-size: 20px;
   margin: 5%;
- 
-  
-}
 
+
+}

@@ -85,7 +85,7 @@
   color: black;
   border-radius: 5px;
 }
-@media (max-width: 768px) {
+@media (max-width: 770px) {
   .header {
     justify-content: space-between;
     height: 50px;
