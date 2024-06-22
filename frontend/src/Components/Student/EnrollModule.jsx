@@ -1,80 +1,111 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
-
-
+import "./Student Styles/EnrollModule.css";
+import { GoTriangleRight } from "react-icons/go";
+import "./Student Styles/ModuleEnrollment.css";
 
 const EnrollModule = () => {
+  const { state } = useLocation();
+  const module = state.module;
 
-    const {state} = useLocation();
-    const module = state.module;
+  const [message, setMessage] = useState(null);
 
-    const [message, setMessage] = useState(null);
-    
-    const [enrollKey, setEnrollKey] = useState();
+  const [enrollKey, setEnrollKey] = useState();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-    const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
+  useEffect(() => {
+    if (module.students.some((student) => student.regNo === userInfo.regNo)) {
+      console.log("You are already enrolled in this module.");
 
-    useEffect(() => {
-        if (module.students.some(student => student.regNo === userInfo.regNo)) {
-            console.log("You are already enrolled in this module.");
-    
-            navigate('/student-attendance-record', { state: { module: module } });
-            return; 
-        }
-    }, []);
+      navigate("/student-attendance-record", { state: { module: module } });
+      return;
+    }
+  }, []);
 
+  // useEffect(() => {
+  //     if (module.students.some(student => student.regNo === userInfo.regNo)) {
+  //         navigate('/studentdashboard')
+  //         return;
+  //     }
+  //   }, []);
 
-    // useEffect(() => {
-    //     if (module.students.some(student => student.regNo === userInfo.regNo)) {
-    //         navigate('/studentdashboard')
-    //         return;
-    //     }
-    //   }, []);
+  const enrollHandler = (module) => {
+    if (enrollKey === module.enrolKey) {
+      const noOfStu = module.noOfStu + 1;
+      const updatedStudents = [...module.students, { regNo: userInfo.regNo }];
 
-
-      const enrollHandler = (module) => {
-        
-        if (enrollKey === module.enrolKey) {
-            const noOfStu = module.noOfStu + 1;
-            const updatedStudents = [...module.students, { regNo: userInfo.regNo }];
-    
-            axios.put(`http://localhost:8070/api/modules/enrollmodule/${module._id}`, {
-                noOfStu,
-                students: updatedStudents
-            })
-            .then(response =>{
-                console.log("Enrollment successful");
-                setMessage("Enrollment successful.");
-                setTimeout(() => {
-                    setMessage(null);
-                    navigate('/student-attendance-record', { state: { module: module } });
-                }, 3000);
-            })
-            .catch(error => {
-                console.error("Error enrolling module:", error);
+      axios
+        .put(`http://localhost:8070/api/modules/enrollmodule/${module._id}`, {
+          noOfStu,
+          students: updatedStudents,
+        })
+        .then((response) => {
+          console.log("Enrollment successful");
+          setMessage("Enrollment successful.");
+          setTimeout(() => {
+            setMessage(null);
+            navigate("/student-attendance-record", {
+              state: { module: module },
             });
-        } else {
-            console.log("Incorrect enrollment key");
-            {
-                setMessage("Incorrect enrollment key!");
-                setTimeout(() => {
-                  setMessage(null);
-                }, 3000);
-              }
-        }
-    };
-    
+          }, 3000);
+        })
+        .catch((error) => {
+          console.error("Error enrolling module:", error);
+        });
+    } else {
+      console.log("Incorrect enrollment key");
+      {
+        setMessage("Incorrect enrollment key!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      }
+    }
+  };
+
   return (
-    <div className='enrollment-container-two'>
-        <div className='module-container' >
-            <div >
+    <div className="en-container">
+      <div className="enrollment-container-one">
+        <div className="en-navigate">
+          <span>
+            <GoTriangleRight />
+          </span>
+          Module Enrollment / Department / Semester / Module / Enroll
+        </div>
+        <div className="en-topic">
+          <span>Module Enrollment</span>
+        </div>
+        <div className="en-details">
+          <div className="en-self-topic">
+            <span>Self Enrollment</span>
+          </div>
+          <div class="enroll-key-box">
+            <label>Enrollment Key : </label>
+            <input
+              type="text"
+              placeholder="Enter key here"
+            
+              value={enrollKey}
+              onChange={(e) => setEnrollKey(e.target.value)}
+            />
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onClick={() => enrollHandler(module)}
+            >
+              Enroll Me
+            </button>
+          </div>
+        </div>
+
+        {/* <div >
                 <h4 style={{marginBottom:'20px'}}>{module.modCode} {module.modName}</h4>
                 <div className='profile-photo-preview' >
                     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -95,10 +126,10 @@ const EnrollModule = () => {
                     </div>
                     {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
                 </div>
-            </div>
-        </div>
+            </div> */}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default EnrollModule;

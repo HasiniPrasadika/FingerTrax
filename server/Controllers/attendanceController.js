@@ -74,7 +74,17 @@ const getMyAttendance = asyncHandler(async (req, res) => {
   // Assuming you have a Attendance model defined with Mongoose
   const myAttendance = await Attendance.find({ moduleCode: moduleCode});
 
-  res.json(myAttendance);
+  if (!myAttendance) {
+    return res.status(404).json({ message: "Attendance not found" });
+  }
+  if (myAttendance) {
+    res.status(201).json(myAttendance);
+  } else {
+    console.error("Error fetching attendance:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+
+ 
 });
 
 module.exports = { createAttendance, getAttendance, getDailyAttendance ,getMyAttendance};

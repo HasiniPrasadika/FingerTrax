@@ -49,7 +49,7 @@ const CreateModule = () => {
       .get("http://localhost:8070/api/modules/getallmod")
       .then((response) => {
         const filteredModules = response.data.filter(
-          (module) => module.modCoordinator === userInfo.userName
+          (module) => module.modCoordinator.userName === userInfo.userName
         );
         setModules(filteredModules);
       })

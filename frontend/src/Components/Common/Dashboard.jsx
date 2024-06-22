@@ -19,16 +19,22 @@ import ViewModule from "../Lecturer/ViewModule";
 import AddDepartment from "../Admin/AddDepartment";
 import AddLecturer from "../Admin/AddLecturer";
 import AddStudent from "../Admin/AddStudent";
+
 import AbsenceLetter from "../Lecturer/AbsenceLetter";
 import CreateModule from "../Lecturer/CreateModule";
+
 import ModuleAccess from "../Lecturer/ModuleAccess";
 import AttendanceRecord from "../Student/AttendanceRecord";
 import EnrollSemester from "../Student/EnrollSemester";
 import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
+
+import AbsenceLetterStudent from "../Student/AbsenceLetterStudent";
+
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
 import Footer from "./Footer";
+
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -162,12 +168,13 @@ const Dashboard = () => {
                   />
                   <Route
                     path="/student_absence_letter"
-                    element={<AbsenceLetter />}
+                    element={<AbsenceLetterStudent />}
                   />
                   <Route path="/student_profile" element={<StudentProfile />} />
                   <Route path="/view_module/:moduleId" element={<AttendanceRecord />} />
                   <Route path="/enroll/semester/:departmentID" element={<EnrollSemester />} />
-                  <Route path="//enroll/semester/semester_modules/:semseter" element={<Modules />} />
+                  <Route path="/enroll/semester/semester_modules/:semseter" element={<Modules />} />
+                  <Route path="/enroll/semester/semester_modules/module/:moduleCode" element={<EnrollModule />} />
                 </>
               )}
               {userInfo.role === "lecturer" && (

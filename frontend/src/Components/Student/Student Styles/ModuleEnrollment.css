@@ -1,0 +1,72 @@
+.en-container {
+    position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background-color: rgb(236, 236, 236);
+
+
+
+}
+.enrollment-container-one {
+    position: relative;
+    display: flex;
+    width: 99%;
+    border-radius: 10px;
+    background-color: white;
+    margin: 1% 0.5% 1% 0.5%;
+    padding: 0;
+    flex-direction: column;
+}
+.en-navigate{
+    position: relative;
+  display: flex;
+  opacity: "0.8";
+  margin: 1%;
+  font-size: 2vh;
+  width: 98%;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+}
+.en-topic{
+    margin: 1% 2% 0% 2%;
+  font-size: 2vw;
+  width: 96%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+.en-details{
+    display: flex;
+    background-color: #e8f4ff;
+    margin: 2%;
+    border-radius: 15px;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+
+}
+.department-button {
+    text-align: left;
+    border-radius: 5px;   
+    height: 35px;
+    background-color: #003566;
+    color: #fff;
+    margin: 10px;
+    position: relative;
+    display: flex;
+
+}
+.department-button:hover{
+    cursor: pointer;
+}
+.department-icon {
+    margin: 5px;
+  
+}

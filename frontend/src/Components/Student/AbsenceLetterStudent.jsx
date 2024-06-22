@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
-import ErrorMessage from "../../Components/ErrorMessage";
-import SuccessMessage from "../../Components/SuccessMessage";
+import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 import "./Student.css";
 
 
-const AbsenceLetter = () => {
+const AbsenceLetterStudent = () => {
 
   const [absStuName, setabsStuName] = useState("");
   const [absRegNo, setabsRegNo] = useState("");
@@ -312,4 +312,4 @@ const AbsenceLetter = () => {
   
 }
 
-export default AbsenceLetter;
+export default AbsenceLetterStudent;

@@ -1,19 +1,27 @@
-.module-access-container{
+.access{
     position: relative;
-  width: 99%;
-  border-radius: 10px;
-  margin: 1% 0.5% 0.5% 0.5%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  background-color: rgb(236, 236, 236);
+}
+.module-access-container{
+  position: relative;
+  display: flex;
+  width: 99%;
+  border-radius: 10px;
   background-color: white;
+  margin: 1% 0.5% 1% 0.5%;
+  padding: 0;
+  flex-direction: column;
+  
     
 }
-.access-path-style{
-    margin-left: 25px;
-    font-size: 12px;
-}
+
 .access-module-form{
     display: grid;
     grid-template-columns: 1fr;
@@ -21,23 +29,31 @@
     background-color: #e8f4ff;
     width: auto;
     height: auto;
-    margin: 15px 70px 20px 70px;
+    margin: 20px 70px 20px 70px;
     border-radius: 15px;
     padding: 20px;
 
 }
-.access-topic-style{
-    margin: 0px 0px 15px 25px;
-    color: #072f75;
-    font-weight: bold;
-    font-size: larger;
 
-}
 .access-module-container{
     background:white;
     height: auto;
     width: auto;
     display: grid;
+    margin: 20px;
+   
+    grid-gap: 40px;
     grid-template-columns: 1fr 1fr;
     
 }
+.module-access-box {
+    background-color: #f0f8ff; /* Default background color */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Default shadow */
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+  }
+  
+  .module-access-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+  }
