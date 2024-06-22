@@ -147,7 +147,8 @@ const AddDepartment = () => {
   );
 
   return (
-    <div className="department-container">
+    <div className="adddep">
+      <div className="department-container">
       <div className="dep-navigate">
         <span>
           <GoTriangleRight />
@@ -343,6 +344,8 @@ const AddDepartment = () => {
 
 
     </div>
+    </div>
+    
   );
 };
 
