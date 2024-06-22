@@ -1,14 +1,26 @@
-.add_lecturer-container {
+.addlec {
   position: relative;
-  width: 99%;
-  border-radius: 10px;
-  margin: 1% 0.5% 0.5% 0.5%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  background-color: white;
+  background-color: rgb(236, 236, 236);
 }
+
+.add_lecturer-container {
+  position: relative;
+  display: flex;
+  width: 99%;
+  border-radius: 10px;
+  background-color: white;
+  margin: 1% 0.5% 0.5% 0.5%;
+  padding: 0;
+  flex-direction: column;
+}
+
 .lec-navigate {
   position: relative;
   display: flex;
@@ -28,6 +40,7 @@
   justify-content: center;
   padding: 0;
 }
+
 .lecture-photo-area {
   margin: 1%;
   position: relative;
@@ -38,8 +51,9 @@
   justify-content: center;
   align-items: center;
 }
+
 .photo-area-name {
-  font-size: 2vw;
+  font-size: 20px;
 
   display: flex;
   position: relative;
@@ -48,20 +62,23 @@
   font-family: "Poppins", sans-serif;
   margin: 5%;
 }
+
 .profile-photo-preview {
-  width: 15vw;
-  height: 15vw;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   display: flex;
   position: relative;
   margin: 2%;
   overflow: hidden;
 }
+
 .fingerprint-enroll {
   position: relative;
   margin: 5%;
   display: flex;
 }
+
 .lecturer-add-form {
   position: relative;
   margin: 1%;
@@ -69,4 +86,104 @@
   padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 963px) {
+  .lecture-photo-area {
+    width: 32%;
+  }
+
+  .lecturer-add-form {
+    width: 74%;
+    margin: 0.5%;
+  }
+
+  .profile-photo-preview {
+    width: 120px;
+    height: 120px;
+  }
+
+}
+
+@media (max-width: 899px) {
+  .lecture-photo-area {
+    width: 28%;
+  }
+
+  .lecturer-add-form {
+    width: 78%;
+    margin: 0.5%;
+  }
+
+  .profile-photo-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+}
+
+
+@media (max-width: 771px) {
+
+
+  .profile-photo-preview {
+    width: 150px;
+    height: 150px;
+  }
+
+}
+
+@media (max-width: 678px) {
+
+
+  .profile-photo-preview {
+    width: 120px;
+    height: 120px;
+  }
+
+}
+@media (max-width: 540px) {
+
+
+  .profile-photo-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .lecturer-details{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lecture-photo-area {
+    width: 100%;
+    margin: 0% 5% 0% 5%;
+  }
+
+  .lecturer-add-form {
+    width: 100%;
+    
+  }
+  .profile-photo-preview {
+    width: 150px;
+    height: 150px;
+  }
+
+}
+
+@media (max-width:430px) {
+  .dep-add-table {
+    position: relative;
+    min-width: 430px;
+    overflow-x: scroll;
+
+  }
+  .form-control{
+    font-size: 14px;
+  }
 }

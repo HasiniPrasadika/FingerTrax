@@ -17,6 +17,7 @@ const Sidebar = (props) => {
 
   return (
     <div className="side-container">
+      
       <div className="top_section">
         <img src="/Images/logo2.png" alt="Logo" />
       </div>

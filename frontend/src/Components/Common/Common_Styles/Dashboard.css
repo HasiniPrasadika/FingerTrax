@@ -14,19 +14,20 @@
   position: relative;
   width: 100%;  
   background-color: rgb(236, 236, 236);
-
+  
 }
 .dash-content {
   display: flex;
   width: 100%;
   position: relative;
   background-color: rgb(236, 236, 236);
+  
 }
 .left-bar {
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 20%;
+  width: 250px;
   height: 100vh;
   position: relative;
   background-color: rgb(236, 236, 236);
@@ -34,7 +35,7 @@
 .right-bar {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: calc(100% - 250px);
   position: relative;
   background-color: rgb(236, 236, 236);
   height: 100vh;
@@ -61,16 +62,8 @@
   scrollbar-width: none;
 
 }
-.footer {
-  bottom: 0;
-  width: 100%;
-  background-color: #003566;
-}
-.footer h1 {
-  display: flex;
-  position: relative;
-}
-@media (max-width: 768px) {
+
+@media (max-width: 770px) {
   
   .dash-container{
     background-color: rgb(225, 225, 225);

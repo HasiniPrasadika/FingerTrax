@@ -147,7 +147,8 @@ const AddDepartment = () => {
   );
 
   return (
-    <div className="department-container">
+    <div className="adddep">
+      <div className="department-container">
       <div className="dep-navigate">
         <span>
           <GoTriangleRight />
@@ -271,19 +272,19 @@ const AddDepartment = () => {
               <th scope="col" style={{ width: "5px", textAlign: "center" }}>
                 #
               </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+              <th scope="col" >
                 Department Code
               </th>
-              <th scope="col" style={{ width: "25px" }}>
+              <th scope="col" >
                 Department Name
               </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+              <th scope="col" >
                 No of Students
               </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+              <th scope="col" >
                 No of Lecturers
               </th>
-              <th scope="col" style={{ width: "10px", textAlign: "center" }}>
+              <th scope="col" >
                 Action
               </th>
             </tr>
@@ -343,6 +344,8 @@ const AddDepartment = () => {
 
 
     </div>
+    </div>
+    
   );
 };
 
