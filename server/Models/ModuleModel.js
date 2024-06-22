@@ -10,39 +10,46 @@ const moduleSchema = new mongoose.Schema({
   },
   noOfStu: {
     type: Number,
-    default: 0
+    default: 0,
   },
   enrolKey: {
     type: String,
     unique: true,
   },
+
   modCoordinator: {
-    type: String,
+    regNo: String,
+    userName: String,
+    fullName: String,
   },
   lecHours: {
     type: Number,
-    default: 0
+    default: 0,
   },
   conductedLectureHours: {
     type: Number,
-    default: 0
+    default: 0,
   },
   department: {
     type: String,
   },
-  lecturers: [{
-    regNo: String,
-  }],
-  students: [{
-    regNo: String,
-  }],
+  lecturers: [
+    {
+      regNo: String,
+      userName: String,
+      fullName: String,
+    },
+  ],
+  students: [
+    {
+      regNo: String,
+    },
+  ],
   semester: {
     type: String,
-  }
+  },
 
   // other module details
 });
 
 module.exports = mongoose.model("Module", moduleSchema);
-
-

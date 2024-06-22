@@ -3,6 +3,8 @@ import { FaCaretRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Student.css";
+import "./Student Styles/ModuleEnrollment.css";
+import axios from "axios";
 
 const EnrollSemester = () => {
   const { state } = useLocation();
@@ -12,58 +14,65 @@ const EnrollSemester = () => {
   const noSemester = 8;
 
   const semesterLinks = Array.from({ length: noSemester }, (_, index) => ({
-    depCode: department.depCode,
+    depName: department.depName,
     semester: (index + 1).toString(),
   }));
-  const handleSemClick = (semesterObject) => {
-    navigate(`/dashboard/enroll/semester/semester_modules/${semesterObject.semester}`, { state: { semesterObject } });
+  const handleSemClick = async (semesterObject) => {
+    try {
+      // Make API call to fetch modules
+      const response = await axios.get(
+        "http://localhost:8070/api/modules/getallmod"
+      );
+      const depName = semesterObject.depName;
+      const semester = semesterObject.semester.toString();
+      console.log(depName);
+      console.log(response);
+      // Filter the modules based on department and semester
+      const filteredModules = response.data.filter(
+        (module) =>
+          module.department === depName && module.semester === semester
+      );
+      console.log(filteredModules);
+      // Navigate to the new route and pass the modules in the state
+      navigate(
+        `/dashboard/enroll/semester/semester_modules/${semesterObject.semester}`,
+        {
+          state: { modules: filteredModules },
+        }
+      );
+    } catch (error) {
+      console.error("Error fetching modules", error);
+    }
   };
 
   return (
     <div className="en-container">
       <div className="enrollment-container-one">
-        <div className="enrollment-second-container">
-          <div>
-            <span
-              style={{ padding: "5px", fontSize: "18px", color: "#4154F1" }}
+        <div className="en-navigate">
+          <span>
+            <GoTriangleRight />
+          </span>
+          Module Enrollment / Department / Semester
+        </div>
+        <div className="en-topic">
+          <span>Semester</span>
+        </div>
+
+        <div className="en-details">
+          {semesterLinks.map((semesterObject, index) => (
+            <a
+              key={semesterObject._id}
+              onClick={() => handleSemClick(semesterObject)}
+              style={{ color: "white" }}
             >
-              Enrollment
-            </span>
-          </div>
-          <div>
-            <Link
-              to="/student_enrollment"
-              style={{ opacity: "0.8", padding: "5px", fontSize: "12px" }}
-            >
-              <GoTriangleRight /> Enrollment
-            </Link>
-            <span style={{ opacity: "0.8", padding: "5px", fontSize: "12px" }}>
-              / Enrollment
-            </span>
-          </div>
-          <div className="form-container">
-            <div>
-              <h5>Department</h5>
-              {semesterLinks.map((semesterObject, index) => (
-                <div className="department-button row">
-                  <div className="department-icon">
-                    <FaCaretRight />
-                  </div>
-                  <div>
-                    <a
-                      key={semesterObject._id}
-                      onClick={() => handleSemClick(semesterObject)}
-                      style={{ color: "white" }}
-                    >
-                      
-                        Semester {semesterObject.semester}{" "}
-                     {" "}
-                    </a>
-                  </div>
+              <div className="department-button">
+                <div className="department-icon">
+                  <FaCaretRight />
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="department-icon">Semester {semesterObject.semester} </div>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </div>

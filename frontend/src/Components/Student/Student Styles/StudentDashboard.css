@@ -1,0 +1,52 @@
+.student-dashboard-container{
+    position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background-color: rgb(236, 236, 236);
+}
+.student-content-container {
+    position: relative;
+    display: flex;
+    width: 99%;
+    border-radius: 10px;
+    background-color: white;
+    margin: 1% 0.5% 1% 0.5%;
+    padding: 0;
+    flex-direction: column;
+  }
+  .module-box {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #c4def9, white);
+    margin: 20px;
+    border-radius: 25px 25px 0px 0px;
+    height: 120px;
+    width: 250px;
+}
+
+.module-name {
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px;
+    margin-top: 30px;
+} 
+
+.module-info {
+    display: flex;
+    justify-content: center;
+    background-color: #003566;
+    color: white;
+    border-radius: 0px 0px 25px 25px;
+    cursor: pointer;
+    padding: 10px;
+    height: 40px;
+    margin-top: 22px;
+    width: 250px;
+
+} 

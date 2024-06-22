@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {createModule, getModules,deleteModule, getOwnModules, enrollModule,getEnrollStudents, getModuleByCode, updateModule} = require("../Controllers/ModController")
+const {createModule, getModules,deleteModule, getOwnModules, enrollModule,getEnrollStudents, getModuleByCode, updateModule, giveAccessToLecturer} = require("../Controllers/ModController")
 
 
 
@@ -13,6 +13,7 @@ router.post("/getenrollstu", getEnrollStudents);
 router.post("/moddel", deleteModule);
 router.post("/getmodulebymodulecode", getModuleByCode);
 router.put("/updatemod/:id", updateModule);
+router.post("/giveaccess", giveAccessToLecturer);
 
 
 

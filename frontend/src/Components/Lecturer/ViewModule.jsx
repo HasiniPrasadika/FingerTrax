@@ -65,7 +65,7 @@ const ViewModule = () => {
     setDaily(null);
     setDate(null);
     setOverallState("Overall");
-
+  
     try {
       const response = await axios.post(
         "http://localhost:8070/api/attendance/getmyattendance",
@@ -73,25 +73,38 @@ const ViewModule = () => {
           moduleCode: module.modCode,
         }
       );
-      if (response.data) {
+  
+      if (response.data.length === 0) {
+        setMessage("You did not conduct lectures for this module!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
         setViewState(null);
         setEndState(null);
+        console.log(response);
         setOverallState("Overall");
-
+  
         setStudentAttendanceRecords(response.data);
         setIsDailyDisplay(false);
         setIsDisplay(false);
         setIsOverallDisplay(true);
-      } else {
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
         setIsDailyDisplay(false);
         setIsDisplay(false);
         setIsOverallDisplay(false);
-        setMessage("You did not conductued lectures for this module!");
+        setMessage("You did not conduct lectures for this module!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
+        setMessage("Could not fetch attendance!");
         setTimeout(() => {
           setMessage(null);
         }, 3000);
       }
-    } catch (error) {
       console.error("Error fetching attendance records", error);
     }
   };
@@ -686,7 +699,7 @@ const ViewModule = () => {
               </div>
               <div className="report-second-row">
                 {
-                  <table class="table table-bordered">
+                  <table className="table table-bordered">
                     <thead>
                       <tr>
                         <th scope="col">#</th>

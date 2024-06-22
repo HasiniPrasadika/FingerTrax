@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { FaCaretRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
-import "./Student.css";
+
+import "./Student Styles/ModuleEnrollment.css";
 
 const ModuleEnrollment = () => {
   const [departments, setDepartments] = useState([]);
@@ -20,49 +21,35 @@ const ModuleEnrollment = () => {
       });
   }, []);
   const handleDepClick = (department) => {
-    navigate(`/dashboard/enroll/semester/${department.depCode}`, { state: { department } });
+    navigate(`/dashboard/enroll/semester/${department.depCode}`, {
+      state: { department },
+    });
   };
 
   return (
     <div className="en-container">
       <div className="enrollment-container-one">
-        <div className="enrollment-second-container">
-          <div>
-            <span
-              style={{ padding: "5px", fontSize: "18px", color: "#4154F1" }}
-            >
-              Enrollment
-            </span>
-          </div>
-          <div>
-            <span style={{ opacity: "0.8", padding: "5px", fontSize: "12px" }}>
-              <GoTriangleRight /> Enrollment
-            </span>
-          </div>
-          <div className="form-container">
-            <div>
-              <h5>Department</h5>
-              {departments.map((department) => (
-                <div className="department-button row" key={department._id}>
-                  <div className="department-icon">
-                    <FaCaretRight />
-                  </div>
-                  <div>
-                    <a
-                      key={department._id}
-                      onClick={() => handleDepClick(department)}
-                      className="status-box"
-                    >
-                      
-                        {" "}
-                        {department.depName}
-                      
-                    </a>
-                  </div>
+        <div className="en-navigate">
+          <span>
+            <GoTriangleRight />
+          </span>
+          Module Enrollment / Department
+        </div>
+        <div className="en-topic">
+          <span>Department</span>
+        </div>
+
+        <div className="en-details">
+          {departments.map((department) => (
+            <a key={department._id} onClick={() => handleDepClick(department)}>
+              <div className="department-button" key={department._id}>
+                <div className="department-icon">
+                  <FaCaretRight />
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="department-icon"> {department.depName}</div>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </div>
