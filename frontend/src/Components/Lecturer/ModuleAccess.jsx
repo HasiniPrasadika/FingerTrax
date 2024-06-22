@@ -4,7 +4,8 @@ import AccessBox from './LecturerAccess';
 import './Lecturer Styles/ModuleAccess.css';
 const ModuleAccess = () => {
     return (
-        <div className="module-access-container">
+        <div className='modaccess'>
+            <div className="module-access-container">
             
             <div className="access-path-style">
                 <br/><p style={{opacity:0.8}}><GoTriangleRight />Module Access</p>
@@ -57,6 +58,7 @@ const ModuleAccess = () => {
                 <AccessBox></AccessBox>
                 
             </div>
+        </div>
         </div>
 
     );

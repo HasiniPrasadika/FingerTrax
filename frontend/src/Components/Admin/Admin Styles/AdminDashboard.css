@@ -295,9 +295,23 @@ margin-right: 0px;
 
     }
     .ruhuna-details-font .campus{
-      font-size: 8px;
+      font-size: 12px;
       justify-content: center;
 
+    }
+    .ruhuna-details span{
+      font-size: 12px;
+    }
+    .dep-name{
+      font-size: 12px;
+    }
+    .lecture{
+      width: 130px;
+      height: 130px;
+    }
+    .student{
+      width: 130px;
+      height: 130px;
     }
      
  
