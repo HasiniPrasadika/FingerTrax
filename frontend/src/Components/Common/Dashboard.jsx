@@ -1,14 +1,14 @@
 import { React, useEffect } from "react";
-import "./Common_Styles/Dashboard.css";
-import Sidebar from "./SideBar";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { IoDocumentText } from "react-icons/io5";
+import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { logout } from "../../actions/userActions";
+import "./Common_Styles/Dashboard.css";
 import Header from "./Header";
+import Sidebar from "./SideBar";
 
 import { useDispatch, useSelector } from "react-redux";
 import AdminDashboard from "../Admin/AdminDashboard";
@@ -16,19 +16,20 @@ import AdminDashboard from "../Admin/AdminDashboard";
 import LecturerDashboard from "../Lecturer/LecturerDashboard";
 import ViewModule from "../Lecturer/ViewModule";
 
+import AddDepartment from "../Admin/AddDepartment";
 import AddLecturer from "../Admin/AddLecturer";
 import AddStudent from "../Admin/AddStudent";
-import CreateModule from "../Lecturer/CreateModule";
 import AbsenceLetter from "../Lecturer/AbsenceLetter";
+import CreateModule from "../Lecturer/CreateModule";
 import ModuleAccess from "../Lecturer/ModuleAccess";
-import AddDepartment from "../Admin/AddDepartment";
-import StudentDashboard from "../Student/StudentDashboard";
-import ModuleEnrollment from "../Student/ModuleEnrollment";
-import StudentProfile from "../Student/StudentProfile";
 import AttendanceRecord from "../Student/AttendanceRecord";
 import EnrollSemester from "../Student/EnrollSemester";
-import EnrollModule from "../Student/EnrollModule";
+import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
+import StudentDashboard from "../Student/StudentDashboard";
+import StudentProfile from "../Student/StudentProfile";
+import Footer from "./Footer";
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -186,9 +187,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="footer">
-        <h1>Footer</h1>
-      </div>
+      <Footer/>
     </div>
   );
 };
