@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ErrorMessage from "../ErrorMessage";
 import { login } from "../../actions/userActions";
+import videoBg from "../../assets/videoBg.mp4";
+import ErrorMessage from "../ErrorMessage";
 import "./Common_Styles/Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userName, setuserName] = useState("");
-  const [password, setpassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -45,16 +46,17 @@ const Login = () => {
         <img src="/Images/logo2.png" alt="Logo" className="img" />
       </div>
       <div className="content-bar">
+        <video src={videoBg} autoPlay loop muted className="bg-video" />
         <div className="text-content">
           <p>Touch for </p>
           <p>Effortless </p>
           <p>Attendance Tracking</p>
-          <p style={{ fontSize: "14px", color: "black", marginTop: "20px" }}>
+          <h1 >
             Experience a new era in attendance management with our cutting-edge
             fingerprint technology. Our system eliminates the hassle of
             traditional methods, allowing users to effortlessly mark their
-            presence with a simple touch.
-          </p>
+            presence with a simple touch.</h1>
+          
         </div>
 
         <div className="form_container">
@@ -67,7 +69,7 @@ const Login = () => {
                 name="username"
                 value={userName}
                 placeholder="Enter your username"
-                onChange={(e) => setuserName(e.target.value)}
+                onChange={(e) => setUserName(e.target.value)}
                 required
               />
             </div>
@@ -78,7 +80,7 @@ const Login = () => {
                 name="password"
                 value={password}
                 placeholder="Enter your password"
-                onChange={(e) => setpassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
