@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { BsCheckSquareFill, BsFillXSquareFill } from "react-icons/bs";
 import { GoTriangleRight } from "react-icons/go";
-import "./Lecturer Styles/AbsenceLetter.css";
+import ErrorMessage from "../../Components/ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
+
 
 const AbsenceLetter = () => {
+<<<<<<< Updated upstream
   return (
     <div className="absence">
       <div className="absence-letter-container">
@@ -115,6 +120,12 @@ const AbsenceLetter = () => {
     </div>
     </div>
   );
+=======
+
+    // view letters
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+    const [viewLettersLec, setviewLettersLec] = useState([]);
     const [message, setMessage] = useState(null);
     const [smessage, setSMessage] = useState(null);
 
