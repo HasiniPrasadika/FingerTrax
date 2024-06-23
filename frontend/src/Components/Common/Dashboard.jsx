@@ -34,7 +34,8 @@ import AbsenceLetterStudent from "../Student/AbsenceLetterStudent";
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
 import Footer from "./Footer";
-
+import EnrollModule from "../Student/EnrollModule";
+import LectureProfile from "../Lecturer/LectureProfile";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -128,6 +129,11 @@ const Dashboard = () => {
             name: "Module Access",
             icon: <PiStudentBold />,
           },
+          {
+            path: "/dashboard/lecturer_profile",
+            name: "Profile",
+            icon: <PiStudentBold />,
+          },
 
           {
             path: "/logout",
@@ -171,10 +177,22 @@ const Dashboard = () => {
                     element={<AbsenceLetterStudent />}
                   />
                   <Route path="/student_profile" element={<StudentProfile />} />
-                  <Route path="/view_module/:moduleId" element={<AttendanceRecord />} />
-                  <Route path="/enroll/semester/:departmentID" element={<EnrollSemester />} />
-                  <Route path="/enroll/semester/semester_modules/:semseter" element={<Modules />} />
-                  <Route path="/enroll/semester/semester_modules/module/:moduleCode" element={<EnrollModule />} />
+                  <Route
+                    path="/view_module/:moduleId"
+                    element={<AttendanceRecord />}
+                  />
+                  <Route
+                    path="/enroll/semester/:departmentID"
+                    element={<EnrollSemester />}
+                  />
+                  <Route
+                    path="/enroll/semester/semester_modules/:semseter"
+                    element={<Modules />}
+                  />
+                  <Route
+                    path="/enroll/semester/semester_modules/module/:moduleCode"
+                    element={<EnrollModule />}
+                  />
                 </>
               )}
               {userInfo.role === "lecturer" && (
@@ -187,6 +205,7 @@ const Dashboard = () => {
                   <Route path="/create_module" element={<CreateModule />} />
                   <Route path="/absence_letter" element={<AbsenceLetter />} />
                   <Route path="/module_access" element={<ModuleAccess />} />
+                  <Route path="/lecturer_profile" element={<LectureProfile />} />
                 </>
               )}
               {/* Redirect to respective dashboard by default */}
@@ -194,7 +213,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

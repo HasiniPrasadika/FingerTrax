@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 import "./Student Styles/EnrollModule.css";
 import { GoTriangleRight } from "react-icons/go";
 import "./Student Styles/ModuleEnrollment.css";
@@ -12,6 +13,7 @@ const EnrollModule = () => {
   const module = state.module;
 
   const [message, setMessage] = useState(null);
+  const [smessage, setSMessage] = useState(null);
 
   const [enrollKey, setEnrollKey] = useState();
 
@@ -24,17 +26,12 @@ const EnrollModule = () => {
     if (module.students.some((student) => student.regNo === userInfo.regNo)) {
       console.log("You are already enrolled in this module.");
 
-      navigate("/student-attendance-record", { state: { module: module } });
+     
+      navigate(`/dashboard/view_module/${module.modCode}`, { state: { module } });
       return;
     }
   }, []);
 
-  // useEffect(() => {
-  //     if (module.students.some(student => student.regNo === userInfo.regNo)) {
-  //         navigate('/studentdashboard')
-  //         return;
-  //     }
-  //   }, []);
 
   const enrollHandler = (module) => {
     if (enrollKey === module.enrolKey) {
@@ -48,12 +45,10 @@ const EnrollModule = () => {
         })
         .then((response) => {
           console.log("Enrollment successful");
-          setMessage("Enrollment successful.");
+          setSMessage("Enrollment successful.");
           setTimeout(() => {
-            setMessage(null);
-            navigate("/student-attendance-record", {
-              state: { module: module },
-            });
+            setSMessage(null);
+            navigate(`/dashboard/view_module/${module.modCode}`, { state: { module } });
           }, 3000);
         })
         .catch((error) => {
@@ -86,6 +81,10 @@ const EnrollModule = () => {
           <div className="en-self-topic">
             <span>Self Enrollment</span>
           </div>
+          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+      {smessage && (
+        <SuccessMessage variant="success">{smessage}</SuccessMessage>
+      )}
           <div class="enroll-key-box">
             <label>Enrollment Key : </label>
             <input

@@ -36,7 +36,19 @@ const userSchema = mongoose.Schema(
       attendanceID: String,
       status: Boolean,
 
-    }]
+    }],
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
+        },
+        message: props => `${props.value} is not a valid email!`
+      }
+    },
+    
   }
 
 );

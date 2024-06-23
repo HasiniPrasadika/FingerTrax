@@ -17,16 +17,16 @@
     background-color: white;
     margin: 1% 0.5% 1% 0.5%;
     padding: 0;
-    flex-direction: column;
+   flex-wrap: wrap;
   }
   .module-box {
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom, #c4def9, white);
-    margin: 20px;
+    margin: 1%;
     border-radius: 25px 25px 0px 0px;
-    height: 120px;
-    width: 250px;
+    height: auto;
+    width: 23%;
 }
 
 .module-name {
@@ -40,6 +40,7 @@
 .module-info {
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: #003566;
     color: white;
     border-radius: 0px 0px 25px 25px;
@@ -47,6 +48,7 @@
     padding: 10px;
     height: 40px;
     margin-top: 22px;
-    width: 250px;
+    position: relative;
+    width: 100%;
 
 } 
