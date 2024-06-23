@@ -115,6 +115,124 @@ const AbsenceLetter = () => {
     </div>
     </div>
   );
+    const [message, setMessage] = useState(null);
+    const [smessage, setSMessage] = useState(null);
+
+    useEffect(() => {
+
+        if (userInfo) {
+            axios
+                .get(`http://localhost:8070/api/absenceletters/lecturer/${userInfo.regNo}/letters`)
+                .then((response) => {
+                    setviewLettersLec(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error of view absence letters for lecturers", error);
+                });
+        }
+    }, [userInfo]);
+
+    // accept letters
+    const handleAccept = (id) => {
+        axios
+            .put(`http://localhost:8070/api/absenceletters/letter/${id}/accept`)
+            .then((response) => {
+                setviewLettersLec(viewLettersLec.map(letter => letter._id === id ? { ...letter, action: true } : letter));
+                if (response) {
+                    setSMessage("Send message as Accepted!");
+                    setTimeout(() => {
+                        setSMessage(null);
+                    }, 3000);
+                }
+            })
+            .catch((err) => {
+                setMessage("Failed to make response!");
+                setTimeout(() => {
+                    setMessage(null);
+                }, 3000);
+
+            });
+    };
+
+
+    // reject letters
+    const handleReject = (id) => {
+        axios            
+            .put(`http://localhost:8070/api/absenceletters/letter/${id}/reject`)
+            .then((response) => {
+                setviewLettersLec(viewLettersLec.map(letter => letter._id === id ? { ...letter, action: false } : letter));
+                if (response) {
+                    setSMessage("Send message as Rejected!");
+                    setTimeout(() => {
+                        setSMessage(null);
+                    }, 3000);
+                }
+            })
+            .catch((err) => {
+                setMessage("Failed to make response!");
+                setTimeout(() => {
+                    setMessage(null);
+                }, 3000);
+            });
+    };
+
+    return (
+        <div className="lecturer-first-row-container">
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
+
+            <div className="path-style">
+                <br /><p style={{ opacity: 0.8 }}><GoTriangleRight />Absence Appication</p>
+            </div>
+            <div>
+                <h3 className='topic-style'>Absence Records</h3>
+            </div>
+
+            <div className='table-design'>
+                <table class="table">
+                    <thead style={{ backgroundColor: '#dfeaf5' }}>
+                        <tr>
+
+                            <th scope="col">Student Name</th>
+                            <th scope="col">Registration No.</th>
+                            <th scope="col">Absence Module</th>
+                            <th scope="col">Absence Date</th>
+                            <th scope="col">Absence For</th>
+                            <th scope="col">Excuse Application</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {viewLettersLec.map((letter) => (
+                            <tr key={letter._id}>
+                                <td>{letter.absStuName}</td>
+                                <td>{letter.absRegNo}</td>
+                                <td>{letter.absModName}</td>
+                                <td>{letter.absDate}</td>
+                                <td>{letter.absLecHours}</td>
+                                <td>
+                                    <a href={letter.letters.url} target="_blank" rel="noopener noreferrer">
+                                        <button className="btn btn-primary">View</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <BsCheckSquareFill style={{ color: "green", fontSize: "18px", cursor: "pointer" }}
+                                        onClick={() => handleAccept(letter._id)} />
+                                    <span className='delete-icon'>
+                                        <BsFillXSquareFill style={{ color: "red", fontSize: "18px", cursor: "pointer" }}
+                                            onClick={() => handleReject(letter._id)} />
+                                    </span>
+                                </td>
+
+                            </tr>
+                        ))}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+>>>>>>> Stashed changes
 };
 
 export default AbsenceLetter;

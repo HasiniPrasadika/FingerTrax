@@ -36,6 +36,11 @@ const absenceSchema = mongoose.Schema({
         required : true
     },
 
+    action : {
+        type : Boolean,
+        default : null        
+    },
+
     letters :
         {
             public_id : String,

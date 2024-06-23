@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { GoTriangleRight } from "react-icons/go";
-import ErrorMessage from "../ErrorMessage";
-import SuccessMessage from "../SuccessMessage";
-import "./Student.css";
+import ErrorMessage from "../../Components/ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
 
 
-const AbsenceLetterStudent = () => {
 
+const AbsenceApplication = () => {
+
+  //add Absence Letter
   const [absStuName, setabsStuName] = useState("");
   const [absRegNo, setabsRegNo] = useState("");
   const [absModCode, setabsModCode] = useState("");
@@ -18,6 +20,9 @@ const AbsenceLetterStudent = () => {
   const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
   const [letters, setletters] = useState(null);
+  const [viewLetters, setviewLetters] = useState([]);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const handleFileChange = (e) => {
     setletters(e.target.files[0]);
@@ -38,7 +43,7 @@ const AbsenceLetterStudent = () => {
       formData.append("pdf", letters);
 
       axios
-        .post("http://localhost:8070/api/absenceletters/addletter",formData, {          
+        .post("http://localhost:8070/api/absenceletters/addletter", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -88,6 +93,37 @@ const AbsenceLetterStudent = () => {
   const resetFileUpload = () => {
     setletters(null);
   };
+
+
+  // view letters
+  useEffect(() => {
+
+    if (userInfo) {
+      axios
+        .get(`http://localhost:8070/api/absenceletters/getAbsenceStu/${userInfo.regNo}`)
+        .then((response) => {
+          setviewLetters(response.data);
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.error("Error of view absence letters", error);
+        });
+    }
+
+  }, [userInfo]);
+  
+
+  const getActionStatus = (action) => {
+
+    if (action === true) {
+      return "Accepted";
+    } else if (action === false) {
+      return "Rejected";
+    } else {
+      return "Pending";
+    }
+  };
+
 
   return (
     <div className="absence-container">
@@ -198,20 +234,7 @@ const AbsenceLetterStudent = () => {
                   <div>{letters && <p>{letters.name}</p>}</div>
                 </div>
                 <div className="col">
-                  <div className="row">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      style={{
-                        width: "85px",
-                        marginLeft: "10px",
-                        marginBottom: "10px",
-                        marginTop: "15px",
-                      }}
-
-
-                    >Continue </button>
-                  </div>
+                  
                   <div className="row">
                     <button
                       type="button"
@@ -227,7 +250,7 @@ const AbsenceLetterStudent = () => {
                     </button>
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>
@@ -249,10 +272,9 @@ const AbsenceLetterStudent = () => {
             </button>
           </div>
         </form>
-
-
-
       </div>
+
+
       <div>
         <h3 className="topic-style">Excuse Applications</h3>
       </div>
@@ -270,46 +292,35 @@ const AbsenceLetterStudent = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
+              {viewLetters.map((letter, index) => (
+                <tr key={letter._id}>
+                  <th scope="row">{index + 1}</th>
 
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
-                <td>
-                  <button className="btn btn-primary">View</button>
-                </td>
-                <td style={{ color: "green" }}>Accepted</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
+                  <td>{letter.absModName}</td>
+                  <td>{letter.absDate}</td>
+                  <td>{letter.absLecHours}</td>
+                  <td>
+                    <a href={letter.letters.url} target="_blank" rel="noopener noreferrer">
+                      <button className="btn btn-primary">View</button>
+                    </a>
+                  </td>
+                  <td style={{
+                    color: letter.action === true ? "green"
+                      : letter.action === false ? "red" : "blue" }}>                  
+                    {getActionStatus(letter.action)}
+                    </td>
+                </tr>
 
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
-                <td>
-                  <button className="btn btn-primary">View</button>
-                </td>
-                <td style={{ color: "green" }}>Accepted</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
+              ))}
 
-                <td>Control system design</td>
-                <td>2023/08/25</td>
-                <td>2 hours</td>
-                <td>
-                  <button className="btn btn-primary">View</button>
-                </td>
-                <td>Pending</td>
-              </tr>
+
             </tbody>
           </table>
         </div>
       </div>
     </div>
   );
-  
+
 }
 
-export default AbsenceLetterStudent;
+export default AbsenceApplication;

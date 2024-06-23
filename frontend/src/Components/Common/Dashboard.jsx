@@ -30,6 +30,7 @@ import EnrollModule from "../Student/EnrollModule";
 import EnrollSemester from "../Student/EnrollSemester";
 import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
+import EnrollModule from "../Student/EnrollModule";
 
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
