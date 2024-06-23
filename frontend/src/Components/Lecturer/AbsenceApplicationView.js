@@ -7,7 +7,6 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
 
 
-
 const AbsenceAppicationView = () => {
 
     // view letters

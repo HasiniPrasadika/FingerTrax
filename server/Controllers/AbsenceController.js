@@ -29,9 +29,6 @@ const addLetter = asyncHandler(async (req, res) => {
         }
     })
 
-    // console.log("Request body:", req.body);
-    // console.log("Request files:", req.file);   
-    
     const letterExists = await AbsenceLetter.findOne({ absRegNo, absModCode, absDate });
 
     if (letterExists) {
