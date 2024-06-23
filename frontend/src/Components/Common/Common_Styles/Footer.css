@@ -38,6 +38,10 @@
     margin: 5px 0;
 }
 
+.footer_column a {
+    color: white;
+}
+
 .footer_column svg {
     margin-right: 10px;
     vertical-align: middle;
