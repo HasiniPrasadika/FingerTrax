@@ -16,8 +16,8 @@ function Footer() {
                 <div className='footer_column'>
                     <h6>CONTACT US</h6>
                     <p>Faculty of Engineering, Hapugala, Galle, Sri Lanka.</p>
-                    <p><MdMail /> Email: fingertrax22@gmail.com</p>
-                    <p><FaPhoneSquareAlt /> Phone: +(94)0 91 2245765/6</p>
+                    <a href="mailto:fingertrax22@gmail.com" ><MdMail /> Email: fingertrax22@gmail.com</a><br/>
+                    <a href="tel:+(94)0 91 2245765"><FaPhoneSquareAlt /> Phone: +(94)0 91 2245765/6</a>
                 </div>
                 <div className='footer_column'>
                     <h6>FOLLOW US ON</h6>
