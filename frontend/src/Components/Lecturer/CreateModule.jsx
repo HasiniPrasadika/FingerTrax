@@ -204,7 +204,7 @@ const CreateModule = () => {
         </span>
         Create Module
       </div>
-      <div className="dep-topic">
+      <div className="addmodtext">
         <span>Add Modules</span>
       </div>
       {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}

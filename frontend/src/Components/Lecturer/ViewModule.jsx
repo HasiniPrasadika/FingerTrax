@@ -7,6 +7,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
@@ -611,14 +612,17 @@ const ViewModule = () => {
   }
 
   return (
-    <div className="lec-view-mod">
+
+    <div className="viewmod">
+
       <div className="lecturer-view-module-container">
       <div className="view-module-navigate">
-        <span>
-          <GoTriangleRight />
-          Dashboard / {module.modCode} {module.modName}
-        </span>
-      </div>
+      <span>
+        <GoTriangleRight />
+        <Link to="/dashboard/lecturer_dashboard" className="dashboard-link">Dashboard</Link> /
+      </span>
+      <span>{module.modCode} {module.modName}</span>
+    </div>
       <div className="view-module-topic">
         <span>Attendance Settings</span>
       </div>
@@ -678,6 +682,7 @@ const ViewModule = () => {
               </div>
             </div>
           </div>
+
 
           <div className="attendance-dash-left-bottom">
             <div className="report-topic-dev">
@@ -851,6 +856,8 @@ const ViewModule = () => {
             </div>
           </div>
 
+
+
           <div className="report-details-box">
             <h6 className="box-title">Daily Attendance</h6>
             <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
@@ -906,7 +913,7 @@ const ViewModule = () => {
     </div>
 
     </div>
-    
+
   );
 };
 

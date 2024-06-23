@@ -13,7 +13,7 @@ const AbsenceLetter = () => {
         </span>
         Absent Letter
       </div>
-      <div className="dep-topic">
+      <div className="view">
         <span>View Absent Letters</span>
       </div>
 

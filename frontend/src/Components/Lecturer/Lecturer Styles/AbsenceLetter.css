@@ -33,6 +33,15 @@
     font-size: larger;
 
 }
+.view{
+    display: flex;
+    flex-direction: column;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+    margin: 2%;
+    font-size: 20px;
+  font-weight: bold;
+}
 .absence-table-design{
     margin-left: 10px;
     margin-right: 10px;
