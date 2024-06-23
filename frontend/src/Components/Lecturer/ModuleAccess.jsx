@@ -103,7 +103,7 @@ const ModuleAccess = () => {
         <div className="access-module-form">
           <form className="form-style" onSubmit={submitHandler}>
             <div className="form-row">
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label for="modName">Module Name</label>
                 <input
                   type="text"
@@ -115,7 +115,7 @@ const ModuleAccess = () => {
                   onChange={(e) => setModName(e.target.value)}
                 />
               </div>
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label for="modCode ">Module Code </label>
                 <input
                   type="text"
@@ -127,7 +127,7 @@ const ModuleAccess = () => {
                   onChange={(e) => setModCode(e.target.value)}
                 />
               </div>
-              <div className="form-group col-md-4">
+              <div className="form-group col-md-6">
                 <label for="regNo">Access To</label>
                 <input
                   type="text"
@@ -170,15 +170,8 @@ const ModuleAccess = () => {
               onClick={() => handleModuleClick(module)}
             >
               <div className="column">
-                <div
-                  className="row"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "25px",
-                  }}
-                >
-                  <div className="module-icon">
+                <div className="accessmodname">
+                  <div className="module-icon-access">
                     <FaRegChartBar />
                   </div>
                   <div className="module-name">

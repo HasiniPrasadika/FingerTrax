@@ -5,7 +5,8 @@ import "./Lecturer Styles/AbsenceLetter.css";
 
 const AbsenceLetter = () => {
   return (
-    <div className="absence-letter-container">
+    <div className="absence">
+      <div className="absence-letter-container">
       <div className="dep-navigate">
         <span>
           <GoTriangleRight />
@@ -111,6 +112,7 @@ const AbsenceLetter = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };

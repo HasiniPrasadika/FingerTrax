@@ -27,7 +27,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 250px;
+  width: 280px;
   height: 100vh;
   position: relative;
   background-color: rgb(236, 236, 236);
@@ -35,7 +35,7 @@
 .right-bar {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 250px);
+  width: calc(100% - 280px);
   position: relative;
   background-color: rgb(236, 236, 236);
   height: 100vh;

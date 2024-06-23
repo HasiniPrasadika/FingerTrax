@@ -196,7 +196,8 @@ const CreateModule = () => {
   );
 
   return (
-    <div className="create-module-container">
+    <div className="createmod">
+      <div className="create-module-container">
       <div className="dep-navigate">
         <span>
           <GoTriangleRight />
@@ -445,7 +446,7 @@ const CreateModule = () => {
       </div>
 
      
-      <div className="pagination" style={{marginLeft: "10px"}}>
+      <div className="pagination" style={{margin: "20px"}}>
             <button
               className="btn btn-primary"
               onClick={handlePreviousPage}
@@ -464,6 +465,7 @@ const CreateModule = () => {
               <FaChevronRight />
             </button>
           </div>
+    </div>
     </div>
   );
 };
