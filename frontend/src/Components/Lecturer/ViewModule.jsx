@@ -6,10 +6,11 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { ref, set } from "firebase/database";
+import { deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import React, { useState } from "react";
 import {
   BiDotsVerticalRounded,
   BiTachometer,
@@ -17,13 +18,10 @@ import {
 } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
-import { useLocation } from "react-router-dom";
-import { fireDb } from "../../firebase";
-import { db } from "../../firebase";
-import { doc, getDoc, deleteDoc, updateDoc, deleteField } from "firebase/firestore";
-import { ref, set, onValue } from "firebase/database";
-import ErrorMessage from "../ErrorMessage";
+import { Link, useLocation } from 'react-router-dom';
 import SuccessMessage from "../../Components/SuccessMessage";
+import { db, fireDb } from "../../firebase";
+import ErrorMessage from "../ErrorMessage";
 import "./Lecturer Styles/ViewModule.css";
 const today = dayjs();
 
@@ -612,7 +610,7 @@ const ViewModule = () => {
   }
 
   return (
-
+ 
     <div className="viewmod">
 
       <div className="lecturer-view-module-container">
