@@ -58,26 +58,19 @@ const LecturerDashboard = () => {
       <div className="lecturer-content-container">
         <div className="lecturer-module-content">
           <h4 className="enrolled-status">Enrolled Status</h4>
-          <label className="dep-navigate">
-            <span>
-              <IoChevronForwardOutline />
-              <IoChevronForwardOutline />
-              <IoChevronForwardOutline />
-            </span>
-            Department of Electrical Engineering
-          </label>
+          
         </div>
         <div className="lec-module-container">
           {modules.map((module, index) => (
             <a
               key={module._id}
               onClick={() => handleModuleClick(module)}
-              className="status-box"
+              className="status-box-dash"
             >
-              <div className="module-icon">
+              <div className="module-icon-dash">
                 <FaRegChartBar />
               </div>
-              <div className="module-name">
+              <div className="module-name-dash">
                 <p>
                   {module.modCode} <br />
                   {module.modName}

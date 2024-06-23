@@ -8,6 +8,7 @@
   flex-direction: column;
   z-index: 1000;
 }
+
 .lecturer-content-container {
   display: flex;
   flex-direction: column;
@@ -17,6 +18,7 @@
   border-radius: 10px;
   margin: 0.5%;
 }
+
 .lecturer-module-content {
   display: flex;
   flex-direction: column;
@@ -24,16 +26,12 @@
   font-family: "Poppins", sans-serif;
   margin: 2%;
 }
+
 .enrolled-status {
-  font-size: 1.6vw;
+  font-size: 20px;
   font-weight: bold;
 }
-.dep-navigate {
-  font-size: 0.8vw;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
+
 .lec-module-container {
   width: 100%;
   margin: 0;
@@ -42,52 +40,160 @@
   flex-wrap: wrap;
   position: relative;
 }
-.status-box {
+
+.status-box-dash {
   display: flex;
   position: relative;
   background: linear-gradient(to bottom, #abcbec, white);
   margin: 0% 2% 2% 2%;
   border-radius: 25px;
   width: 46%;
-  padding: 0vw 2vw 0vw 2vw;
+  padding: 20px ;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
   align-items: center;
   justify-content: space-between;
 }
+
 .status-box:hover {
   text-decoration: none;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
-.module-name {
+
+.module-name-dash {
+  position: relative;
+  width: 50%;
   color: black;
-  font-size: 1.2vw;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin: 2%;
   position: relative;
   display: flex;
 }
-.module-icon {
-  font-size: 2vw;
+
+.module-icon-dash {
+  position: relative;
+  width: 8%;
+  font-size: 18px;
   font-weight: bold;
   display: flex;
   position: relative;
-  margin: 2%;
   color: #012970;
 }
+
 .student-count {
+  position: relative;
+  width: 42%;
   border-radius: 50%;
-  margin: 1vw;
-  width: 7vw;
-  height: 15vh;
+  width: 80px;
+  height: 80px;
   font-weight: bold;
-  font-size: 1vw;
+  font-size: 12px;
   color: #012970;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-left: 10%;
   box-shadow: 0 0 0 2px #012970;
+}
+
+@media (max-width: 900px) {
+  .module-name-dash {
+    font-size: 11px;
+  }
+
+  .student-count {
+    width: 60px;
+  height: 60px;
+  font-size: 11px;
+  }
+
+}
+
+@media (max-width: 840px) {
+  .lec-module-container{
+    flex-direction: column;
+  }
+  .status-box-dash {
+    width: 96%;
+  }
+  .module-name-dash {
+    font-size: 12px;
+  }
+
+  .student-count {
+    width: 80px;
+  height: 80px;
+  font-size: 12px;
+  }
+
+}
+
+@media (max-width: 770px) {
+  .lec-module-container{
+    flex-direction: row;
+  }
+  .status-box-dash {
+    width: 46%;
+  }
+  .module-name-dash {
+    font-size: 12px;
+  }
+
+  .student-count {
+    width: 80px;
+  height: 80px;
+  font-size: 12px;
+  }
+
+}
+
+
+
+@media (max-width: 580px) {
+ 
+  .module-name-dash {
+    font-size: 11px;
+  }
+
+  .student-count {
+    width: 60px;
+  height: 60px;
+  font-size: 11px;
+  }
+
+}
+
+@media (max-width: 500px) {
+  .lec-module-container{
+    flex-direction: column;
+  }
+  .status-box-dash {
+    width: 96%;
+  }
+  .module-name-dash {
+    font-size: 14px;
+  }
+
+  .student-count {
+    width: 80px;
+  height: 80px;
+  font-size: 14px;
+  }
+}
+
+@media (max-width: 320px) {
+  
+  .module-name-dash {
+    font-size: 12px;
+  }
+
+  .student-count {
+  
+  font-size: 12px;
+  width: 60px;
+  height: 60px;
+  }
+
+ 
 }

@@ -25,38 +25,97 @@
     
 }
 
-.access-module-form{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    background-color: #e8f4ff;
-    width: auto;
-    height: auto;
-    margin: 20px 70px 20px 70px;
-    border-radius: 15px;
-    padding: 20px;
-
+.access-module-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+  background-color: #e8f4ff;
+  width: auto;
+  height: auto;
+  margin: 20px;
+  border-radius: 15px;
+  padding: 5px;
 }
+
 
 .access-module-container{
     background:white;
     height: auto;
-    width: auto;
-    display: grid;
-    margin: 20px;
-   
-    grid-gap: 40px;
-    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    display: flex;
+
+    flex-wrap: wrap;
+   position: relative;
     
 }
+
+.accessmodname{
+
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    background-color: white;
+
+
+}
+
+.module-icon-access{
+  display: flex;
+  position: relative;
+ 
+  font-size: 18px;
+  margin: 20px;
+}
+
+.module-name{
+  display: flex;
+  position: relative;
+  width: 90%;
+  font-size: 18px;
+  margin: 20px;
+
+}
 .module-access-box {
-    background-color: #f0f8ff; /* Default background color */
+  display: flex;
+    background-color: #f0f8ff; 
     padding: 15px;
+    width: 46%;
+    margin: 2%;
+    position: relative;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Default shadow */
-    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease; 
   }
   
   .module-access-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .access-lecturer-names{
+    margin: 20px;
+   
+  }
+
+  @media (max-width: 988px) {
+    .access-module-container{
+     
+      flex-direction: column;
+     
+      
+    }
+    .module-access-box{
+      width: 96%;
+      margin-right: 4%;
+    }
+    
+  }
+
+  @media (max-width: 320px) {
+.access-lecturer-names h6{
+  font-size: 12px;
+}
+.module-name p{
+  font-size: 14px;
+}
+    
   }

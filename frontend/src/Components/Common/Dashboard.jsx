@@ -24,12 +24,12 @@ import AbsenceLetter from "../Lecturer/AbsenceLetter";
 import CreateModule from "../Lecturer/CreateModule";
 
 import ModuleAccess from "../Lecturer/ModuleAccess";
+import AbsenceLetterStudent from "../Student/AbsenceLetterStudent";
 import AttendanceRecord from "../Student/AttendanceRecord";
+import EnrollModule from "../Student/EnrollModule";
 import EnrollSemester from "../Student/EnrollSemester";
 import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
-
-import AbsenceLetterStudent from "../Student/AbsenceLetterStudent";
 
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
@@ -42,7 +42,7 @@ const Dashboard = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
-  useEffect(() => {}, [userInfo]);
+  useEffect(() => { }, [userInfo]);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/"); // Redirect to login page after logout
@@ -51,35 +51,35 @@ const Dashboard = () => {
   const menuItem =
     userInfo.role == "admin"
       ? [
-          {
-            path: "/dashboard/admin_dashboard",
-            name: "Dashboard",
-            icon: <FaTh />,
-          },
-          {
-            path: "/dashboard/add_department",
-            name: "Department",
-            icon: <MdApartment />,
-          },
-          {
-            path: "/dashboard/add_lecturer",
-            name: "Lecturer",
-            icon: <MdPeopleAlt />,
-          },
-          {
-            path: "/dashboard/add_student",
-            name: "Student",
-            icon: <PiStudentBold />,
-          },
-          {
-            path: "/logout",
-            name: "Logout",
-            icon: <FiLogOut />,
-            onClick: handleLogout,
-          },
-        ]
+        {
+          path: "/dashboard/admin_dashboard",
+          name: "Dashboard",
+          icon: <FaTh />,
+        },
+        {
+          path: "/dashboard/add_department",
+          name: "Department",
+          icon: <MdApartment />,
+        },
+        {
+          path: "/dashboard/add_lecturer",
+          name: "Lecturer",
+          icon: <MdPeopleAlt />,
+        },
+        {
+          path: "/dashboard/add_student",
+          name: "Student",
+          icon: <PiStudentBold />,
+        },
+        {
+          path: "/logout",
+          name: "Logout",
+          icon: <FiLogOut />,
+          onClick: handleLogout,
+        },
+      ]
       : userInfo.role == "student"
-      ? [
+        ? [
           {
             path: "/dashboard/student_dashboard",
             name: "Dashboard",
@@ -107,7 +107,7 @@ const Dashboard = () => {
             onClick: handleLogout,
           },
         ]
-      : [
+        : [
           {
             path: "/dashboard/lecturer_dashboard",
             name: "Dashboard",
@@ -194,7 +194,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
