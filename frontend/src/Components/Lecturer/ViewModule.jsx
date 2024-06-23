@@ -611,7 +611,8 @@ const ViewModule = () => {
   }
 
   return (
-    <div className="lecturer-view-module-container">
+    <div className="lec-view-mod">
+      <div className="lecturer-view-module-container">
       <div className="view-module-navigate">
         <span>
           <GoTriangleRight />
@@ -903,6 +904,9 @@ const ViewModule = () => {
         </div>
       )}
     </div>
+
+    </div>
+    
   );
 };
 

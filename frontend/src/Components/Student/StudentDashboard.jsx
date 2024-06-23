@@ -54,10 +54,10 @@ const StudentDashboard = () => {
         {modules.map((module, index) => (
           <div className="module-box" key={index}>
             <div className="module-name">
-              <div style={{ fontWeight: "bold" }}>
-                <span>{module.modCode}</span>
+              <div style={{ fontWeight: "bold", margin: "5px" }}>
+                <span>{module.modCode} </span>
               </div>
-              <div style={{ fontWeight: "normal" }}>
+              <div style={{ fontWeight: "normal", margin: "5px" }}>
                 <span>{module.modName}</span>
               </div>
             </div>
