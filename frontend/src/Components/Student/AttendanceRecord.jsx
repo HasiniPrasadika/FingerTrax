@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
-import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 import "./Student Styles/AttendanceRecord.css";
 
 const AttendanceRecord = () => {
@@ -57,10 +57,11 @@ const AttendanceRecord = () => {
       <div className="att-vie-container">
         <div className="att-second-container">
           <div className="dep-navigate">
-            <span>
-              <GoTriangleRight />
-            </span>
-            Department / {module.modCode} {module.modName}
+          <span>
+        <GoTriangleRight />
+        <Link to="/dashboard/student_dashboard" className="dashboard-link">Dashboard</Link> /
+      </span>
+      <span>{module.modCode} {module.modName}</span>
           </div>
           <div className="dep-topic">
             <span>

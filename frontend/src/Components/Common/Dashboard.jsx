@@ -34,7 +34,7 @@ import Modules from "../Student/Modules";
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
 import Footer from "./Footer";
-import EnrollModule from "../Student/EnrollModule";
+
 import LectureProfile from "../Lecturer/LectureProfile";
 
 const Dashboard = () => {
