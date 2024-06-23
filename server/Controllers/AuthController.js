@@ -3,14 +3,14 @@ const User = require("../Models/UserModel.js");
 const generateToken = require("../util/SecretToken.js");
 const cloudinary = require("../util/Cloudinary.js");
 const { unsubscribe } = require("../Routes/AuthRoute.js");
-const nodemailer = require('nodemailer');
-
+const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
 
 //@description     Auth the user
 //@route           POST /api/users/login
 //@access          Public
 const authUser = asyncHandler(async (req, res) => {
-  const { userName, password} = req.body;
+  const { userName, password } = req.body;
 
   const user = await User.findOne({ userName });
 
@@ -47,7 +47,7 @@ const registerAdminUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     userName,
     password,
-    role : "admin",
+    role: "admin",
   });
 
   if (user) {
@@ -68,8 +68,8 @@ const registerAdminUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/
 //@access          Public
 const registerLecUser = asyncHandler(async (req, res) => {
-  const { userName, password, fullName, depName, image, regNo, email } = req.body;
-  
+  const { userName, password, fullName, depName, image, regNo, email } =
+    req.body;
 
   const userExists = await User.findOne({ userName });
 
@@ -79,15 +79,14 @@ const registerLecUser = asyncHandler(async (req, res) => {
   }
   let result = {
     public_id: "",
-    url: "/Images/profile.webp" // Default image URL
+    url: "/Images/profile.webp", // Default image URL
   };
   if (image) {
     result = await cloudinary.uploader.upload(image, {
-      folder: "users"
+      folder: "users",
     });
   }
-  
- 
+
   const user = await User.create({
     userName,
     password,
@@ -95,37 +94,36 @@ const registerLecUser = asyncHandler(async (req, res) => {
     depName,
     image: {
       public_id: result.public_id,
-      url: result.secure_url
+      url: result.secure_url,
     },
     regNo,
-    role : "lecturer",
+    role: "lecturer",
     email,
   });
 
   if (user) {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
-        user: 'fingertrax22@gmail.com',
-        pass: 'yvpwcljinqdwuqzl' // Use environment variables or a secure method to store your password
-      }
+        user: "fingertrax22@gmail.com",
+        pass: "yvpwcljinqdwuqzl", // Use environment variables or a secure method to store your password
+      },
     });
 
     const mailOptions = {
-      from: 'fingertrax22@gmail.com',
+      from: "fingertrax22@gmail.com",
       to: email,
-      subject: 'Registration Successful',
-      text: `Dear ${fullName},\n\nYou have been successfully registered to FingerTrax.\n\nBest Regards,\nFingerTrax Team`
+      subject: "Registration Successful",
+      text: `Dear ${fullName},\n\nYou have been successfully registered to FingerTrax.\n\nBest Regards,\nFingerTrax Team`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error);
       } else {
-        console.log('Email sent: ' + info.response);
+        console.log("Email sent: " + info.response);
       }
     });
-
 
     res.status(201).json({
       _id: user._id,
@@ -142,17 +140,67 @@ const registerLecUser = asyncHandler(async (req, res) => {
   } else {
     console.error("Error registering lecturer:", error);
     res.status(500).json({ message: "Internal Server Error" });
-    
+  }
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  const { username, currentPassword, newpassword } = req.body;
+
+  try {
+    // Find user by username
+    const user = await User.findOne({ userName: username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect current password" });
+    }
+
+    // Generate salt and hash new password
+
+    // Update user's password
+    user.password = newpassword;
+    await user.save();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fingertrax22@gmail.com",
+        pass: "yvpwcljinqdwuqzl", // Use environment variables or a secure method to store your password
+      },
+    });
+
+    const mailOptions = {
+      from: "fingertrax22@gmail.com",
+      to: user.email,
+      subject: "Password Changed",
+      text: `Dear ${user.fullName},\n\nYour Password has been changed.\n\nBest Regards,\nFingerTrax Team`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 const updateLecturer = asyncHandler(async (req, res) => {
-  const lecID  = req.params.id;
+  const lecID = req.params.id;
   const { userName, fullName, depName, image, regNo, password } = req.body;
 
   const user = await User.findById(lecID);
-
- 
 
   if (!user) {
     res.status(404);
@@ -166,15 +214,13 @@ const updateLecturer = asyncHandler(async (req, res) => {
     throw new Error("Username already exists");
   }
 
-
-
   let imageData = user.image;
   if (image && image !== user.image.url) {
     // Delete the existing image from Cloudinary
     if (user.image.public_id) {
       await cloudinary.uploader.destroy(user.image.public_id);
     }
-    
+
     // Upload the new image to Cloudinary
     const result = await cloudinary.uploader.upload(image, {
       folder: "users",
@@ -204,8 +250,59 @@ const updateLecturer = asyncHandler(async (req, res) => {
   });
 });
 
+const updatephoto = asyncHandler(async (req, res) => {
+  const { username, image } = req.body;
+
+  const user = await User.findOne({ userName: username });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+
+  let imageData = user.image;
+  if (image && image !== user.image.url) {
+    // Delete the existing image from Cloudinary
+    if (user.image.public_id) {
+      await cloudinary.uploader.destroy(user.image.public_id);
+    }
+
+    // Upload the new image to Cloudinary
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "users",
+    });
+    imageData = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
+  user.image = imageData;  
+
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    userName: updatedUser.userName,
+    fullName: updatedUser.fullName,
+    depName: updatedUser.depName,
+    image: updatedUser.image,
+    regNo: updatedUser.regNo,
+    role: updatedUser.role,
+  });
+});
+
 const registerStuUser = asyncHandler(async (req, res) => {
-  const { userName, password, fullName, depName, image, regNo, fingerprintID, batch } = req.body;
+  const {
+    userName,
+    password,
+    fullName,
+    depName,
+    image,
+    regNo,
+    fingerprintID,
+    batch,
+  } = req.body;
 
   const userExists = await User.findOne({ userName });
 
@@ -215,11 +312,11 @@ const registerStuUser = asyncHandler(async (req, res) => {
   }
   let result = {
     public_id: "",
-    url: "/Images/profile.webp" // Default image URL
+    url: "/Images/profile.webp", // Default image URL
   };
   if (image) {
     result = await cloudinary.uploader.upload(image, {
-      folder: "users"
+      folder: "users",
     });
   }
   const user = await User.create({
@@ -229,12 +326,12 @@ const registerStuUser = asyncHandler(async (req, res) => {
     depName,
     image: {
       public_id: result.public_id,
-      url: result.secure_url
+      url: result.secure_url,
     },
     regNo,
     fingerprintID,
     batch,
-    role : "student",
+    role: "student",
   });
 
   if (user) {
@@ -257,12 +354,10 @@ const registerStuUser = asyncHandler(async (req, res) => {
   }
 });
 const updateStudent = asyncHandler(async (req, res) => {
-  const stuID  = req.params.id;
+  const stuID = req.params.id;
   const { userName, fullName, depName, image, regNo, batch } = req.body;
-  
-  const user = await User.findById(stuID);
 
- 
+  const user = await User.findById(stuID);
 
   if (!user) {
     res.status(404);
@@ -276,15 +371,13 @@ const updateStudent = asyncHandler(async (req, res) => {
     throw new Error("Username already exists");
   }
 
-
-
   let imageData = user.image;
   if (image && image !== user.image.url) {
     // Delete the existing image from Cloudinary
     if (user.image.public_id) {
       await cloudinary.uploader.destroy(user.image.public_id);
     }
-    
+
     // Upload the new image to Cloudinary
     const result = await cloudinary.uploader.upload(image, {
       folder: "users",
@@ -364,13 +457,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const deleteLecUser = asyncHandler(async (req, res) => {
-  
   const user = await User.findById(req.body.id);
-  
 
   if (user) {
     if (user.image && user.image.public_id) {
-      
       await cloudinary.uploader.destroy(user.image.public_id); // Delete image from cloudinary
     }
     await user.deleteOne();
@@ -379,12 +469,23 @@ const deleteLecUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Lecturer not found");
   }
-})
+});
 
-module.exports = { authUser,deleteLecUser, updateUserProfile, registerAdminUser, registerLecUser, registerStuUser, getLecUsers, getStuUsers, getCurrentUser, updateLecturer, updateStudent };
-
-
-
+module.exports = {
+  authUser,
+  deleteLecUser,
+  updateUserProfile,
+  registerAdminUser,
+  registerLecUser,
+  registerStuUser,
+  getLecUsers,
+  getStuUsers,
+  getCurrentUser,
+  updateLecturer,
+  updateStudent,
+  changePassword,
+  updatephoto,
+};
 
 // const User = require("../Models/UserModel");
 // const { createSecretToken } = require("../util/SecretToken");
@@ -420,11 +521,11 @@ module.exports = { authUser,deleteLecUser, updateUserProfile, registerAdminUser,
 //     }
 //     const user = await User.findOne({ username });
 //     if(!user){
-//       return res.json({message:'Incorrect password or email' }) 
+//       return res.json({message:'Incorrect password or email' })
 //     }
 //     const auth = await bcrypt.compare(password,user.password)
 //     if (!auth) {
-//       return res.json({message:'Incorrect password or email' }) 
+//       return res.json({message:'Incorrect password or email' })
 //     }
 //      const token = createSecretToken(user._id);
 //      res.cookie("token", token, {

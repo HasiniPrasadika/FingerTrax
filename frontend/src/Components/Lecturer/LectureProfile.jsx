@@ -1,47 +1,130 @@
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { GoTriangleRight } from "react-icons/go";
 import ErrorMessage from "../ErrorMessage";
 import SuccessMessage from "../SuccessMessage";
+import axios from "axios";
 
 const LectureProfile = () => {
-
-    const [image, setimage] = useState("");
-    const [password, setpassword] = useState("");
-    const [currentPassword, setCurrentPassword] = useState("");
-    const [message, setMessage] = useState(null);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const username = userInfo.userName;
+  const [image, setimage] = useState("");
+  const [newpassword, setnewpassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [message, setMessage] = useState(null);
   const [smessage, setSMessage] = useState(null);
-    const submitHandler = (e) => {
+  const [imessage, setIMessage] = useState(null);
+  const [ismessage, setISMessage] = useState(null);
+  //   useEffect(() => {
 
+  //   }, [password]);
+  const submitHandler = (e) => {
+    try {
+      e.preventDefault();
+      if (image == "") {
+        setIMessage("Please provide an image");
+        setTimeout(() => {
+          setIMessage(null);
+        }, 3000);
+        return;
+      }
+
+      axios
+        .post(`http://localhost:8070/api/users/updateimage`, { image, username })
+        .then((response) => {
+          setISMessage("Profile Photo updated successfully!");
+          setTimeout(() => {
+            setISMessage(null);
+          }, 3000);
+          resetHandler();
+        })
+        .catch((error) => {
+          setIMessage("Failed to update Lecturer!");
+
+          setTimeout(() => {
+            setIMessage(null);
+          }, 3000);
+        });
+    } catch (error) {
+      setIMessage("Failed to change Profile Picture!");
+      setTimeout(() => {
+        setIMessage(null);
+      }, 3000);
     }
-    const passwordSubmitHandler = (e) => {
+  };
+  const passwordSubmitHandler = async (e) => {
+    e.preventDefault();
 
+    try {
+      // Validate input fields
+      if (!currentPassword || !newpassword) {
+        setMessage("Please enter current password and new password");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+        return;
+      }
+
+      // Call backend API to change password
+      const response = await axios.post(
+        "http://localhost:8070/api/users/change-password",
+        {
+          username,
+          currentPassword,
+          newpassword,
+        }
+      );
+
+      if (response.status === 200) {
+        setSMessage("Password changed successfully!");
+        setTimeout(() => {
+          setSMessage(null);
+        }, 3000);
+        setCurrentPassword("");
+        setnewpassword("");
+      } else {
+        setMessage("Error changing password!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        setMessage("Incorrect Current Password");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
+        setMessage("Error changing password!");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      }
     }
+  };
 
-    const handleImage = (e) => {
-        const file = e.target.files[0];
-        setFileToBase(file);
-      };
-    
-      const setFileToBase = (file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setimage(reader.result);
-        };
-      };
-      
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFileToBase(file);
+  };
+
+  const setFileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setimage(reader.result);
+    };
+  };
+
   const resetHandler = () => {
-    
     setimage("");
-    
   };
   const passwordResetHandler = () => {
-    
-    setpassword("");
+    setnewpassword("");
     setCurrentPassword("");
-    
   };
   return (
     <div className="addlec">
@@ -64,17 +147,16 @@ const LectureProfile = () => {
             />
           </div>
           <div className="lecturer-add-form">
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {smessage && (
-              <SuccessMessage variant="success">{smessage}</SuccessMessage>
+            {imessage && (
+              <ErrorMessage variant="danger">{imessage}</ErrorMessage>
+            )}
+            {ismessage && (
+              <SuccessMessage variant="success">{ismessage}</SuccessMessage>
             )}
             <form
               onSubmit={submitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
-              
-             
-             
               <div className="form-group row">
                 <label
                   htmlFor="image"
@@ -116,16 +198,9 @@ const LectureProfile = () => {
           </div>
         </div>
 
-
-
-
-
-
         <div className="lecturer-details">
           <div className="lecture-photo-area">
             <h3 className="photo-area-name"> Change Passsword</h3>
-
-            
           </div>
           <div className="lecturer-add-form">
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
@@ -136,9 +211,6 @@ const LectureProfile = () => {
               onSubmit={submitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
-              
-             
-             
               <div className="form-group row">
                 <label
                   htmlFor="currentPassword"
@@ -163,7 +235,7 @@ const LectureProfile = () => {
                   htmlFor="password"
                   className="col-sm-4 col-form-label dep-form-hor"
                 >
-                 New Password :
+                  New Password :
                 </label>
                 <div className="col-sm-8 dep-form-hor">
                   <input
@@ -172,8 +244,8 @@ const LectureProfile = () => {
                     id="password"
                     name="password"
                     placeholder="Password"
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
+                    value={newpassword}
+                    onChange={(e) => setnewpassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -201,9 +273,6 @@ const LectureProfile = () => {
             </form>
           </div>
         </div>
-
-        
-        
       </div>
     </div>
   );
