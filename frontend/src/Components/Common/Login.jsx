@@ -51,12 +51,12 @@ const Login = () => {
           <p>Touch for </p>
           <p>Effortless </p>
           <p>Attendance Tracking</p>
-          <p style={{ fontSize: "16px", color: "blanchedalmond", marginTop: "20px", fontWeight:'100' }}>
+          <h1 >
             Experience a new era in attendance management with our cutting-edge
             fingerprint technology. Our system eliminates the hassle of
             traditional methods, allowing users to effortlessly mark their
-            presence with a simple touch.
-          </p>
+            presence with a simple touch.</h1>
+          
         </div>
 
         <div className="form_container">

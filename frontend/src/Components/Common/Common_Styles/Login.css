@@ -33,6 +33,12 @@
   overflow-y: auto;
 }
 
+.content-bar h1 {
+  font-size: 18px;
+  color: rgb(15, 15, 15);
+  margin-top: 20px;
+  
+}
 .bg-video {
   position: absolute;
   top: 0;
@@ -108,6 +114,9 @@
     align-items: center;
   }
 
+  .content-bar h1{
+    margin: 10px;
+  }
   .text-content {
     width: 100%;
     margin: 20px auto;
@@ -118,11 +127,12 @@
   .form_container {
     width: 75%;
     margin-top: 20px;
-    background-color: #ffffff8a
+    background-color: #ffffffec
   }
 
   .bg-video {
     height: 150vh;
+    opacity: 0.3;
   }
 }
 
@@ -131,4 +141,6 @@
   .bg-video {
     min-height: 120vh;
   }
+
+  
 }
