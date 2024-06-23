@@ -22,3 +22,13 @@
     
 }
 
+.addmodtext{
+    display: flex;
+    flex-direction: column;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+    margin: 2%;
+    font-size: 20px;
+  font-weight: bold;
+}
+

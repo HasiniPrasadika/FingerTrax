@@ -1,27 +1,50 @@
+.viewmod{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+  padding: 0;
+  flex-direction: column;
+
+  z-index: 1000;
+  background-color: rgb(236, 236, 236);
+}
+
 .lecturer-view-module-container{
   position: relative;
+  display: flex;
   width: 99%;
   border-radius: 10px;
-  margin: 1% 0.5% 0.5% 0.5%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
   background-color: white;
+  margin: 1% 0.5% 1% 0.5%;
+  padding: 0;
+  flex-direction: column;
 }
+
+.dashboard-link {
+  text-decoration: none;
+  color: inherit;
+}
+.dashboard-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 .view-module-navigate{
   position: relative;
   display: flex;
   opacity: "0.8";
   margin: 1%;
-  font-size: 2vh;
+  font-size: 14px;
   width: 98%;
   align-items: center;
   background-color: rgb(255, 255, 255);
 }
 .view-module-topic{
   margin: 1% 2% 0% 2%;
-  font-size: 2vw;
+  font-size: 20px;
+  font-weight: bold;
   width: 96%;
   display: flex;
   position: relative;
@@ -74,14 +97,14 @@
 .enrolled-stu-count-top-text-first{
   position: relative;
   margin: 5% 10%;
-  font-size: 3vw;
+  font-size: 40px;
   padding: 0;
   display: flex;
 }
 .enrolled-stu-count-top-text-second{
   position: relative;
   margin: 5% 10%;
-  font-size: 3vw;
+  font-size: 40px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -95,7 +118,7 @@
   padding: 1%;
 }
 .report-topic-dev h6{
-  font-size: 1.3vw;
+  font-size: 16px;
 }
 .attendance-dash-left-bottom{
   position: relative;
@@ -131,6 +154,9 @@
   width: 90%;   
 
 }
+
+
+
 .attendance-dash-right{
   position: relative;
   display: flex;
@@ -141,9 +167,67 @@
   display: flex;
   background-color: #e8f4ff;
     margin: 2%;
+    padding: 10px;
     width: 96%;
     border-radius: 10px;
     flex-direction: column;
     position: relative;
     justify-content: left;
+    align-items: center;
 }
+.time-picker{
+  display: flex;
+  position: relative;
+  width: 98%;
+}
+
+
+@media (max-width: 900px) {
+
+  .attendance-dash{
+   flex-direction: column-reverse;
+  }
+  .attendance-dash-right{
+    width: 98%; 
+  }
+  .attendance-dash-left{
+    width: 98%;
+    
+  }
+ 
+}
+
+@media (max-width: 400px) {
+.view-module-navigate{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-left: 10px;
+}
+  
+}
+
+@media (max-width: 500px) {
+
+  .report-second-row table{
+    width: 500px;
+  }
+  }
+
+  @media (max-width: 400px) {
+
+    .attendance-dash-left-top{
+      flex-direction: column;
+    }
+    .enrolled-stu-count{
+      width: 96%;
+    }
+
+    .attendance-dash-left-top{
+    
+      height: auto;
+    }
+    .attendance-dash-left-bottom{
+      height: auto;
+    }
+    }

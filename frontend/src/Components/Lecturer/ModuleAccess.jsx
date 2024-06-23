@@ -92,7 +92,7 @@ const ModuleAccess = () => {
           </span>
           Module Access
         </div>
-        <div className="dep-topic">
+        <div className="access-topic">
           <span>Give Access</span>
         </div>
         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
