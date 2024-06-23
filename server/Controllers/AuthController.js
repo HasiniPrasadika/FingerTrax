@@ -3,6 +3,7 @@ const User = require("../Models/UserModel.js");
 const generateToken = require("../util/SecretToken.js");
 const cloudinary = require("../util/Cloudinary.js");
 const { unsubscribe } = require("../Routes/AuthRoute.js");
+const nodemailer = require('nodemailer');
 
 
 //@description     Auth the user
@@ -67,7 +68,7 @@ const registerAdminUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/
 //@access          Public
 const registerLecUser = asyncHandler(async (req, res) => {
-  const { userName, password, fullName, depName, image, regNo } = req.body;
+  const { userName, password, fullName, depName, image, regNo, email } = req.body;
   
 
   const userExists = await User.findOne({ userName });
@@ -98,9 +99,34 @@ const registerLecUser = asyncHandler(async (req, res) => {
     },
     regNo,
     role : "lecturer",
+    email,
   });
 
   if (user) {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'fingertrax22@gmail.com',
+        pass: 'yvpwcljinqdwuqzl' // Use environment variables or a secure method to store your password
+      }
+    });
+
+    const mailOptions = {
+      from: 'fingertrax22@gmail.com',
+      to: email,
+      subject: 'Registration Successful',
+      text: `Dear ${fullName},\n\nYou have been successfully registered to FingerTrax.\n\nBest Regards,\nFingerTrax Team`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+
     res.status(201).json({
       _id: user._id,
       userName: user.userName,
@@ -110,6 +136,7 @@ const registerLecUser = asyncHandler(async (req, res) => {
       depName: user.fullName,
       image: user.image,
       regNo: user.regNo,
+      email: user.email,
       token: generateToken(user._id),
     });
   } else {

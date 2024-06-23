@@ -612,7 +612,9 @@ const ViewModule = () => {
   }
 
   return (
+
     <div className="viewmod">
+
       <div className="lecturer-view-module-container">
       <div className="view-module-navigate">
       <span>
@@ -909,7 +911,9 @@ const ViewModule = () => {
         </div>
       )}
     </div>
+
     </div>
+
   );
 };
 

@@ -1,8 +1,11 @@
+
 .viewmod{
+
   position: relative;
   width: 100%;
   height: 100%;
   margin: 0;
+
 
   padding: 0;
   flex-direction: column;
@@ -10,6 +13,7 @@
   z-index: 1000;
   background-color: rgb(236, 236, 236);
 }
+
 
 .lecturer-view-module-container{
   position: relative;
