@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
 import { BsCheckSquareFill, BsFillXSquareFill } from "react-icons/bs";
 import { GoTriangleRight } from "react-icons/go";
+import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
+import "./Lecturer Styles/AbsenceLetter.css";
 
 
 const AbsenceAppicationView = () => {
@@ -33,7 +34,8 @@ const AbsenceAppicationView = () => {
 
   // accept letters
   const handleAccept = (id) => {
-    axios
+    if (window.confirm("Are you sure you want to accept this?")) {
+      axios
       .put(`http://localhost:8070/api/absenceletters/letter/${id}/accept`)
       .then((response) => {
         setviewLettersLec(viewLettersLec.map(letter => letter._id === id ? { ...letter, action: true } : letter));
@@ -50,11 +52,15 @@ const AbsenceAppicationView = () => {
         }, 3000);
 
       });
+
+    }  
+   
   };
 
   // reject letters
   const handleReject = (id) => {
-    axios
+    if (window.confirm("Are you sure you want to reject this?")) {
+      axios
       .put(`http://localhost:8070/api/absenceletters/letter/${id}/reject`)
       .then((response) => {
         setviewLettersLec(viewLettersLec.map(letter => letter._id === id ? { ...letter, action: false } : letter));
@@ -72,6 +78,9 @@ const AbsenceAppicationView = () => {
         }, 3000);
       });
 
+    }
+    
+
   };
 
   const getActionStatus = (action) => {
@@ -88,65 +97,76 @@ const AbsenceAppicationView = () => {
 
 
   return (
-    <div className="lecturer-first-row-container">
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
+    <div className='absense-letter-lec'>
+      <div className="absense_lec_record_container">
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && <SuccessMessage variant="success">{smessage}</SuccessMessage>}
 
-      <div className="path-style">
-        <br /><p style={{ opacity: 0.8 }}><GoTriangleRight />Absence Appication</p>
+        <div className="abc-application">
+        <span>
+          <GoTriangleRight />
+        </span>
+        Absence Application
       </div>
-      <div>
-        <h3 className='topic-style'>Absence Records</h3>
+      <div className="abs-topic">
+        <span>Absence Record</span>
       </div>
 
-      <div className='table-design'>
-        <table class="table">
-          <thead style={{ backgroundColor: '#dfeaf5' }}>
-            <tr>
-
-              <th scope="col">Student Name</th>
-              <th scope="col">Registration No.</th>
-              <th scope="col">Absence Module</th>
-              <th scope="col">Absence Date</th>
-              <th scope="col">Absence For</th>
-              <th scope="col">Excuse Application</th>
-              <th scope="col">Action</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {viewLettersLec.map((letter, index) => (
-              <tr key={index}>
-                <td>{letter.absStuName}</td>
-                <td>{letter.absRegNo}</td>
-                <td>{letter.absModName}</td>
-                <td>{letter.absDate}</td>
-                <td>{letter.absLecHours}</td>
-                <td>
-                  <a href={letter.letters.url} target="_blank" rel="noopener noreferrer">
-                    <button className="btn btn-primary">View</button>
-                  </a>
-                </td>
-                <td>
-                  <BsCheckSquareFill style={{ color: "green", fontSize: "18px", cursor: "pointer" }}
-                    onClick={() => handleAccept(letter._id)} />
-                  <span className='delete-icon'>
-                    <BsFillXSquareFill style={{ color: "red", fontSize: "18px", cursor: "pointer" }}
-                      onClick={() => handleReject(letter._id)} />
-                  </span>
-                </td>
-                <td style={{
-                  color: letter.action === true ? "green"
-                    : letter.action === false ? "red" : "blue"
-                }}>
-                  {getActionStatus(letter.action)}
-                </td>
+        <div className='abs-table-wrapper'>
+          <table class="abs-add-table">
+            <thead style={{ backgroundColor: "#dfeaf5", borderRadius: 15 }}>
+              <tr>
+              <th scope="col" style={{ width: "5px", textAlign: "center" }}>
+                #
+              </th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Student Name</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Registration No.</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Absence Module</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Absence Date</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Absence For</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Excuse Application</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Action</th>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>Status</th>
 
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {viewLettersLec.map((letter, index) => (
+                <tr key={index}>
+                  <th style={{ textAlign: "center" }}>{index + 1}</th>
+                  <td>{letter.absStuName}</td>
+                  <td>{letter.absRegNo}</td>
+                  <td>{letter.absModName}</td>
+                  <td>{letter.absDate}</td>
+                  <td>{letter.absLecHours}</td>
+                  <td>
+                    <a href={letter.letters.url} target="_blank" rel="noopener noreferrer">
+                      <button className="btn btn-primary">View</button>
+                    </a>
+                  </td>
+                  <td>
+                    <span className="accept-icon">
+                    <BsCheckSquareFill 
+                      onClick={() => handleAccept(letter._id)} className="accept-i" />
+                    </span>
+                    <span className='delete-icon'>
+                      <BsFillXSquareFill 
+                        onClick={() => handleReject(letter._id)} className="delete-i" />
+                    </span>
+                  </td>
+                  <td style={{
+                    color: letter.action === true ? "green"
+                      : letter.action === false ? "red" : "blue"
+                  }}>
+                    {getActionStatus(letter.action)}
+                  </td>
 
-          </tbody>
-        </table>
+                </tr>
+              ))}
+
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
