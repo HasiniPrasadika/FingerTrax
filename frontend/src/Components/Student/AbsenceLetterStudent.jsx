@@ -1,11 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
+import { MdOutlineCancelPresentation } from "react-icons/md";
+import { useSelector } from "react-redux";
 import ErrorMessage from "../../Components/ErrorMessage";
 import SuccessMessage from "../../Components/SuccessMessage";
-
-
+import './Student Styles/AbsenceLetterStudent.css';
 
 const AbsenceApplication = () => {
 
@@ -126,12 +126,8 @@ const AbsenceApplication = () => {
 
 
   return (
-    <div className="absence-container">
-      <div>
-        <span style={{ padding: "5px", fontSize: "18px", color: "#4154F1" }}>
-          Absence Application
-        </span>
-      </div>
+    <div className="ab">
+      <div className="absence-container">
       <div>
         <span style={{ opacity: "0.8", padding: "5px", fontSize: "12px" }}>
           <GoTriangleRight />
@@ -228,29 +224,12 @@ const AbsenceApplication = () => {
 
               </div>
 
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div className="upload-file" style={{ display: "flex", alignItems: "center" }}>
 
-                <div className="file-border" style={{ flexGrow: 1 }}>
-                  <div>{letters && <p>{letters.name}</p>}</div>
+                <div className="file-border" >
+                  <div style={{display:'flex', overflowX:'hidden'}}>{letters && <p>{letters.name}</p>}</div>
                 </div>
-                <div className="col">
-                  
-                  <div className="row">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      style={{
-                        backgroundColor: "gray",
-                        marginLeft: "10px",
-                        width: "85px",
-                      }}
-                      onClick={resetFileUpload}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-
+                      <MdOutlineCancelPresentation onClick={resetFileUpload} style={{fontSize:'30px', color:'gray'}}/>
               </div>
             </div>
           </div>
@@ -259,13 +238,13 @@ const AbsenceApplication = () => {
             <button
               type="submit"
               className="btn btn-primary"
-              style={{ marginRight: "15px", marginLeft: "700px" }} > Submit
+              style={{ alignItems:'center', marginRight:'20px', justifyContent:"center"}} > Submit
             </button>
 
             <button
               type="button"
               className="btn btn-primary"
-              style={{ backgroundColor: "gray" }}
+              style={{ backgroundColor: "gray" , borderBlockColor:'gray'}}
               onClick={resetHandler}
             >
               Reset
@@ -276,7 +255,7 @@ const AbsenceApplication = () => {
 
 
       <div>
-        <h3 className="topic-style">Excuse Applications</h3>
+        <h4 className="topic-style-ab">Excuse Applications</h4>
       </div>
       <div className="excuse-application">
         <div className="table-design">
@@ -319,6 +298,8 @@ const AbsenceApplication = () => {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 
 }

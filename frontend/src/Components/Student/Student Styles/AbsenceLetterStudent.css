@@ -1,0 +1,118 @@
+.ab {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    background-color: rgb(236, 236, 236);
+}
+
+.absence-container {
+    position: relative;
+    display: flex;
+    width: 99%;
+    border-radius: 10px;
+    background-color: white;
+    margin: 1% 0.5% 0.5% 0.5%;
+    padding: 0;
+    flex-direction: column;
+}
+
+.absence-form-container {
+    position: relative;
+    background-color: #E8F4FF;
+    width: 98%;
+    margin: 1% ;
+    border-radius: 15px;
+    padding: 20px 30px 20px 30px;
+    height: 100%;
+    margin-bottom: 40px;
+    justify-content: center;
+
+}
+
+
+.absence-form-container h4 {
+    text-align: center;
+    color: #153ED0;
+    margin-bottom: 20px;
+}
+
+.topic-style-ab {
+    margin-left: 20px;
+}
+
+.upload-file {
+    background-color: white;
+    height: auto;
+    margin: 10px 0px 20px 0px;
+    width: 95%;
+    place-items: center;
+    
+}
+
+.doted-border {
+    height: auto;
+    width: 98%;
+    border: 1px dashed #000;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    align-items: center;
+}
+
+.upload-button {
+    background-color: white;
+    border: 1px solid #0F91D2;
+    color: #0F91D2;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.upload-button:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #0F91D2;
+
+} 
+
+.upload-file{
+    justify-content: center;
+    margin-left: 10px;
+}
+
+ .file-border {
+    height: 85px;
+    width: 50%;
+    border: 1px solid #000;
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 10px;
+    margin-right: 10px;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0.5;
+    
+
+}
+
+.excuse-application {
+
+    background-color: #E8F4FF;
+    width: 98%;
+    margin: 1%;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    height: auto;
+    margin-bottom: 40px;
+}
+
+
+

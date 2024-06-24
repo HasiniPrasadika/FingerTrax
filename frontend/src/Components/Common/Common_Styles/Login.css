@@ -30,7 +30,7 @@
   position: relative;
   overflow: hidden;
   flex: 1;
-  overflow-y: auto;
+  
 }
 
 .content-bar h1 {
@@ -46,7 +46,7 @@
   width: 100%;
   object-fit: cover;
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .text-content {
@@ -63,7 +63,7 @@
 }
 
 .form_container {
-  background-color: #ffffff42;
+  background-color: #ffffffee;
   padding: 2rem 3rem;
   border-radius: 1.3rem;
   width: 100%;
@@ -112,6 +112,7 @@
   .content-bar {
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
   }
 
   .content-bar h1{
