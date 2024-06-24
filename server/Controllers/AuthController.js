@@ -89,7 +89,7 @@ const changeAdminPassword = asyncHandler(async (req, res) => {
     user.userName = userName;
     user.email = email;
     await user.save();
-    
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -119,7 +119,6 @@ const changeAdminPassword = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 //@description     Register new lecturer user
 //@route           POST /api/users/
@@ -255,7 +254,8 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const updateLecturer = asyncHandler(async (req, res) => {
   const lecID = req.params.id;
-  const { userName, fullName, depName, image, regNo, password, email } = req.body;
+  const { userName, fullName, depName, image, regNo, password, email } =
+    req.body;
 
   const user = await User.findById(lecID);
 
@@ -317,7 +317,6 @@ const updatephoto = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-
   let imageData = user.image;
   if (image && image !== user.image.url) {
     // Delete the existing image from Cloudinary
@@ -335,7 +334,7 @@ const updatephoto = asyncHandler(async (req, res) => {
     };
   }
 
-  user.image = imageData;  
+  user.image = imageData;
 
   const updatedUser = await user.save();
 
@@ -520,22 +519,20 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const deleteLecUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.id);
-  console.log(user);
 
   if (user) {
     if (user.image && user.image.public_id) {
       await cloudinary.uploader.destroy(user.image.public_id); // Delete image from cloudinary
     }
-    
+
     await user.deleteOne();
-    console.log("hi");
+
     res.json({ message: "Lecturer removed" });
   } else {
     res.status(404);
     throw new Error("Lecturer not found");
   }
 });
-
 
 module.exports = {
   authUser,
@@ -552,7 +549,6 @@ module.exports = {
   changePassword,
   updatephoto,
   changeAdminPassword,
-  
 };
 
 // const User = require("../Models/UserModel");

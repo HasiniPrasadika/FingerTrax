@@ -75,6 +75,13 @@ const AddStudent = () => {
 
   const enrollFingerprint = async () => {
     try {
+      if(!fingerprintID){
+        setMessage("Please provide a fingerprint ID");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+        return;
+      }
       const existingUsersResponse = await axios.get(
         "http://localhost:8070/api/users/getstuusers"
       );
@@ -279,13 +286,13 @@ const AddStudent = () => {
       axios
         .post("http://localhost:8070/api/users/myd", { id }) // Include the id in the URL
         .then((response) => {
-          set(ref(fireDb, "FingerprintData/"), {
-            stuRegNo: student.regNo,
-            stuFingerprintID: student.fingerprintID,
-          });
-          set(ref(fireDb, "State/"), {
-            arduinoState: "2",
-          });
+          // set(ref(fireDb, "FingerprintData/"), {
+          //   stuRegNo: student.regNo,
+          //   stuFingerprintID: student.fingerprintID,
+          // });
+          // set(ref(fireDb, "State/"), {
+          //   arduinoState: "2",
+          // });
           setSMessage("Student Deleted successfully!");
           setTimeout(() => {
             setSMessage(null);
