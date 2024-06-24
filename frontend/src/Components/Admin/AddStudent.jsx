@@ -274,11 +274,18 @@ const AddStudent = () => {
       setFilteredStuusers(stuusers);
     }
   };
-  const deleteStudent = (id) => {
+  const deleteStudent = (id, student) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       axios
         .post("http://localhost:8070/api/users/myd", { id }) // Include the id in the URL
         .then((response) => {
+          set(ref(fireDb, "FingerprintData/"), {
+            stuRegNo: student.regNo,
+            stuFingerprintID: student.fingerprintID,
+          });
+          set(ref(fireDb, "State/"), {
+            arduinoState: "2",
+          });
           setSMessage("Student Deleted successfully!");
           setTimeout(() => {
             setSMessage(null);
@@ -601,7 +608,7 @@ const AddStudent = () => {
                   <td style={{ textAlign: "center" }}>
                     <button
                       className="btn btn-danger dep-del"
-                      onClick={() => deleteStudent(student._id)}
+                      onClick={() => deleteStudent(student._id, student)}
                     >
                       <RiDeleteBin6Line
                         className="add-dep-del"

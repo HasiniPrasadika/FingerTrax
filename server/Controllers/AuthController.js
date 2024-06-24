@@ -520,6 +520,23 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const deleteLecUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.id);
+  console.log(user);
+
+  if (user) {
+    if (user.image && user.image.public_id) {
+      await cloudinary.uploader.destroy(user.image.public_id); // Delete image from cloudinary
+    }
+    
+    await user.deleteOne();
+    console.log("hi");
+    res.json({ message: "Lecturer removed" });
+  } else {
+    res.status(404);
+    throw new Error("Lecturer not found");
+  }
+});
+const deleteStuUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.body.id);
 
   if (user) {
     if (user.image && user.image.public_id) {
@@ -548,6 +565,7 @@ module.exports = {
   changePassword,
   updatephoto,
   changeAdminPassword,
+  deleteStuUser,
 };
 
 // const User = require("../Models/UserModel");
