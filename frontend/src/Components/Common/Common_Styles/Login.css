@@ -69,20 +69,26 @@
   width: 100%;
   margin: 75px;
   max-width: 350px;
-  height: 350px;
+  height: 400px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
   box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
 }
 
 .form_container form {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 1.4rem;
+  margin-top: 30px;
 }
 
 .form_container div {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  position: relative;
 }
 
 .form_container input {

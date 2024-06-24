@@ -10,14 +10,11 @@ import { logout } from "../../actions/userActions";
 import "./Common_Styles/SideBar.css";
 
 const Sidebar = (props) => {
-  
   const navigate = useNavigate();
   let menuItem = props.menu;
 
-
   return (
     <div className="side-container">
-      
       <div className="top_section">
         <img src="/Images/logo2.png" alt="Logo" />
       </div>

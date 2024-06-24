@@ -31,8 +31,8 @@
   margin-top: 10%;
   margin-left: 10%;
   margin-bottom: 10%;
+  margin-right: 10%;
   position: relative;
-  
   justify-content: left;
   align-items: center;
   cursor: pointer;
@@ -42,6 +42,7 @@
   background: lightskyblue;
   color: #000;
   transition: all 0.5s;
+  margin-right: 15px;
 }
 
 .active {

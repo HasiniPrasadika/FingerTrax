@@ -424,6 +424,7 @@ const AddLecturer = () => {
                   type="submit"
                   className="btn btn-primary dep-form-hor"
                   onClick={submitHandler}
+                  style={{marginLeft:'130px'}}
                 >
                   {editMode ? "Edit" : "Add"}
                 </button>
@@ -511,7 +512,7 @@ const AddLecturer = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination" style={{ marginLeft: "10px" }}>
+        <div className="pagination" style={{ margin: "20px" }}>
           <button
             className="btn btn-primary"
             onClick={handlePreviousPage}
