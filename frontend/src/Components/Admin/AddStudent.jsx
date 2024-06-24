@@ -2,15 +2,15 @@ import { Select } from "antd";
 import axios from "axios";
 import { ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import { FaTrashAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { LuFingerprint } from "react-icons/lu";
 import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
+import SuccessMessage from "../../Components/SuccessMessage";
 import { fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
-import SuccessMessage from "../../Components/SuccessMessage";
-import "./Admin Styles/AddStudent.css";
 import "./Admin Styles/AddLecturer.css";
+import "./Admin Styles/AddStudent.css";
 
 const AddStudent = () => {
   const [userName, setuserName] = useState("");
@@ -340,7 +340,9 @@ const AddStudent = () => {
               onClick={enrollFingerprint}
               className="btn btn-primary fingerprint-enroll"
             >
-              <LuFingerprint /> Enroll Fingerprint
+              <LuFingerprint style={{
+                marginTop:'5px', marginRight:'5px'
+              }}/> Enroll Fingerprint
             </button>
           </div>
           <div className="lecturer-add-form">
@@ -532,19 +534,20 @@ const AddStudent = () => {
               </div>
               <div
                 className="form-group row"
-                style={{ justifyContent: "center" }}
+                style={{ justifyContent: "center"}}
               >
                 <button
                   type="submit"
                   className="btn btn-primary dep-form-hor"
                   onClick={submitHandler}
+                  style={{marginLeft:'130px'}}
                 >
                   {editMode ? "Edit" : "Add"}
                 </button>
                 <button
                   className="btn btn-primary dep-form-hor"
                   onClick={resetHandler}
-                  style={{ backgroundColor: "grey" }}
+                  style={{ backgroundColor: "grey", borderBlockColor:'gray' }}
                   type="reset"
                 >
                   Reset
@@ -630,7 +633,7 @@ const AddStudent = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination" style={{ marginLeft: "10px" }}>
+        <div className="pagination" style={{ margin: "20px" }}>
           <button
             className="btn btn-primary"
             onClick={handlePreviousPage}

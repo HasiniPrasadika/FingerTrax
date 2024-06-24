@@ -2,6 +2,7 @@ import { React, useEffect } from "react";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -74,7 +75,7 @@ const Dashboard = () => {
           {
             path: "/dashboard/admin_profile",
             name: "Profile",
-            icon: <PiStudentBold />,
+            icon: <CgProfile />,
           },
           {
             path: "/logout",
