@@ -96,8 +96,9 @@ const EnrollModule = () => {
             />
             <button
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-primary enrollbtn"
               onClick={() => enrollHandler(module)}
+              
             >
               Enroll Me
             </button>

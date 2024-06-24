@@ -34,7 +34,8 @@
 }
 .en-topic{
     margin: 1% 2% 0% 2%;
-  font-size: 2vw;
+  font-size: 20px;
+  font-weight: bold;
   width: 96%;
   display: flex;
   position: relative;
@@ -44,6 +45,8 @@
 }
 .en-details{
     display: flex;
+    width: 94%;
+    height: auto;
     background-color: #e8f4ff;
     margin: 2%;
     border-radius: 15px;
@@ -55,7 +58,6 @@
 .department-button {
     text-align: left;
     border-radius: 5px;   
-    height: 35px;
     background-color: #003566;
     color: #fff;
     margin: 10px;
