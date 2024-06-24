@@ -31,6 +31,7 @@ import EnrollSemester from "../Student/EnrollSemester";
 import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
 
+
 import StudentDashboard from "../Student/StudentDashboard";
 import StudentProfile from "../Student/StudentProfile";
 import Footer from "./Footer";
@@ -175,7 +176,7 @@ const Dashboard = () => {
                     path="/student_absence_letter"
                     element={<AbsenceLetterStudent />}
                   />
-                  <Route path="/student_profile" element={<StudentProfile />} />
+                  <Route path="/student_profile" element={<LectureProfile />} />
                   <Route
                     path="/view_module/:moduleId"
                     element={<AttendanceRecord />}

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authUser,deleteLecUser, registerAdminUser, registerLecUser, registerStuUser, updateUserProfile, getLecUsers, getStuUsers, getCurrentUser, updateLecturer, updateStudent } = require("../Controllers/AuthController.js");
+const { authUser,deleteLecUser, registerAdminUser, registerLecUser, registerStuUser, updateUserProfile, getLecUsers, getStuUsers, getCurrentUser, updateLecturer, updateStudent, changePassword, updatephoto } = require("../Controllers/AuthController.js");
 const { protect } = require("../Middlewares/AuthMiddleware.js");
 
 router.post("/regadmin", registerAdminUser);
@@ -14,6 +14,8 @@ router.post("/currentuser", getCurrentUser);
 router.post("/myd", deleteLecUser);
 router.put("/updateuser/:id", updateLecturer);
 router.put("/updatestuuser/:id", updateStudent);
+router.post("/change-password", changePassword);
+router.post("/updateimage", updatephoto);
 module.exports = router;
 
 
