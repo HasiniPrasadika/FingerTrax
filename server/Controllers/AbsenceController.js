@@ -87,7 +87,7 @@ const getLetterLec = asyncHandler (async (req, res) => {
     const modules = await Module.find({"modCoordinator.regNo": lecRegNo}).select('modCode');
     const modCodes = modules.map(module => module.modCode);
 
-    const absenceView = await AbsenceLetter.find({absModCode : { $in: modCodes }}).select('absStuName absRegNo absModName absDate absLecHours letters');
+    const absenceView = await AbsenceLetter.find({absModCode : { $in: modCodes }}).select('absStuName absRegNo absModName absDate absLecHours letters action');
     res.json(absenceView);
 
 });
