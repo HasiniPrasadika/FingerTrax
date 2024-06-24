@@ -1,4 +1,4 @@
-.absence{
+.absense-letter-lec {
     position: relative;
     width: 100%;
     height: 100%;
@@ -10,7 +10,7 @@
     background-color: rgb(236, 236, 236);
 }
 
-.absence-letter-container{
+.absense_lec_record_container {
     width: 99%;
     border-radius: 10px;
     margin: 1% 0.5% 0.5% 0.5%;
@@ -19,30 +19,138 @@
     flex-direction: column;
     z-index: 1000;
     background-color: white;
-    
-    
+
+
 }
-.absence-path-style{
+
+.abc-application {
+    position: relative;
+    display: flex;
+    opacity: "0.8";
+    margin: 1%;
+    font-size: 12px;
+    width: 98%;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.abs-topic {
+    margin: 1% 2% 0% 2%;
+    font-size: 20px;
+    width: 96%;
+    font-weight: bold;
+    display: flex;
+    position: relative;
+    align-items: center;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+}
+
+.absence {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    background-color: rgb(236, 236, 236);
+}
+
+.absence-letter-container {
+    width: 99%;
+    border-radius: 10px;
+    margin: 1% 0.5% 0.5% 0.5%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    background-color: white;
+
+
+}
+
+.abs-table-wrapper {
+    overflow-x: auto;
+    position: relative;
+    background-color: white;
+
+    display: flex;
+
+    margin: 2%;
+    border-radius: 15px;
+    justify-content: left;
+}
+
+
+.abs-add-table {
+    width: 100%;
+    min-width: 400px;
+    margin: 0;
+    position: relative;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.abs-add-table th,
+.abs-add-table td,
+.abs-add-table tr {
+    padding: 8px;
+    text-align: left;
+}
+
+.absence-path-style {
     margin-left: 25px;
     font-size: 12px;
 }
-.absence-topic-style{
+
+.absence-topic-style {
     margin: 0px 0px 15px 25px;
     color: #072f75;
     font-weight: bold;
     font-size: larger;
 
 }
-.view{
+
+.view {
     display: flex;
     flex-direction: column;
     color: #012970;
     font-family: "Poppins", sans-serif;
     margin: 2%;
     font-size: 20px;
-  font-weight: bold;
+    font-weight: bold;
 }
-.absence-table-design{
+
+.absence-table-design {
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.accept-icon {
+    color: green;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+
+
+
+.delete-icon {
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.accept-i:hover {
+    filter: drop-shadow(0px 0px 1px green);
+}
+
+.delete-i:hover {
+    filter: drop-shadow(0px 0px 1px red);
 }
