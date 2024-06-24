@@ -51,7 +51,12 @@ const StudentDashboard = () => {
       </div>
 
       <div className="student-content-container">
-        {modules.map((module, index) => (
+      <div className="student-module-content">
+          <h4 className="enrolled-status">Enrolled Status</h4>
+          
+        </div>
+       <div className="stu-module-container">
+       {modules.map((module, index) => (
           <div className="module-box" key={index}>
             <div className="module-name">
               <div style={{ fontWeight: "bold", margin: "5px" }}>
@@ -75,6 +80,7 @@ const StudentDashboard = () => {
             </div>
           </div>
         ))}
+       </div>
       </div>
     </div>
   );

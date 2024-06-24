@@ -1,6 +1,6 @@
 .en-self-topic{
     margin: 1% 2% 0% 2%;
-  font-size: 1.5vw;
+  font-size: 18px;
   width: 96%;
   display: flex;
   position: relative;
@@ -10,10 +10,37 @@
     
 }
 .enroll-key-box {
-  
+  display: flex;
+  position: relative;
     padding: 20px;
-    margin: 1% 2% 1% 2%;
-    height: 150px;
-    width: 350px;
+    margin: 2%;
+    width: 96%;
     
+}
+.enroll-key-box input {
+  
+ 
+  margin: 1% 2% 1% 2%;
+}
+.enrollbtn{
+  width: 100px;
+  height: 40px;
+}
+
+@media (max-width: 460px) {
+  .enroll-key-box {
+    flex-direction: column;
+  }
+
+  .enroll-key-box input {
+  
+ 
+    margin: 1% 2% 1% 2%;
+    
+    
+  }
+  .enroll-key-box button{
+    margin: 1% 2% 1% 2%;
+    width: 40%;
+  }
 }
