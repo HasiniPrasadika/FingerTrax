@@ -64,6 +64,63 @@ const registerAdminUser = asyncHandler(async (req, res) => {
   }
 });
 
+const changeAdminPassword = asyncHandler(async (req, res) => {
+  const { userName, currentPassword, newpassword, email, username } = req.body;
+
+  try {
+    // Find user by username
+    const user = await User.findOne({ userName: username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect current password" });
+    }
+
+    // Generate salt and hash new password
+
+    // Update user's password
+    user.password = newpassword;
+    user.userName = userName;
+    user.email = email;
+    await user.save();
+    
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fingertrax22@gmail.com",
+        pass: "yvpwcljinqdwuqzl", // Use environment variables or a secure method to store your password
+      },
+    });
+
+    const mailOptions = {
+      from: "fingertrax22@gmail.com",
+      to: user.email,
+      subject: "Admin Details changed",
+      text: `Dear Admin,\n\nAdmin Password, Username and Email has been changed.\n\nBest Regards,\nFingerTrax Team`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json({ message: "Details changed successfully" });
+  } catch (error) {
+    console.error("Error changing details:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
 //@description     Register new lecturer user
 //@route           POST /api/users/
 //@access          Public
@@ -198,7 +255,7 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const updateLecturer = asyncHandler(async (req, res) => {
   const lecID = req.params.id;
-  const { userName, fullName, depName, image, regNo, password } = req.body;
+  const { userName, fullName, depName, image, regNo, password, email } = req.body;
 
   const user = await User.findById(lecID);
 
@@ -236,6 +293,7 @@ const updateLecturer = asyncHandler(async (req, res) => {
   user.depName = depName;
   user.image = imageData;
   user.regNo = regNo;
+  user.email = email;
 
   const updatedUser = await user.save();
 
@@ -302,6 +360,7 @@ const registerStuUser = asyncHandler(async (req, res) => {
     regNo,
     fingerprintID,
     batch,
+    email,
   } = req.body;
 
   const userExists = await User.findOne({ userName });
@@ -332,6 +391,7 @@ const registerStuUser = asyncHandler(async (req, res) => {
     fingerprintID,
     batch,
     role: "student",
+    email,
   });
 
   if (user) {
@@ -344,6 +404,7 @@ const registerStuUser = asyncHandler(async (req, res) => {
       depName: user.fullName,
       image: user.image,
       regNo: user.regNo,
+      email: user.email,
       fingerprintID: user.fingerprintID,
       batch: user.batch,
       token: generateToken(user._id),
@@ -355,7 +416,7 @@ const registerStuUser = asyncHandler(async (req, res) => {
 });
 const updateStudent = asyncHandler(async (req, res) => {
   const stuID = req.params.id;
-  const { userName, fullName, depName, image, regNo, batch } = req.body;
+  const { userName, fullName, depName, image, regNo, batch, email } = req.body;
 
   const user = await User.findById(stuID);
 
@@ -394,6 +455,7 @@ const updateStudent = asyncHandler(async (req, res) => {
   user.image = imageData;
   user.regNo = regNo;
   user.batch = batch;
+  user.email = email;
 
   const updatedUser = await user.save();
 
@@ -485,6 +547,7 @@ module.exports = {
   updateStudent,
   changePassword,
   updatephoto,
+  changeAdminPassword,
 };
 
 // const User = require("../Models/UserModel");

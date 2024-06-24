@@ -23,6 +23,7 @@ const AddStudent = () => {
   const [fingerprintID, setfingerprintID] = useState("");
   const [image, setimage] = useState("");
   const [departments, setDepartments] = useState([]);
+  const [email, setEmail] = useState("");
   const [stuusers, setStuusers] = useState([]);
   const [filteredStuusers, setFilteredStuusers] = useState([]);
   const [searchRegNo, setSearchRegNo] = useState("");
@@ -109,11 +110,21 @@ const AddStudent = () => {
       }, 3000);
     }
   };
-
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   const submitHandler = (e) => {
     try {
       e.preventDefault();
       if (editMode) {
+        if (!validateEmail(email)) {
+          setMessage("Invalid email address");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
         if (password) {
           setMessage("You cannot Change the Password!");
           setTimeout(() => {
@@ -173,6 +184,13 @@ const AddStudent = () => {
           }, 3000);
           return;
         }
+        if (!validateEmail(email)) {
+          setMessage("Invalid email address");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
         axios
           .post("http://localhost:8070/api/users/regstu", {
             userName,
@@ -222,6 +240,7 @@ const AddStudent = () => {
     setdepName("");
     setfingerprintID("");
     setbatch("");
+    setEmail("");
     setimage("");
     setPrevFingerID("");
     setEditMode(false); // Reset edit mode
@@ -236,6 +255,7 @@ const AddStudent = () => {
     setPrevFingerID(student.fingerprintID);
     setbatch(student.batch);
     setdepName(student.depName);
+    setEmail(student.email);
     setimage(student.image.url);
     setEditMode(true); // Switch to edit mode
     setCurrentStudentID(student._id); // Set the ID of the lecturer being edited
@@ -294,314 +314,335 @@ const AddStudent = () => {
 
   return (
     <div className="addstu">
-      <div className="add_student-container" >
-      <div className="lec-navigate">
-        <span>
-          <GoTriangleRight />
-        </span>
-        Student
-      </div>
-      <div className="lecturer-details">
-        <div className="lecture-photo-area">
-          <h3 className="photo-area-name">Add a Student</h3>
-          <img
-            src={image ? image : "/Images/profile.webp"}
-            alt="Profile"
-            className="profile-photo-preview"
+      <div className="add_student-container">
+        <div className="lec-navigate">
+          <span>
+            <GoTriangleRight />
+          </span>
+          Student
+        </div>
+        <div className="lecturer-details">
+          <div className="lecture-photo-area">
+            <h3 className="photo-area-name">Add a Student</h3>
+            <img
+              src={image ? image : "/Images/profile.webp"}
+              alt="Profile"
+              className="profile-photo-preview"
+            />
+            <button
+              onClick={enrollFingerprint}
+              className="btn btn-primary fingerprint-enroll"
+            >
+              <LuFingerprint /> Enroll Fingerprint
+            </button>
+          </div>
+          <div className="lecturer-add-form">
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && (
+              <SuccessMessage variant="success">{smessage}</SuccessMessage>
+            )}
+            <form
+              onSubmit={submitHandler}
+              className="form-style"
+              style={{ margin: "2% 5% 2% 5%", width: "90%" }}
+            >
+              <div className="form-group row">
+                <label
+                  htmlFor="fullName"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Full Name :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    value={fullName}
+                    className="form-control"
+                    placeholder="FullName"
+                    onChange={(e) => setfullName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="regNo"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Registration Number :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="regNo"
+                    name="regNo"
+                    value={regNo}
+                    placeholder="Registration Number"
+                    onChange={(e) => setregNo(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="userName"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Username :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="text"
+                    value={userName}
+                    id="userName"
+                    name="userName"
+                    className="form-control"
+                    placeholder="Username"
+                    onChange={(e) => setuserName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="password"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Password :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={password}
+                    className="form-control"
+                    placeholder="Password"
+                    onChange={(e) => setpassword(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="email"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Email :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={email}
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group row">
+                <label
+                  htmlFor="depName"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Department Name :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <Select
+                    value={depName}
+                    onChange={(value) => setdepName(value)}
+                    placeholder="Select department"
+                    style={{ width: "100%" }}
+                  >
+                    {departments.map((department) => (
+                      <Select.Option
+                        key={department._id}
+                        value={department.depName}
+                        style={{ width: "520px", height: "40px" }}
+                      >
+                        {department.depName}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="fingerprintID"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Fingerprint ID :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="text"
+                    id="fingerprintID"
+                    name="fingerprintID"
+                    value={fingerprintID}
+                    className="form-control"
+                    placeholder="Fingerprint ID"
+                    onChange={(e) => setfingerprintID(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="batch"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Batch :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="text"
+                    value={batch}
+                    id="batch"
+                    name="batch"
+                    className="form-control"
+                    placeholder="Batch"
+                    onChange={(e) => setbatch(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="image"
+                  className="col-sm-4 col-form-label dep-form-hor"
+                >
+                  Profile Image :
+                </label>
+                <div className="col-sm-8 dep-form-hor">
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="image"
+                    onChange={handleImage}
+                  />
+                </div>
+              </div>
+              <div
+                className="form-group row"
+                style={{ justifyContent: "center" }}
+              >
+                <button
+                  type="submit"
+                  className="btn btn-primary dep-form-hor"
+                  onClick={submitHandler}
+                >
+                  {editMode ? "Edit" : "Add"}
+                </button>
+                <button
+                  className="btn btn-primary dep-form-hor"
+                  onClick={resetHandler}
+                  style={{ backgroundColor: "grey" }}
+                  type="reset"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="dep-topic">
+          <span>List of Students</span>
+        </div>
+
+        <div className="dep-topic">
+          <input
+            type="text"
+            placeholder="Search by Registration Number eg: stuxxx"
+            value={searchRegNo}
+            onChange={handleSearch}
+            className="form-control"
+            style={{ width: "320px" }}
           />
+        </div>
+        <div className="dep-table-wrapper">
+          <table className="dep-add-table">
+            <thead style={{ backgroundColor: "#dfeaf5", borderRadius: 15 }}>
+              <tr>
+                <th scope="col" style={{ width: "5px", textAlign: "center" }}>
+                  #
+                </th>
+                <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                  Full Name
+                </th>
+                <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                  Registration Number
+                </th>
+                <th scope="col" style={{ width: "25px" }}>
+                  Department
+                </th>
+                <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                  Batch
+                </th>
+                <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                  Fingerprint ID
+                </th>
+                <th scope="col" style={{ width: "20px", textAlign: "center" }}>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedStudents.map((student, index) => (
+                <tr key={index}>
+                  <td style={{ textAlign: "center" }}>{index + 1}</td>
+                  <td style={{ textAlign: "center" }}>{student.fullName}</td>
+                  <td style={{ textAlign: "center" }}>{student.regNo}</td>
+                  <td>{student.depName}</td>
+                  <td style={{ textAlign: "center" }}>{student.batch}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {student.fingerprintID}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    <button
+                      className="btn btn-danger dep-del"
+                      onClick={() => deleteStudent(student._id)}
+                    >
+                      <RiDeleteBin6Line
+                        className="add-dep-del"
+                        style={{ fontSize: "20px" }}
+                      />
+                    </button>
+                    <button
+                      className="btn btn-primary dep-edit"
+                      onClick={() => editStudent(student)}
+                    >
+                      <RiEdit2Line
+                        className="add-dep-edit"
+                        style={{ fontSize: "20px" }}
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="pagination" style={{ marginLeft: "10px" }}>
           <button
-            onClick={enrollFingerprint}
-            className="btn btn-primary fingerprint-enroll"
+            className="btn btn-primary"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
           >
-            <LuFingerprint /> Enroll Fingerprint
+            <FaChevronLeft />
+          </button>
+          <span style={{ margin: "0 10px" }}>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="btn btn-primary"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <FaChevronRight />
           </button>
         </div>
-        <div className="lecturer-add-form">
-          {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-          {smessage && (
-            <SuccessMessage variant="success">{smessage}</SuccessMessage>
-          )}
-          <form
-            onSubmit={submitHandler}
-            className="form-style"
-            style={{ margin: "2% 5% 2% 5%", width: "90%" }}
-          >
-            <div className="form-group row">
-              <label
-                htmlFor="fullName"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Full Name :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={fullName}
-                  className="form-control"
-                  placeholder="FullName"
-                  onChange={(e) => setfullName(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label
-                htmlFor="regNo"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Registration Number :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="regNo"
-                  name="regNo"
-                  value={regNo}
-                  placeholder="Registration Number"
-                  onChange={(e) => setregNo(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="userName"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Username :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="text"
-                  value={userName}
-                  id="userName"
-                  name="userName"
-                  className="form-control"
-                  placeholder="Username"
-                  onChange={(e) => setuserName(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label
-                htmlFor="password"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Password :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  className="form-control"
-                  placeholder="Password"
-                  onChange={(e) => setpassword(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="form-group row">
-              <label
-                htmlFor="depName"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Department Name :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <Select
-                  value={depName}
-                  onChange={(value) => setdepName(value)}
-                  placeholder="Select department"
-                  style={{ width: "100%" }}
-                >
-                  {departments.map((department) => (
-                    <Select.Option
-                      key={department._id}
-                      value={department.depName}
-                      style={{ width: "520px", height: "40px" }}
-                    >
-                      {department.depName}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-            <div className="form-group row">
-              <label
-                htmlFor="fingerprintID"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Fingerprint ID :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="text"
-                  id="fingerprintID"
-                  name="fingerprintID"
-                  value={fingerprintID}
-                  className="form-control"
-                  placeholder="Fingerprint ID"
-                  onChange={(e) => setfingerprintID(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label
-                htmlFor="batch"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Batch :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="text"
-                  value={batch}
-                  id="batch"
-                  name="batch"
-                  className="form-control"
-                  placeholder="Batch"
-                  onChange={(e) => setbatch(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <label
-                htmlFor="image"
-                className="col-sm-4 col-form-label dep-form-hor"
-              >
-                Profile Image :
-              </label>
-              <div className="col-sm-8 dep-form-hor">
-                <input
-                  type="file"
-                  className="form-control"
-                  id="image"
-                  onChange={handleImage}
-                />
-              </div>
-            </div>
-            <div
-              className="form-group row"
-              style={{ justifyContent: "center" }}
-            >
-              <button
-                type="submit"
-                className="btn btn-primary dep-form-hor"
-                onClick={submitHandler}
-              >
-                {editMode ? "Edit" : "Add"}
-              </button>
-              <button
-                className="btn btn-primary dep-form-hor"
-                onClick={resetHandler}
-                style={{ backgroundColor: "grey" }}
-                type="reset"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-        </div>
       </div>
-      <div className="dep-topic">
-        <span>List of Students</span>
-      </div>
-
-      <div className="dep-topic">
-        <input
-          type="text"
-          placeholder="Search by Registration Number eg: stuxxx"
-          value={searchRegNo}
-          onChange={handleSearch}
-          className="form-control"
-          style={{ width: "320px" }}
-        />
-      </div>
-      <div className="dep-table-wrapper">
-        <table className="dep-add-table">
-          <thead style={{ backgroundColor: "#dfeaf5", borderRadius: 15 }}>
-            <tr>
-              <th scope="col" style={{ width: "5px", textAlign: "center" }}>
-                #
-              </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
-                Full Name
-              </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
-                Registration Number
-              </th>
-              <th scope="col" style={{ width: "25px" }}>
-                Department
-              </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
-                Batch
-              </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
-                Fingerprint ID
-              </th>
-              <th scope="col" style={{ width: "20px", textAlign: "center" }}>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedStudents.map((student, index) => (
-              <tr key={index}>
-                <td style={{ textAlign: "center" }}>{index + 1}</td>
-                <td style={{ textAlign: "center" }}>{student.fullName}</td>
-                <td style={{ textAlign: "center" }}>{student.regNo}</td>
-                <td>{student.depName}</td>
-                <td style={{ textAlign: "center" }}>{student.batch}</td>
-                <td style={{ textAlign: "center" }}>{student.fingerprintID}</td>
-                <td style={{ textAlign: "center" }}>
-                  <button
-                    className="btn btn-danger dep-del"
-                    onClick={() => deleteStudent(student._id)}
-                  >
-                    <RiDeleteBin6Line
-                      className="add-dep-del"
-                      style={{ fontSize: "20px" }}
-                    />
-                  </button>
-                  <button
-                    className="btn btn-primary dep-edit"
-                    onClick={() => editStudent(student)}
-                  >
-                    <RiEdit2Line
-                      className="add-dep-edit"
-                      style={{ fontSize: "20px" }}
-                    />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="pagination" style={{ marginLeft: "10px" }}>
-        <button
-          className="btn btn-primary"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          <FaChevronLeft />
-        </button>
-        <span style={{ margin: "0 10px" }}>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          className="btn btn-primary"
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-        >
-          <FaChevronRight />
-        </button>
-      </div>
-    </div>
     </div>
   );
 };
