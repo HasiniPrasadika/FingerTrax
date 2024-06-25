@@ -111,14 +111,15 @@ const AdminProfile = () => {
             <img src="/Images/change-password.png" alt="password"/>
           </div>
           <div className="lecturer-add-form">
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {smessage && (
-              <SuccessMessage variant="success">{smessage}</SuccessMessage>
-            )}
+            
             <form
               onSubmit={passwordSubmitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
+              {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && (
+              <SuccessMessage variant="success">{smessage}</SuccessMessage>
+            )}
               <div className="form-group row">
                 <label
                   htmlFor="currentPassword"

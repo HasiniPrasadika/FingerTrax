@@ -1,6 +1,5 @@
 import { Select } from "antd";
 import axios from "axios";
-import { ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
@@ -8,6 +7,7 @@ import { LuFingerprint } from "react-icons/lu";
 import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
 import { db, fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
+import { getDatabase, ref, get, child, set, remove } from "firebase/database";
 import SuccessMessage from "../../Components/SuccessMessage";
 import "./Admin Styles/AddStudent.css";
 import "./Admin Styles/AddLecturer.css";
@@ -90,11 +90,6 @@ const AddStudent = () => {
       set(ref(db, "State/"), {
         arduinoState: "1",
       });
-
-      setSMessage("Fingerprint enrolled successfully!");
-      setTimeout(() => {
-        setSMessage(null);
-      }, 3000);
     } catch (error) {
       setMessage("Failed to enroll fingerprint!");
       setTimeout(() => {
@@ -350,21 +345,27 @@ const AddStudent = () => {
               onClick={enrollFingerprint}
               className="btn btn-primary fingerprint-enroll"
             >
-              <LuFingerprint style={{
-                marginTop:'5px', marginRight:'5px'
-              }}/> Enroll Fingerprint
+              <LuFingerprint
+                style={{
+                  marginTop: "5px",
+                  marginRight: "5px",
+                }}
+              />{" "}
+              Enroll Fingerprint
             </button>
           </div>
           <div className="lecturer-add-form">
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {smessage && (
-              <SuccessMessage variant="success">{smessage}</SuccessMessage>
-            )}
             <form
               onSubmit={submitHandler}
               className="form-style"
               style={{ margin: "2% 5% 2% 5%", width: "90%" }}
             >
+              {message && (
+                <ErrorMessage variant="danger">{message}</ErrorMessage>
+              )}
+              {smessage && (
+                <SuccessMessage variant="success">{smessage}</SuccessMessage>
+              )}
               <div className="form-group row">
                 <label
                   htmlFor="fullName"
@@ -544,20 +545,20 @@ const AddStudent = () => {
               </div>
               <div
                 className="form-group row"
-                style={{ justifyContent: "center"}}
+                style={{ justifyContent: "center" }}
               >
                 <button
                   type="submit"
                   className="btn btn-primary dep-form-hor"
                   onClick={submitHandler}
-                  style={{marginLeft:'130px'}}
+                  style={{ marginLeft: "130px" }}
                 >
                   {editMode ? "Edit" : "Add"}
                 </button>
                 <button
                   className="btn btn-primary dep-form-hor"
                   onClick={resetHandler}
-                  style={{ backgroundColor: "grey", borderBlockColor:'gray' }}
+                  style={{ backgroundColor: "grey", borderBlockColor: "gray" }}
                   type="reset"
                 >
                   Reset

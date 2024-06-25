@@ -271,14 +271,15 @@ const AddLecturer = () => {
             />
           </div>
           <div className="lecturer-add-form">
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {smessage && (
-              <SuccessMessage variant="success">{smessage}</SuccessMessage>
-            )}
+            
             <form
               onSubmit={submitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
+            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+            {smessage && (
+              <SuccessMessage variant="success">{smessage}</SuccessMessage>
+            )}
               <div className="form-group row">
                 <label
                   htmlFor="fullName"

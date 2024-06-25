@@ -31,7 +31,10 @@ const LectureProfile = () => {
       }
 
       axios
-        .post(`http://localhost:8070/api/users/updateimage`, { image, username })
+        .post(`http://localhost:8070/api/users/updateimage`, {
+          image,
+          username,
+        })
         .then((response) => {
           setISMessage("Profile Photo updated successfully!");
           setTimeout(() => {
@@ -145,16 +148,16 @@ const LectureProfile = () => {
             />
           </div>
           <div className="lecturer-add-form">
-            {imessage && (
-              <ErrorMessage variant="danger">{imessage}</ErrorMessage>
-            )}
-            {ismessage && (
-              <SuccessMessage variant="success">{ismessage}</SuccessMessage>
-            )}
             <form
               onSubmit={submitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
+              {imessage && (
+                <ErrorMessage variant="danger">{imessage}</ErrorMessage>
+              )}
+              {ismessage && (
+                <SuccessMessage variant="success">{ismessage}</SuccessMessage>
+              )}
               <div className="form-group row">
                 <label
                   htmlFor="image"
@@ -173,7 +176,7 @@ const LectureProfile = () => {
               </div>
               <div
                 className="form-group row"
-                style={{ justifyContent: "center"}}
+                style={{ justifyContent: "center" }}
               >
                 <button
                   type="submit"
@@ -199,17 +202,19 @@ const LectureProfile = () => {
         <div className="lecturer-details">
           <div className="lecture-photo-area">
             <h3 className="photo-area-name"> Change Passsword</h3>
-            <img src="/Images/change-password.png" alt="password"/>
+            <img src="/Images/change-password.png" alt="password" />
           </div>
           <div className="lecturer-add-form">
-            {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-            {smessage && (
-              <SuccessMessage variant="success">{smessage}</SuccessMessage>
-            )}
             <form
               onSubmit={submitHandler}
               style={{ margin: "2% 10% 2% 10%", width: "80%" }}
             >
+              {message && (
+                <ErrorMessage variant="danger">{message}</ErrorMessage>
+              )}
+              {smessage && (
+                <SuccessMessage variant="success">{smessage}</SuccessMessage>
+              )}
               <div className="form-group row">
                 <label
                   htmlFor="currentPassword"

@@ -64,7 +64,7 @@ const AbsenceApplication = () => {
             }, 3000);
           }
           else if (error.response.status === 400) {
-            setMessage("Only pdf files are allowed for submission!");
+            setMessage("Error Submitting Absence Letter!");
             setTimeout(() => {
               setMessage(null);
             }, 3000);
