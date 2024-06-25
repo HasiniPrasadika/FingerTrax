@@ -8,21 +8,21 @@ const { Error } = require("mongoose");
 
 const addLetter = asyncHandler(async (req, res) => {
 
-    const { absStuName, absRegNo, absModCode, absModName, absDate, absLecHours, description } = req.body;   
+    const { absStuName, absRegNo, absModCode, absModName, absDate, absLecHours, description } = req.body;
     const file = req.file;
-    
-    if(!file || file.mimetype !== "application/pdf"){
+
+    if (!file || file.mimetype !== "application/pdf") {
         res.status(400);
-        throw new Error("Only pdf files are allowed for submission!");              
+        throw new Error("Only pdf files are allowed for submission!");
     }
 
     const result = await cloudinary.uploader.upload(file.path, {
-        folder : "fingertrax",
-        resource_type : "raw"
+        folder: "fingertrax",
+        resource_type: "raw"
     });
 
     fs.unlink(file.path, (err) => {
-        if(err){
+        if (err) {
             console.error("Failed to delete file from Uploads :", err);
         } else {
             console.log("file deleted successfully");
@@ -34,7 +34,7 @@ const addLetter = asyncHandler(async (req, res) => {
     if (letterExists) {
         res.status(404);
         throw new Error("Absence Letter is already submitted");
-    } 
+    }
 
     const absenceLetter = await AbsenceLetter.create({
         absStuName,
@@ -45,10 +45,10 @@ const addLetter = asyncHandler(async (req, res) => {
         absLecHours,
         description,
         letters: {
-            public_id : result.public_id,
-            url : result.secure_url
-        }          
-        
+            public_id: result.public_id,
+            url: result.secure_url
+        }
+
     });
 
     if (absenceLetter) {
@@ -72,33 +72,34 @@ const addLetter = asyncHandler(async (req, res) => {
 });
 
 // View letter in Stu_Side
-const getAbsenceLetter = asyncHandler (async (req, res) => {
+const getAbsenceLetter = asyncHandler(async (req, res) => {
 
-    const absRegNo = req.params.regNo;
-    const absenceStu = await AbsenceLetter.find({absRegNo}).select('absModName absDate absLecHours letters action');
-    res.json(absenceStu);   
+    const encodedRegNo = req.params.regNo;
+    const absRegNo = decodeURIComponent(encodedRegNo);
+    const absenceStu = await AbsenceLetter.find({ absRegNo }).select('absModName absDate absLecHours letters action');
+    res.json(absenceStu);
 
 });
 
 // View letter in Lec_Side
-const getLetterLec = asyncHandler (async (req, res) => {
+const getLetterLec = asyncHandler(async (req, res) => {
 
     const lecRegNo = req.params.regNo;
-    const modules = await Module.find({"modCoordinator.regNo": lecRegNo}).select('modCode');
+    const modules = await Module.find({ "modCoordinator.regNo": lecRegNo }).select('modCode');
     const modCodes = modules.map(module => module.modCode);
 
-    const absenceView = await AbsenceLetter.find({absModCode : { $in: modCodes }}).select('absStuName absRegNo absModName absDate absLecHours letters action');
+    const absenceView = await AbsenceLetter.find({ absModCode: { $in: modCodes } }).select('absStuName absRegNo absModName absDate absLecHours letters action');
     res.json(absenceView);
 
 });
 
 // Accept letter by lecturer
-const acceptLetter = asyncHandler(async(req, res) => {
+const acceptLetter = asyncHandler(async (req, res) => {
 
     const letterId = req.params.id;
     const letter = await AbsenceLetter.findById(letterId);
 
-    if (!letter){
+    if (!letter) {
         res.status(404);
         throw new Error("Letter is not found!");
     }
@@ -106,17 +107,17 @@ const acceptLetter = asyncHandler(async(req, res) => {
     letter.action = true;
     await letter.save();
 
-    res.json({ message : "Letter accepted", letter});    
+    res.json({ message: "Letter accepted", letter });
 
 });
 
 // Reject letter by lecturer
-const rejectLetter = asyncHandler(async(req, res) => {
+const rejectLetter = asyncHandler(async (req, res) => {
 
     const letterId = req.params.id;
     const letter = await AbsenceLetter.findById(letterId);
 
-    if (!letter){
+    if (!letter) {
         res.status(404);
         throw new Error("Letter is not found!");
     }
@@ -124,7 +125,7 @@ const rejectLetter = asyncHandler(async(req, res) => {
     letter.action = false;
     await letter.save();
 
-    res.json({ message : "Letter rejected", letter}); 
+    res.json({ message: "Letter rejected", letter });
 
 });
 

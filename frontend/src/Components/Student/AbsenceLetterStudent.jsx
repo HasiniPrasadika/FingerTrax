@@ -99,8 +99,9 @@ const AbsenceApplication = () => {
   useEffect(() => {
 
     if (userInfo) {
+      const encodedRegNo = encodeURIComponent(userInfo.regNo);
       axios
-        .get(`http://localhost:8070/api/absenceletters/getAbsenceStu/${userInfo.regNo}`)
+        .get(`http://localhost:8070/api/absenceletters/getAbsenceStu/${encodedRegNo}`)
         .then((response) => {
           setviewLetters(response.data);
           console.log(response.data)
