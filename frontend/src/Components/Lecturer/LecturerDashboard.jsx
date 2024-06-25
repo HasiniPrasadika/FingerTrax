@@ -57,7 +57,7 @@ const LecturerDashboard = () => {
       </div>
       <div className="lecturer-content-container">
         <div className="lecturer-module-content">
-          <h4 className="enrolled-status">Enrolled Status</h4>
+          <h4 className="enrolled-status">Dashboard</h4>
           
         </div>
         <div className="lec-module-container">

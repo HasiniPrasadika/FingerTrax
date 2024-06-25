@@ -6,9 +6,10 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { LuFingerprint } from "react-icons/lu";
 import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
-import SuccessMessage from "../../Components/SuccessMessage";
-import { fireDb } from "../../firebase";
+import { db, fireDb } from "../../firebase";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../../Components/SuccessMessage";
+import "./Admin Styles/AddStudent.css";
 import "./Admin Styles/AddLecturer.css";
 import "./Admin Styles/AddStudent.css";
 
@@ -75,34 +76,18 @@ const AddStudent = () => {
 
   const enrollFingerprint = async () => {
     try {
-      if(!fingerprintID){
+      if (!fingerprintID) {
         setMessage("Please provide a fingerprint ID");
         setTimeout(() => {
           setMessage(null);
         }, 3000);
         return;
       }
-      const existingUsersResponse = await axios.get(
-        "http://localhost:8070/api/users/getstuusers"
-      );
-      const existingUsers = existingUsersResponse.data;
-      const existingFingerprintIDs = existingUsers.map(
-        (user) => user.fingerprintID
-      );
-
-      if (existingFingerprintIDs.includes(fingerprintID)) {
-        setMessage("Fingerprint ID already exists!");
-        setTimeout(() => {
-          setMessage(null);
-        }, 3000);
-        return;
-      }
-
-      set(ref(fireDb, "FingerprintData/"), {
+      set(ref(db, "FingerprintData/"), {
         stuRegNo: regNo,
         stuFingerprintID: fingerprintID,
       });
-      set(ref(fireDb, "State/"), {
+      set(ref(db, "State/"), {
         arduinoState: "1",
       });
 
@@ -121,7 +106,7 @@ const AddStudent = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     try {
       e.preventDefault();
       if (editMode) {
@@ -153,6 +138,7 @@ const AddStudent = () => {
                 regNo,
                 batch,
                 image: image || "",
+                email,
               }
             )
             .then((response) => {
@@ -174,6 +160,21 @@ const AddStudent = () => {
             });
         }
       } else {
+        const existingUsersResponse = await axios.get(
+          "http://localhost:8070/api/users/getstuusers"
+        );
+        const existingUsers = existingUsersResponse.data;
+        const existingFingerprintIDs = existingUsers.map(
+          (user) => user.fingerprintID
+        );
+
+        if (existingFingerprintIDs.includes(fingerprintID)) {
+          setMessage("Fingerprint ID already exists!");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
         if (
           !fullName ||
           !userName ||
@@ -181,7 +182,8 @@ const AddStudent = () => {
           !depName ||
           !regNo ||
           !fingerprintID ||
-          !batch
+          !batch ||
+          !email
         ) {
           setMessage(
             "You have to provide all the student details except profile image!"
@@ -209,6 +211,7 @@ const AddStudent = () => {
             fingerprintID,
             batch,
             image: image || "",
+            email,
           })
           .then((response) => {
             if (response != null) {
@@ -286,13 +289,13 @@ const AddStudent = () => {
       axios
         .post("http://localhost:8070/api/users/myd", { id }) // Include the id in the URL
         .then((response) => {
-          // set(ref(fireDb, "FingerprintData/"), {
-          //   stuRegNo: student.regNo,
-          //   stuFingerprintID: student.fingerprintID,
-          // });
-          // set(ref(fireDb, "State/"), {
-          //   arduinoState: "2",
-          // });
+          set(ref(db, "FingerprintData/"), {
+            stuRegNo: student.regNo,
+            stuFingerprintID: student.fingerprintID,
+          });
+          set(ref(db, "State/"), {
+            arduinoState: "2",
+          });
           setSMessage("Student Deleted successfully!");
           setTimeout(() => {
             setSMessage(null);

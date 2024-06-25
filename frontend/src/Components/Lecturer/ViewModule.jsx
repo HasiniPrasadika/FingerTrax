@@ -6,7 +6,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-import { ref, set } from "firebase/database";
+
 import { deleteField, doc, getDoc, updateDoc } from "firebase/firestore";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -18,9 +18,10 @@ import {
 } from "react-icons/bi";
 import { GoTriangleRight } from "react-icons/go";
 import { PiDownloadSimpleBold } from "react-icons/pi";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
 import SuccessMessage from "../../Components/SuccessMessage";
 import { db, fireDb } from "../../firebase";
+import { getDatabase, ref, get, child, set, remove } from "firebase/database";
 import ErrorMessage from "../ErrorMessage";
 import "./Lecturer Styles/ViewModule.css";
 const today = dayjs();
@@ -64,7 +65,7 @@ const ViewModule = () => {
     setDaily(null);
     setDate(null);
     setOverallState("Overall");
-  
+
     try {
       const response = await axios.post(
         "http://localhost:8070/api/attendance/getmyattendance",
@@ -72,7 +73,7 @@ const ViewModule = () => {
           moduleCode: module.modCode,
         }
       );
-  
+
       if (response.data.length === 0) {
         setMessage("You did not conduct lectures for this module!");
         setTimeout(() => {
@@ -83,7 +84,7 @@ const ViewModule = () => {
         setEndState(null);
         console.log(response);
         setOverallState("Overall");
-  
+
         setStudentAttendanceRecords(response.data);
         setIsDailyDisplay(false);
         setIsDisplay(false);
@@ -141,13 +142,15 @@ const ViewModule = () => {
     setOverallState(null);
     setIsOverallDisplay(false);
     if (daily) {
+      console.log(daily);
       try {
         axios
           .post("http://localhost:8070/api/attendance/dailyattendance", {
             moduleCode: moduleCod,
-            date: daily,
+            date: dayjs(daily).format("YYYY-MM-DD"),
           })
           .then((response) => {
+            console.log(response);
             if (response.data == null) {
               setIsDisplay(false);
               setIsDailyDisplay(false);
@@ -157,18 +160,18 @@ const ViewModule = () => {
                 setSMessage(null);
               }, 3000);
             } else {
-              setDailyAttendance(response.data.enrolledStudents);
-              setLectureHours(response.data.lectureHours);
-              setStartDTime(response.data.startTime);
-              setEndDTime(response.data.endTime);
-              console.log(response.data.enrolledStudents);
-              setIsDisplay(false);
-              setIsOverallDisplay(false);
-              setIsDailyDisplay(true);
-              setOverallState(null);
-              setEndState(null);
-              setViewState("View");
-            }
+            setDailyAttendance(response.data.enrolledStudents);
+            setLectureHours(response.data.lectureHours);
+            setStartDTime(response.data.startTime);
+            setEndDTime(response.data.endTime);
+            console.log(response.data.enrolledStudents);
+            setIsDisplay(false);
+            setIsOverallDisplay(false);
+            setIsDailyDisplay(true);
+            setOverallState(null);
+            setEndState(null);
+            setViewState("View");
+             }
           })
           .catch((error) => {
             setIsDisplay(false);
@@ -277,7 +280,7 @@ const ViewModule = () => {
           axios
             .post("http://localhost:8070/api/attendance/dailyattendance", {
               moduleCode: moduleCod,
-              date: daily,
+              date:  dayjs(daily).format("YYYY-MM-DD"),
             })
             .then(async (response) => {
               console.log(response.data);
@@ -433,161 +436,153 @@ const ViewModule = () => {
 
   const handleEndLec = async (e) => {
     setOverallState(null);
+
     if (startState == "Start") {
       try {
-        const docRef = doc(fireDb, "Attendance", "StuID");
+        const attendanceRef = ref(db, "Attendance");
 
-        const docSnap = await getDoc(docRef);
-        console.log(docSnap);
-        const attenData = Object.keys(docSnap.data());
-        try {
-          axios
-            .post("http://localhost:8070/api/modules/getenrollstu", {
-              modCode: moduleCod,
-            })
-            .then((response) => {
-              const enrolledStu = response.data;
+        const snapshot = await get(attendanceRef);
+        if (snapshot.exists()) {
+          const attenData = snapshot.val();
+          try {
+            axios
+              .post("http://localhost:8070/api/modules/getenrollstu", {
+                modCode: moduleCod,
+              })
+              .then((response) => {
+                const enrolledStu = response.data;
 
-              const updatedEnrolledStudents = enrolledStu.map((student) => ({
-                ...student,
-                attendanceData: Object.values(attenData).includes(
-                  student.fingerprintID
-                ),
-              }));
-              setRes(updatedEnrolledStudents);
-              setIsDailyDisplay(false);
-              setIsOverallDisplay(false);
-              setIsDisplay(true);
-              console.log(updatedEnrolledStudents);
-              try {
-                const doc = new jsPDF();
+                const updatedEnrolledStudents = enrolledStu.map((student) => ({
+                  ...student,
+                  attendanceData: Object.values(attenData).includes(
+                    student.fingerprintID
+                  ),
+                }));
+                setRes(updatedEnrolledStudents);
+                setIsDailyDisplay(false);
+                setIsOverallDisplay(false);
+                setIsDisplay(true);
+                console.log(updatedEnrolledStudents);
+                try {
+                  const doc = new jsPDF();
 
-                // Set document properties
-                doc.setFontSize(12);
-                // Add header section with module information
-                doc.text(`${module.department}`, 10, 10);
-                doc.text(`Module Code: ${module.modCode}`, 10, 20);
-                doc.text(`Module Name: ${module.modName}`, 10, 30);
-                doc.text(`Date: ${dayjs(date).format("YYYY-MM-DD")}`, 10, 40);
-                doc.text(`Lecture Hours: ${lectureHours}`, 10, 50);
-                doc.text(
-                  `Lecture Time: ${new Date(
-                    startTime
-                  ).toLocaleTimeString()} - ${new Date(
-                    endTime
-                  ).toLocaleTimeString()}`,
-                  10,
-                  60
-                );
+                  // Set document properties
+                  doc.setFontSize(12);
+                  // Add header section with module information
+                  doc.text(`${module.department}`, 10, 10);
+                  doc.text(`Module Code: ${module.modCode}`, 10, 20);
+                  doc.text(`Module Name: ${module.modName}`, 10, 30);
+                  doc.text(`Date: ${dayjs(date).format("YYYY-MM-DD")}`, 10, 40);
+                  doc.text(`Lecture Hours: ${lectureHours}`, 10, 50);
+                  doc.text(
+                    `Lecture Time: ${new Date(
+                      startTime
+                    ).toLocaleTimeString()} - ${new Date(
+                      endTime
+                    ).toLocaleTimeString()}`,
+                    10,
+                    60
+                  );
 
-                // Define table headers and rows
-                const headers = [
-                  "Name",
-                  "Registration Number",
-                  "Attendance State",
-                ];
-                const data = updatedEnrolledStudents.map((student) => [
-                  student.name,
-                  student.regNo,
-                  student.attendanceData ? "Present" : "Absent",
-                ]);
+                  // Define table headers and rows
+                  const headers = [
+                    "Name",
+                    "Registration Number",
+                    "Attendance State",
+                  ];
+                  const data = updatedEnrolledStudents.map((student) => [
+                    student.name,
+                    student.regNo,
+                    student.attendanceData ? "Present" : "Absent",
+                  ]);
 
-                // Add table with autoTable plugin
-                doc.autoTable({
-                  head: [headers],
-                  body: data,
-                  startY: 70, // Starting y position for table
-                  margin: { top: 15 },
-                  styles: {
-                    fontSize: 12,
-                    cellPadding: 2,
-                    textColor: [0, 0, 0],
-                  },
+                  // Add table with autoTable plugin
+                  doc.autoTable({
+                    head: [headers],
+                    body: data,
+                    startY: 70, // Starting y position for table
+                    margin: { top: 15 },
+                    styles: {
+                      fontSize: 12,
+                      cellPadding: 2,
+                      textColor: [0, 0, 0],
+                    },
 
-                  headStyles: { fillColor: [192, 192, 192] }, // Header background color
-                  theme: "striped", // Apply striped rows theme
-                  didDrawCell: (data) => {
-                    // Add borders to all cells
-                    doc.setLineWidth(0.1);
-                    doc.line(
-                      data.cell.x,
-                      data.cell.y,
-                      data.cell.x,
-                      data.cell.y + data.cell.height
-                    ); // Vertical line
-                    doc.line(
-                      data.cell.x,
-                      data.cell.y,
-                      data.cell.x + data.cell.width,
-                      data.cell.y
-                    ); // Horizontal line
-                  },
-                });
+                    headStyles: { fillColor: [192, 192, 192] }, // Header background color
+                    theme: "striped", // Apply striped rows theme
+                    didDrawCell: (data) => {
+                      // Add borders to all cells
+                      doc.setLineWidth(0.1);
+                      doc.line(
+                        data.cell.x,
+                        data.cell.y,
+                        data.cell.x,
+                        data.cell.y + data.cell.height
+                      ); // Vertical line
+                      doc.line(
+                        data.cell.x,
+                        data.cell.y,
+                        data.cell.x + data.cell.width,
+                        data.cell.y
+                      ); // Horizontal line
+                    },
+                  });
 
-                // Save the PDF
-                doc.save(`${moduleCode}_Attendance_Report.pdf`);
-              } catch (err) {
-                console.log("error generating pdf");
-              }
+                  // Save the PDF
+                  doc.save(`${moduleCode}_Attendance_Report.pdf`);
+                } catch (err) {
+                  console.log("error generating pdf");
+                }
 
-              axios
-                .post("http://localhost:8070/api/attendance/addattendance", {
-                  enrolledStudents: updatedEnrolledStudents, // Pass updatedEnrolledStudents here
-                  moduleCode,
-                  startTime,
-                  endTime,
-                  date,
-                  lectureHours,
-                })
-                .then(async (response) => {
-                  if (response.data && response.data.error) {
-                    setMessage(
-                      "Attendance Adding Unsuccessful: Attendance for this date already exists"
-                    );
-                  } else {
-                    setSMessage("Attendance Added successfully!");
-                    setTimeout(() => {
-                      setSMessage(null);
-                    }, 3000);
-                    set(ref(db, "State/"), {
-                      arduinoState: "0",
-                    });
-                    setSMessage("Stopped Getting Attendance");
-                    setTimeout(() => {
-                      setSMessage(null);
-                    }, 3000);
-                    setViewState(null);
-                    setOverallState(null);
-                    setEndState("End");
-                    const data = docSnap.data();
-
-                    // Get all field names
-                    const fieldNames = Object.keys(data);
-
-                    // Delete each field individually
-                    const batch = fieldNames.reduce((batch, fieldName) => {
-                      return updateDoc(docRef, {
-                        [fieldName]: deleteField(),
+                axios
+                  .post("http://localhost:8070/api/attendance/addattendance", {
+                    enrolledStudents: updatedEnrolledStudents, // Pass updatedEnrolledStudents here
+                    moduleCode,
+                    startTime,
+                    endTime,
+                    date: dayjs(date).format("YYYY-MM-DD"),
+                    lectureHours,
+                  })
+                  .then(async (response) => {
+                    if (response.data && response.data.error) {
+                      setMessage(
+                        "Attendance Adding Unsuccessful: Attendance for this date already exists"
+                      );
+                    } else {
+                      setSMessage("Attendance Added successfully!");
+                      setTimeout(() => {
+                        setSMessage(null);
+                      }, 3000);
+                      set(ref(db, "State/"), {
+                        arduinoState: "0",
                       });
-                    }, updateDoc(docRef, {})); // Create an initial updateDoc operation
-
-                    await batch;
-
-                    console.log("All fields deleted successfully.");
-                  }
-                  setTimeout(() => {
-                    setSMessage(null);
-                  }, 3000);
-                })
-                .catch((error) => {
-                  console.error("Error adding attendance", error);
-                });
-            })
-            .catch((error) => {
-              console.error("Error fetching students", error);
-            });
-        } catch (error) {
-          setMessage("Failed to get students");
+                      setSMessage("Stopped Getting Attendance");
+                      setTimeout(() => {
+                        setSMessage(null);
+                      }, 3000);
+                      setViewState(null);
+                      setOverallState(null);
+                      setEndState("End");
+                      await remove(attendanceRef);
+                      console.log("Attendance collection deleted successfully");
+                    }
+                    setTimeout(() => {
+                      setSMessage(null);
+                    }, 3000);
+                  })
+                  .catch((error) => {
+                    console.error("Error adding attendance", error);
+                  });
+              })
+              .catch((error) => {
+                console.error("Error fetching students", error);
+              });
+          } catch (error) {
+            setMessage("Failed to get students");
+          }
+          // Assuming attendanceData is a string array
+        } else {
+          console.log("No data available");
         }
 
         // Update attendanceData inside the callback
@@ -610,211 +605,254 @@ const ViewModule = () => {
   }
 
   return (
- 
     <div className="viewmod">
-
       <div className="lecturer-view-module-container">
-      <div className="view-module-navigate">
-      <span>
-        <GoTriangleRight />
-        <Link to="/dashboard/lecturer_dashboard" className="dashboard-link">Dashboard</Link> /
-      </span>
-      <span>{module.modCode} {module.modName}</span>
-    </div>
-      <div className="view-module-topic">
-        <span>Attendance Settings</span>
-      </div>
+        <div className="view-module-navigate">
+          <span>
+            <GoTriangleRight />
+            <Link to="/dashboard/lecturer_dashboard" className="dashboard-link">
+              Dashboard
+            </Link>{" "}
+            /
+          </span>
+          <span>
+            {module.modCode} {module.modName}
+          </span>
+        </div>
+        <div className="view-module-topic">
+          <span>Attendance Settings</span>
+        </div>
 
-      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-      {smessage && (
-        <SuccessMessage variant="success">{smessage}</SuccessMessage>
-      )}
-      <div className="attendance-dash">
-        <div className="attendance-dash-left">
-          <div className="attendance-dash-left-top">
-            <div className="enrolled-stu-count">
-              <div className="enrolled-stu-count-top">
-                <h6 className="enrolled-stu-count-top-text">
-                  Enrolled Students
-                </h6>
-                <div className="enrolled-stu-count-top-text">
-                  <BiDotsVerticalRounded />
+        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+        {smessage && (
+          <SuccessMessage variant="success">{smessage}</SuccessMessage>
+        )}
+        <div className="attendance-dash">
+          <div className="attendance-dash-left">
+            <div className="attendance-dash-left-top">
+              <div className="enrolled-stu-count">
+                <div className="enrolled-stu-count-top">
+                  <h6 className="enrolled-stu-count-top-text">
+                    Enrolled Students
+                  </h6>
+                  <div className="enrolled-stu-count-top-text">
+                    <BiDotsVerticalRounded />
+                  </div>
+                </div>
+                <hr style={{ width: "100%", marginTop: 0, marginBottom: 0 }} />
+                <div className="enrolled-stu-count-top">
+                  <div className="enrolled-stu-count-top-text-first">
+                    <BiUserCheck />
+                  </div>
+                  <h3 className="enrolled-stu-count-top-text-first">
+                    {module.noOfStu}
+                  </h3>
                 </div>
               </div>
-              <hr style={{ width: "100%", marginTop: 0, marginBottom: 0 }} />
-              <div className="enrolled-stu-count-top">
-                <div className="enrolled-stu-count-top-text-first">
-                  <BiUserCheck />
+              <div className="enrolled-stu-count">
+                <div className="enrolled-stu-count-top">
+                  <h6 className="enrolled-stu-count-top-text">
+                    Total Lecture Hours
+                  </h6>
+                  <div className="enrolled-stu-count-top-text">
+                    <BiDotsVerticalRounded />
+                  </div>
                 </div>
-                <h3 className="enrolled-stu-count-top-text-first">
-                  {module.noOfStu}
-                </h3>
-              </div>
-            </div>
-            <div className="enrolled-stu-count">
-              <div className="enrolled-stu-count-top">
-                <h6 className="enrolled-stu-count-top-text">
-                  Total Lecture Hours
-                </h6>
-                <div className="enrolled-stu-count-top-text">
-                  <BiDotsVerticalRounded />
-                </div>
-              </div>
-              <hr style={{ width: "100%", marginTop: 0, marginBottom: 0 }} />
-              <div className="enrolled-stu-count-top">
-                <div className="enrolled-stu-count-top-text-first">
-                  <BiTachometer />
-                </div>
-                <div className="enrolled-stu-count-top-text-second">
-                  <h3>{module.lecHours}</h3>
-                  <div>
-                    <h6 style={{ color: "blue" }}>
-                      {module.conductedLectureHours}
-                      <span style={{ color: "gray", fontSize: "12px" }}>
-                        {" "}
-                        conducted
-                      </span>
-                    </h6>
+                <hr style={{ width: "100%", marginTop: 0, marginBottom: 0 }} />
+                <div className="enrolled-stu-count-top">
+                  <div className="enrolled-stu-count-top-text-first">
+                    <BiTachometer />
+                  </div>
+                  <div className="enrolled-stu-count-top-text-second">
+                    <h3>{module.lecHours}</h3>
+                    <div>
+                      <h6 style={{ color: "blue" }}>
+                        {module.conductedLectureHours}
+                        <span style={{ color: "gray", fontSize: "12px" }}>
+                          {" "}
+                          conducted
+                        </span>
+                      </h6>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-
-          <div className="attendance-dash-left-bottom">
-            <div className="report-topic-dev">
-              <h6>Reports</h6>
-            </div>
-            <div className="module-att-report">
-              <div className="report-first-row">
-                <p>
-                  Date :{" "}
-                  {daily
-                    ? dayjs(daily).format("YYYY-MM-DD")
-                    : date
-                    ? dayjs(date).format("YYYY-MM-DD")
-                    : dayjs(today).format("YYYY-MM-DD")}
-                </p>
-
-                <button className="btn btn-primary" onClick={generatePDF}>
-                  <PiDownloadSimpleBold /> Download
-                </button>
+            <div className="attendance-dash-left-bottom">
+              <div className="report-topic-dev">
+                <h6>Reports</h6>
               </div>
-              <div className="report-second-row">
-                {
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Reg No.</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Attendance</th>
-                      </tr>
-                    </thead>
-                    {isDailyDisplay === true && dailyAttendance ? (
-                      <tbody>
-                        {dailyAttendance.map((student, index) => (
-                          <tr key={index}>
-                            <th scope="row">{index}</th>
-                            <td>{student.regNo}</td>
-                            <td>{student.name}</td>
-                            <td>
-                              {student.attendanceData == true
-                                ? "present"
-                                : "absent"}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    ) : isDisplay === true && res ? (
-                      <tbody>
-                        {res.map((student, index) => (
-                          <tr key={index}>
-                            <th scope="row">{index}</th>
-                            <td>{student.regNo}</td>
-                            <td>{student.name}</td>
-                            <td>
-                              {student.attendanceData == true
-                                ? "present"
-                                : "absent"}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    ) : isOverallDisplay === true &&
-                      studentAttendanceRecords ? (
-                      <tbody>
-                        {studentAttendanceRecords[0].enrolledStudents.map(
-                          (student, index) => (
+              <div className="module-att-report">
+                <div className="report-first-row">
+                  <p>
+                    Date :{" "}
+                    {daily
+                      ? dayjs(daily).format("YYYY-MM-DD")
+                      : date
+                      ? dayjs(date).format("YYYY-MM-DD")
+                      : dayjs(today).format("YYYY-MM-DD")}
+                  </p>
+
+                  <button className="btn btn-primary" onClick={generatePDF}>
+                    <PiDownloadSimpleBold /> Download
+                  </button>
+                </div>
+                <div className="report-second-row">
+                  {
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Reg No.</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Attendance</th>
+                        </tr>
+                      </thead>
+                      {isDailyDisplay === true && dailyAttendance ? (
+                        <tbody>
+                          {dailyAttendance.map((student, index) => (
                             <tr key={index}>
                               <th scope="row">{index}</th>
                               <td>{student.regNo}</td>
                               <td>{student.name}</td>
                               <td>
-                                {calculateAttendancePercentage(
-                                  student,
-                                  studentAttendanceRecords
-                                )}
-                                %
+                                {student.attendanceData == true
+                                  ? "present"
+                                  : "absent"}
                               </td>
                             </tr>
-                          )
-                        )}
-                      </tbody>
-                    ) : (
-                      <tbody></tbody>
-                    )}
-                  </table>
-                }
+                          ))}
+                        </tbody>
+                      ) : isDisplay === true && res ? (
+                        <tbody>
+                          {res.map((student, index) => (
+                            <tr key={index}>
+                              <th scope="row">{index}</th>
+                              <td>{student.regNo}</td>
+                              <td>{student.name}</td>
+                              <td>
+                                {student.attendanceData == true
+                                  ? "present"
+                                  : "absent"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      ) : isOverallDisplay === true &&
+                        studentAttendanceRecords ? (
+                        <tbody>
+                          {studentAttendanceRecords[0].enrolledStudents.map(
+                            (student, index) => (
+                              <tr key={index}>
+                                <th scope="row">{index}</th>
+                                <td>{student.regNo}</td>
+                                <td>{student.name}</td>
+                                <td>
+                                  {calculateAttendancePercentage(
+                                    student,
+                                    studentAttendanceRecords
+                                  )}
+                                  %
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      ) : (
+                        <tbody></tbody>
+                      )}
+                    </table>
+                  }
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="attendance-dash-right">
-          <div className="report-details-box">
-            <h6 className="box-title">Start Lecture</h6>
-            <div className="column">
-              <div className="row">
-                <div className=" time-picker">
+          <div className="attendance-dash-right">
+            <div className="report-details-box">
+              <h6 className="box-title">Start Lecture</h6>
+              <div className="column">
+                <div className="row">
+                  <div className=" time-picker">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["TimePicker"]}>
+                        <DemoItem>
+                          <div
+                            className="time-label"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            Start Time
+                          </div>
+                          <TimePicker
+                            defaultValue={dayjs("2022-04-17T15:30")}
+                            onChange={handleStartTimeChange}
+                            value={startTime}
+                          />
+                        </DemoItem>
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </div>
+                  <div className=" time-picker">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["TimePicker"]}>
+                        <DemoItem>
+                          <div
+                            className="time-label"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            End Time
+                          </div>
+                          <TimePicker
+                            defaultValue={dayjs("2022-04-17T15:30")}
+                            onChange={handleEndTimeChange}
+                            value={endTime}
+                          />
+                        </DemoItem>
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </div>
+                </div>
+                <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["TimePicker"]}>
+                    <DemoContainer components={["DatePicker"]}>
                       <DemoItem>
                         <div
                           className="time-label"
                           style={{ marginLeft: "10px" }}
                         >
-                          Start Time
+                          Date
                         </div>
-                        <TimePicker
-                          defaultValue={dayjs("2022-04-17T15:30")}
-                          onChange={handleStartTimeChange}
-                          value={startTime}
+                        <DatePicker
+                          value={date}
+                          views={["year", "month", "day"]}
+                          onChange={handleCalendarChange}
                         />
                       </DemoItem>
                     </DemoContainer>
                   </LocalizationProvider>
                 </div>
-                <div className=" time-picker">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["TimePicker"]}>
-                      <DemoItem>
-                        <div
-                          className="time-label"
-                          style={{ marginLeft: "10px" }}
-                        >
-                          End Time
-                        </div>
-                        <TimePicker
-                          defaultValue={dayjs("2022-04-17T15:30")}
-                          onChange={handleEndTimeChange}
-                          value={endTime}
-                        />
-                      </DemoItem>
-                    </DemoContainer>
-                  </LocalizationProvider>
+
+                <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
+                  <button
+                    onClick={handleStartLec}
+                    className="btn btn-primary"
+                    style={{ marginRight: "10px" }}
+                  >
+                    Start
+                  </button>
+                  <button
+                    onClick={handleEndLec}
+                    className="btn btn-primary"
+                    style={{ marginRight: "10px" }}
+                  >
+                    End
+                  </button>
                 </div>
               </div>
+            </div>
+
+            <div className="report-details-box">
+              <h6 className="box-title">Daily Attendance</h6>
               <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
@@ -823,95 +861,53 @@ const ViewModule = () => {
                         className="time-label"
                         style={{ marginLeft: "10px" }}
                       >
-                        Date
+                        Conducted Date
                       </div>
                       <DatePicker
-                        value={date}
+                   
                         views={["year", "month", "day"]}
-                        onChange={handleCalendarChange}
+                        value={daily}
+                        onChange={handleDailyCalendarChange}
                       />
                     </DemoItem>
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-
               <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
                 <button
-                  onClick={handleStartLec}
+                  onClick={handleDailyAttendance}
                   className="btn btn-primary"
-                  style={{ marginRight: "10px" }}
                 >
-                  Start
+                  View
                 </button>
+              </div>
+            </div>
+
+            <div className="report-details-box">
+              <h6 className="box-title">Overall Attendance Report</h6>
+              <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
                 <button
-                  onClick={handleEndLec}
+                  onClick={fetchAttendanceRecords}
                   className="btn btn-primary"
-                  style={{ marginRight: "10px" }}
                 >
-                  End
+                  View
                 </button>
               </div>
             </div>
           </div>
-
-
-
-          <div className="report-details-box">
-            <h6 className="box-title">Daily Attendance</h6>
-            <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DemoItem>
-                    <div className="time-label" style={{ marginLeft: "10px" }}>
-                      Conducted Date
-                    </div>
-                    <DatePicker
-                      defaultValue={today}
-                      views={["year", "month", "day"]}
-                      value={daily}
-                      onChange={handleDailyCalendarChange}
-                    />
-                  </DemoItem>
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
-            <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-              <button
-                onClick={handleDailyAttendance}
-                className="btn btn-primary"
-              >
-                View
-              </button>
-            </div>
-          </div>
-
-          <div className="report-details-box">
-            <h6 className="box-title">Overall Attendance Report</h6>
-            <div style={{ marginLeft: "15px", marginBottom: "10px" }}>
-              <button
-                onClick={fetchAttendanceRecords}
-                className="btn btn-primary"
-              >
-                View
-              </button>
-            </div>
-          </div>
         </div>
+
+        {showCalendar && (
+          <div className="calendar-dropdown">
+            <input
+              type="date"
+              value={date ? date.toISOString().split("T")[0] : ""}
+              onChange={(e) => handleCalendarChange(new Date(e.target.value))}
+            />
+          </div>
+        )}
       </div>
-
-      {showCalendar && (
-        <div className="calendar-dropdown">
-          <input
-            type="date"
-            value={date ? date.toISOString().split("T")[0] : ""}
-            onChange={(e) => handleCalendarChange(new Date(e.target.value))}
-          />
-        </div>
-      )}
     </div>
-
-    </div>
-
   );
 };
 

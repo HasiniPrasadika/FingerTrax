@@ -394,6 +394,29 @@ const registerStuUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    console.log(email);
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fingertrax22@gmail.com",
+        pass: "yvpwcljinqdwuqzl", // Use environment variables or a secure method to store your password
+      },
+    });
+
+    const mailOptions = {
+      from: "fingertrax22@gmail.com",
+      to: email,
+      subject: "Registration Successful",
+      text: `Dear ${fullName},\n\nYou have been successfully registered to FingerTrax.\n\nBest Regards,\nFingerTrax Team`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
     res.status(201).json({
       _id: user._id,
       userName: user.userName,

@@ -3,15 +3,22 @@ const asyncHandler = require("express-async-handler");
 const ModuleModel = require("../Models/ModuleModel");
 
 const createAttendance = asyncHandler(async (req, res) => {
-  const { moduleCode, startTime, endTime, date, lectureHours, enrolledStudents } = req.body;
+  const {
+    moduleCode,
+    startTime,
+    endTime,
+    date,
+    lectureHours,
+    enrolledStudents,
+  } = req.body;
 
   const existingAttendance = await Attendance.findOne({ moduleCode, date });
 
-  
-
   if (existingAttendance) {
     // Attendance already exists for the given moduleCode and date
-    return res.status(400).json({ message: "Attendance for this date already exists" });
+    return res
+      .status(400)
+      .json({ message: "Attendance for this date already exists" });
   }
   const module = await ModuleModel.findOne({ modCode: moduleCode });
 
@@ -29,9 +36,7 @@ const createAttendance = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-
   const attendance = await Attendance.create({
-
     moduleCode,
     lectureHours,
     startTime,
@@ -62,9 +67,10 @@ const getAttendance = asyncHandler(async (req, res) => {
 
 const getDailyAttendance = asyncHandler(async (req, res) => {
   const { moduleCode, date } = req.body;
-
+console.log(date);
   // Assuming you have a Attendance model defined with Mongoose
   const dailyAttendance = await Attendance.findOne({ moduleCode: moduleCode, date: date });
+  console.log(dailyAttendance.date);
 
   res.json(dailyAttendance);
 });
@@ -72,7 +78,7 @@ const getMyAttendance = asyncHandler(async (req, res) => {
   const { moduleCode } = req.body;
 
   // Assuming you have a Attendance model defined with Mongoose
-  const myAttendance = await Attendance.find({ moduleCode: moduleCode});
+  const myAttendance = await Attendance.find({ moduleCode: moduleCode });
 
   if (!myAttendance) {
     return res.status(404).json({ message: "Attendance not found" });
@@ -83,8 +89,11 @@ const getMyAttendance = asyncHandler(async (req, res) => {
     console.error("Error fetching attendance:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-
- 
 });
 
-module.exports = { createAttendance, getAttendance, getDailyAttendance ,getMyAttendance};
+module.exports = {
+  createAttendance,
+  getAttendance,
+  getDailyAttendance,
+  getMyAttendance,
+};
