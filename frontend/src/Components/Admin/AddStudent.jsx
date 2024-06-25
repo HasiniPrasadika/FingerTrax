@@ -630,7 +630,7 @@ const AddStudent = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination" style={{ marginLeft: "10px" }}>
+        <div className="pagination" style={{ margin: "20px" }}>
           <button
             className="btn btn-primary"
             onClick={handlePreviousPage}

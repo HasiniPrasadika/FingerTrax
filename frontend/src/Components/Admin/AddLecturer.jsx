@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GoTriangleRight } from "react-icons/go";
 import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
-import { FaTrashAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import ErrorMessage from "../ErrorMessage";
+import { useSelector } from "react-redux";
 import SuccessMessage from "../../Components/SuccessMessage";
-import "./Admin Styles/AddLecturer.css";
+import ErrorMessage from "../ErrorMessage";
 import "./Admin Styles/AddDepartment.css";
+import "./Admin Styles/AddLecturer.css";
 
 const AddLecturer = () => {
   const [userName, setuserName] = useState("");
@@ -100,7 +100,7 @@ const AddLecturer = () => {
   const submitHandler = (e) => {
     try {
       e.preventDefault();
-      
+
       const requestData = {
         userName,
         password,
@@ -511,7 +511,7 @@ const AddLecturer = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination" style={{ marginLeft: "10px" }}>
+        <div className="pagination" style={{ margin: "20px" }}>
           <button
             className="btn btn-primary"
             onClick={handlePreviousPage}

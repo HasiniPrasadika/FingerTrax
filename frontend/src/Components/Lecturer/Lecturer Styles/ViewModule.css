@@ -40,7 +40,7 @@
   display: flex;
   opacity: "0.8";
   margin: 1%;
-  font-size: 14px;
+  font-size: 12px;
   width: 98%;
   align-items: center;
   background-color: rgb(255, 255, 255);
@@ -182,8 +182,11 @@
 .time-picker{
   display: flex;
   position: relative;
-  width: 98%;
+  width: 96%;
+  margin: 2%; 
+  flex-direction: column;
 }
+
 
 
 @media (max-width: 900px) {

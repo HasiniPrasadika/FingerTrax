@@ -780,16 +780,13 @@ const ViewModule = () => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["TimePicker"]}>
                       <DemoItem>
-                        <div
-                          className="time-label"
-                          style={{ marginLeft: "10px" }}
-                        >
+                        <div className="time-label">
                           Start Time
                         </div>
                         <TimePicker
                           defaultValue={dayjs("2022-04-17T15:30")}
                           onChange={handleStartTimeChange}
-                          value={startTime}
+                          value={startTime} sx={{ width: '100%' }}
                         />
                       </DemoItem>
                     </DemoContainer>
@@ -801,7 +798,7 @@ const ViewModule = () => {
                       <DemoItem>
                         <div
                           className="time-label"
-                          style={{ marginLeft: "10px" }}
+                          
                         >
                           End Time
                         </div>
@@ -809,6 +806,7 @@ const ViewModule = () => {
                           defaultValue={dayjs("2022-04-17T15:30")}
                           onChange={handleEndTimeChange}
                           value={endTime}
+                          sx={{ width: '100%' }}
                         />
                       </DemoItem>
                     </DemoContainer>
@@ -858,11 +856,11 @@ const ViewModule = () => {
 
           <div className="report-details-box">
             <h6 className="box-title">Daily Attendance</h6>
-            <div style={{ marginLeft: "10px", marginBottom: "10px" }}>
+            <div style={{ marginLeft: "10px", marginBottom: "10px", background:"white" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DemoItem>
-                    <div className="time-label" style={{ marginLeft: "10px" }}>
+                    <div className="time-label" style={{ marginLeft: "5px" }}>
                       Conducted Date
                     </div>
                     <DatePicker
