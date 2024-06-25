@@ -1,11 +1,9 @@
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { React, useState } from "react";
 import { GoTriangleRight } from "react-icons/go";
+import { useSelector } from "react-redux";
 import ErrorMessage from "../ErrorMessage";
 import SuccessMessage from "../SuccessMessage";
-import axios from "axios";
 
 const LectureProfile = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -175,7 +173,7 @@ const LectureProfile = () => {
               </div>
               <div
                 className="form-group row"
-                style={{ justifyContent: "center" }}
+                style={{ justifyContent: "center"}}
               >
                 <button
                   type="submit"
@@ -201,6 +199,7 @@ const LectureProfile = () => {
         <div className="lecturer-details">
           <div className="lecture-photo-area">
             <h3 className="photo-area-name"> Change Passsword</h3>
+            <img src="/Images/change-password.png" alt="password"/>
           </div>
           <div className="lecturer-add-form">
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}

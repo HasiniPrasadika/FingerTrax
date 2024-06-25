@@ -68,6 +68,11 @@
 
 } 
 
+.module-info a {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (max-width: 460px){
   .stu-module-container{
     flex-direction: column;

@@ -108,6 +108,7 @@ const AdminProfile = () => {
         <div className="lecturer-details">
           <div className="lecture-photo-area">
             <h3 className="photo-area-name"> Change Passsword</h3>
+            <img src="/Images/change-password.png" alt="password"/>
           </div>
           <div className="lecturer-add-form">
             {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}

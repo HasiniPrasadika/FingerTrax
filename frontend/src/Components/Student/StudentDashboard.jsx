@@ -73,7 +73,7 @@ const StudentDashboard = () => {
                 
               >
                 <span style={{ marginRight: "5px" }}>More Info</span>
-                <span style={{ fontSize: "20px", marginTop: "5px" }}>
+                <span style={{ fontSize: "20px" }}>
                   <MdOutlineArrowCircleRight />
                 </span>
               </a>
