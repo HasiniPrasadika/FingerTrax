@@ -89,8 +89,8 @@ const EnrollModule = () => {
             <label>Enrollment Key : </label>
             <input
               type="text"
-              placeholder="Enter key here"
-            
+              placeholder=" Enter key here"
+
               value={enrollKey}
               onChange={(e) => setEnrollKey(e.target.value)}
             />

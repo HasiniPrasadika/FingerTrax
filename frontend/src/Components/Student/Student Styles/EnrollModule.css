@@ -12,19 +12,26 @@
 .enroll-key-box {
   display: flex;
   position: relative;
-    padding: 20px;
+    padding: 5px;
     margin: 2%;
     width: 96%;
+   
     
 }
+.enroll-key-box label {
+  padding: 15px;
+  font-weight: 500;
+}
+
 .enroll-key-box input {
-  
- 
   margin: 1% 2% 1% 2%;
+  
 }
 .enrollbtn{
   width: 100px;
   height: 40px;
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
 @media (max-width: 460px) {

@@ -39,7 +39,7 @@
   margin: 2%;
   border-radius: 15px;
   justify-content: center;
-  padding: 0;
+  padding: 20px;
 }
 
 .lecture-photo-area {
@@ -72,6 +72,7 @@
   position: relative;
   margin: 2%;
   overflow: hidden;
+  
 }
 
 .fingerprint-enroll {
@@ -84,10 +85,10 @@
 .lecturer-add-form {
   position: relative;
   margin: 1%;
-  width: 68%;
+  width: 75%;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
 
 @media (max-width: 963px) {
@@ -106,6 +107,7 @@
   }
 
 }
+
 
 @media (max-width: 899px) {
   .lecture-photo-area {

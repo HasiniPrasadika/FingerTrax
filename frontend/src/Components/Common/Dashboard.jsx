@@ -1,8 +1,10 @@
 import { React, useEffect } from "react";
+import { CgProfile } from "react-icons/cg";
 import { FaTh } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { GoFileSubmodule } from "react-icons/go";
+import { GrDocumentLocked } from "react-icons/gr";
 import { IoDocumentText } from "react-icons/io5";
-import { CgProfile } from "react-icons/cg";
 import { MdApartment, MdPeopleAlt } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -32,10 +34,10 @@ import EnrollSemester from "../Student/EnrollSemester";
 import ModuleEnrollment from "../Student/ModuleEnrollment";
 import Modules from "../Student/Modules";
 
+import AdminProfile from "../Admin/AdminProfile";
+import LectureProfile from "../Lecturer/LectureProfile";
 import StudentDashboard from "../Student/StudentDashboard";
 import Footer from "./Footer";
-import LectureProfile from "../Lecturer/LectureProfile";
-import AdminProfile from "../Admin/AdminProfile";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -94,7 +96,7 @@ const Dashboard = () => {
           {
             path: "/dashboard/student_enrollment",
             name: "Enrollment",
-            icon: <MdPeopleAlt />,
+            icon: <GoFileSubmodule />,
           },
           {
             path: "/dashboard/student_absence_letter",
@@ -104,7 +106,7 @@ const Dashboard = () => {
           {
             path: "/dashboard/student_profile",
             name: "Profile",
-            icon: <PiStudentBold />,
+            icon: <CgProfile />,
           },
           {
             path: "/logout",
@@ -122,22 +124,22 @@ const Dashboard = () => {
           {
             path: "/dashboard/create_module",
             name: "Create Module",
-            icon: <MdPeopleAlt />,
+            icon: <GoFileSubmodule />,
           },
           {
             path: "/dashboard/absence_letter",
             name: "Absence Letters",
-            icon: <PiStudentBold />,
+            icon: <IoDocumentText />,
           },
           {
             path: "/dashboard/module_access",
             name: "Module Access",
-            icon: <PiStudentBold />,
+            icon: <GrDocumentLocked />,
           },
           {
             path: "/dashboard/lecturer_profile",
             name: "Profile",
-            icon: <PiStudentBold />,
+            icon: <CgProfile />,
           },
 
           {
