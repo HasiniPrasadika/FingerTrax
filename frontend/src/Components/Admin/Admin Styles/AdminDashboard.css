@@ -29,7 +29,7 @@
   opacity: "0.8";
   margin: 1vh;
 
-  font-size: 14px;
+  font-size: 12px;
 
   width: 98%;
   align-items: center;
@@ -195,8 +195,8 @@
 
 @media (max-width: 770px) {
   .ruhuna-details {
-    margin: 1%;
-    width: 98%;
+    margin: 2%;
+    width: 96%;
   }
 
   .ruhuna-details span {
